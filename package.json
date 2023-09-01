@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --mode production && npx http-server"
+    "build": "webpack --mode production",
+    "start": "npm run build && npx http-server"
   },
   "keywords": [],
   "license": "ISC",

@@ -36,13 +36,11 @@ const rects: Entity[] = [
   }),
 ];
 
-const readInput = () => {
-  console.log('hola');
-};
+const readInput = () => {};
 
 const update = () => {
   rects.forEach((rect) => {
-    rect.update;
+    rect.update();
   });
 };
 

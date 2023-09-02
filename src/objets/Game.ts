@@ -9,7 +9,7 @@ enum GAME_STATES {
 }
 export default class Game {
   state: GAME_STATES;
-  scene?: Screen;
+  scene?: Scene;
   canvas: HTMLCanvasElement;
   requestAnimationFrameId?: number;
   ctx: CanvasRenderingContext2D;
@@ -18,24 +18,30 @@ export default class Game {
     this.state = GAME_STATES.LOADING;
     this.canvas = document.getElementById(canvasId) as HTMLCanvasElement;
     this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D;
+    this.scene = new Scene({
+      name: 'SCENE_1',
+      mapSrc: 'map1',
+    });
   }
 
   async init() {
-    new Scene();
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
+    await this.scene?.load();
     this.requestAnimationFrameId = requestAnimationFrame(this.loop.bind(this));
   }
 
   private input() {}
   private update() {}
-  private render() {}
+  private render(ctx: CanvasRenderingContext2D) {
+    this.scene?.render(ctx);
+  }
 
   loop() {
     if (Time.shouldAnimate()) {
       this.input();
       this.update();
-      this.render();
+      this.render(this.ctx);
     }
     this.requestAnimationFrameId = requestAnimationFrame(this.loop.bind(this));
   }

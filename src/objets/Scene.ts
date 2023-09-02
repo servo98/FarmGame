@@ -1,14 +1,33 @@
 import GameObject from './GameObject';
-import { v4 as uuidv4 } from 'uuid';
 import { default as GameMap } from './Map';
 import IRenderable from './IRenderable';
 
+type SceneType = {
+  mapSrc: string;
+  name: string;
+};
+
 export default class Scene {
+  loaded: boolean = false;
+  name: string;
   gameObjects: Map<string, IRenderable>;
-  map?: GameMap;
-  constructor() {
-    this.gameObjects = new Map();
-    console.log(uuidv4());
+  map: GameMap;
+  //TODO interface UI
+  constructor(args: SceneType) {
+    this.name = args.name;
+    this.map = new GameMap({
+      mapSrc: args.mapSrc,
+    });
+    this.gameObjects = new Map<string, IRenderable>();
+  }
+
+  async load() {
+    try {
+      await this.map.load();
+      this.loaded = true;
+    } catch (error) {
+      console.error('Error loading scene ', this.name);
+    }
   }
 
   addGameObject(object: GameObject) {
@@ -23,6 +42,7 @@ export default class Scene {
   }
 
   render(ctx: CanvasRenderingContext2D) {
+    if (!this.loaded) return;
     this.map?.render(ctx);
     this.gameObjects.forEach((object) => {
       object.render(ctx);

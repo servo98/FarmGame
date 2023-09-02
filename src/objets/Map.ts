@@ -2,48 +2,61 @@ import Tile from './Tile';
 import { file } from '../utils/index';
 import IRenderable from './IRenderable';
 
-type MapType = {
-  tileWidth: number;
-  tileHeight: number;
-  src: string;
+type TileOptions = {
+  offset: {
+    x: number;
+    y: number;
+  };
+  width: number;
+  height: number;
+};
+
+type MapArgsType = {
+  mapSrc: string;
 };
 
 export default class Map implements IRenderable {
-  width: number = 0;
-  height: number = 0;
-  tileWidth: number;
-  tileHeight: number;
-  src: string;
+  mapSrc: string;
+  name?: string;
+  width?: number;
+  height?: number;
+  tileOptions: TileOptions = {
+    height: 0,
+    width: 0,
+    offset: {
+      x: 0,
+      y: 0,
+    },
+  };
   tiles?: Tile[][];
   tileImages?: HTMLImageElement[];
 
-  constructor(args: MapType) {
-    this.tileWidth = args.tileWidth;
-    this.tileHeight = args.tileHeight;
-    this.src = args.src;
+  constructor(args: MapArgsType) {
+    this.mapSrc = args.mapSrc;
   }
 
   async load() {
     try {
       //cargar csv
-      const mapRaw = await file.loadCSV(this.src);
-      let map: number[][];
-      map = mapRaw.map((row) => {
-        return row.map((col) => +col);
-      });
-
-      this.width = map[0].length;
-      this.height = map.length;
+      const mapRaw = await file.loadJsonMap(
+        `resources/maps/${this.mapSrc}.json`
+      );
+      this.height = mapRaw.height;
+      this.width = mapRaw.width;
+      this.name = mapRaw.name;
+      this.width = mapRaw.width;
+      this.height = mapRaw.height;
+      this.tileOptions = mapRaw.tileOptions;
 
       //convertir csv a arreglo de arreglo de tiles
-      this.tiles = map.map((row, y) => {
+      this.tiles = mapRaw.tiles.map((row, y) => {
         return row.map((col, x) => {
           return new Tile({
-            height: this.tileHeight,
-            widht: this.tileWidth,
+            height: this.tileOptions?.height || 0,
+            widht: this.tileOptions?.width || 0,
             id: `${col}`,
-            x: x * this.tileWidth,
-            y: y * (this.tileHeight - 24),
+            x: x * (this.tileOptions.width + this.tileOptions.offset.x),
+            y: y * (this.tileOptions.height + this.tileOptions.offset.y),
           });
         });
       });
@@ -59,7 +72,8 @@ export default class Map implements IRenderable {
 
       await Promise.all(tileImagePromises);
     } catch (error) {
-      console.error('ERROR loading map', error);
+      console.error('ERROR Loadinng map', this.mapSrc);
+      throw error;
     }
   }
 

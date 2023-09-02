@@ -18,7 +18,6 @@ export default class Time {
       Time.sinceStart = now - Time.START_TIME;
       Time.frameCount++;
       Time.FPS = Math.round(1000 / (Time.sinceStart / Time.frameCount));
-      console.log(Time.FPS);
 
       return true;
     }

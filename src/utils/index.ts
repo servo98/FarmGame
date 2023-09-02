@@ -35,6 +35,45 @@ const loadCSV = async (src: string): Promise<string[][]> => {
   }
 };
 
+type TileOptionsType = {
+  offset: {
+    x: number;
+    y: number;
+  };
+  width: number;
+  height: number;
+};
+
+type JsonMapTypeResponse = {
+  name: string;
+  width: number;
+  height: number;
+  tileOptions: TileOptionsType;
+  tiles: number[][];
+};
+
+type JsonMap = {
+  name: string;
+  tileOptions: TileOptionsType;
+  tiles: number[][];
+};
+
+const loadJsonMap = async (src: string): Promise<JsonMapTypeResponse> => {
+  try {
+    const file = (await (await fetch(src)).json()) as JsonMap;
+    const map: JsonMapTypeResponse = {
+      height: file.tiles.length,
+      width: file.tiles[0].length,
+      name: file.name,
+      tileOptions: file.tileOptions,
+      tiles: file.tiles,
+    };
+    return map;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const getTileFileName = (id: string): string => {
   return `isometric_pixel_flat_${'0'.repeat(4 - id.length) + id}.png`;
 };
@@ -55,6 +94,7 @@ export const random = {
 
 export const file = {
   loadImage,
+  loadJsonMap,
   loadCSV,
   getTileFileName,
 };

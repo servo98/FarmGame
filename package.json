@@ -5,11 +5,13 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production",
-    "start": "npm run build && npx http-server"
+    "start": "npm run build && npm run server",
+    "server": "npx http-server -c-1"
   },
   "keywords": [],
   "license": "ISC",
   "devDependencies": {
+    "@types/uuid": "^9.0.3",
     "ts-loader": "^9.4.4",
     "typescript": "^5.2.2",
     "webpack": "^5.88.2",
@@ -20,5 +22,8 @@
     "type": "git",
     "url": "git+https://github.com/servo98/servo98.github.io.git"
   },
-  "author": "ferservo98"
+  "author": "ferservo98",
+  "dependencies": {
+    "uuid": "^9.0.0"
+  }
 }

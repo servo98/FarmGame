@@ -1,8 +1,10 @@
 {
     "compilerOptions": {
+      "sourceMap": true,
       "target": "ESNext",
       "module": "ESNext",
       "outDir": "./dist",
-      "strict": true
+      "strict": true,
+      // "moduleResolution":"node",
     }
   }

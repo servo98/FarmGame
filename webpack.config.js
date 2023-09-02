@@ -19,9 +19,5 @@ module.exports = {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
   },
-  devServer: {
-    static: {
-      directory: path.resolve(__dirname, 'dist'), // Ruta al directorio que contiene los archivos estáticos
-    },
-  },
+  devtool: 'source-map',
 };

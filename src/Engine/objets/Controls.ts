@@ -1,4 +1,4 @@
-export default class Controll {
+export default class Control {
   keysDown: Set<string>;
   constructor() {
     this.keysDown = new Set<string>();

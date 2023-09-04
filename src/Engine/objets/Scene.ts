@@ -1,4 +1,4 @@
-import Controll from './Controlls';
+import Controll from './Controls';
 import Entity from './Entity';
 import GameObject from './GameObject';
 import { default as GameMap } from './Map';

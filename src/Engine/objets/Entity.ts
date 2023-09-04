@@ -1,4 +1,4 @@
-import Controll from './Controlls';
+import Controll from './Controls';
 import GameObject, { GameObjectType } from './GameObject';
 import IRenderable from './IRenderable';
 import Time from '../utils/Time';

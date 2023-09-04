@@ -1,7 +1,7 @@
 import Scene from './Scene';
 import Time from '../utils/Time';
 import Entity, { AnimationType } from './Entity';
-import Controll from './Controlls';
+import Control from './Controls';
 
 enum GAME_STATES {
   'LOADING',
@@ -11,69 +11,22 @@ enum GAME_STATES {
 }
 export default class Game {
   state: GAME_STATES;
-  scene?: Scene;
+  scene: Scene;
   canvas: HTMLCanvasElement;
   requestAnimationFrameId?: number;
   ctx: CanvasRenderingContext2D;
-  controll: Controll;
+  control: Control;
 
-  constructor(canvasId: string) {
+  constructor(canvasId: string, control: Control, initialScene: Scene) {
     this.state = GAME_STATES.LOADING;
     this.canvas = document.getElementById(canvasId) as HTMLCanvasElement;
     this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D;
-    this.controll = new Controll();
-    this.scene = new Scene({
-      name: 'SCENE_1',
-      mapSrc: 'map1',
-    });
+    this.control = control;
+    this.scene = initialScene;
   }
 
   async init() {
-    this.controll.load();
-
-    const animations = new Map<string, AnimationType>();
-
-    animations.set('idle_down', {
-      frames: 8,
-      index: 1,
-      name: 'idle_down',
-      time: 1000,
-    });
-
-    animations.set('idle_up', {
-      frames: 8,
-      index: 2,
-      name: 'idle_up',
-      time: 1000,
-    });
-
-    animations.set('idle_left', {
-      frames: 8,
-      index: 3,
-      name: 'idle_left',
-      time: 1000,
-    });
-
-    animations.set('idle_right', {
-      frames: 8,
-      index: 4,
-      name: 'idle_right',
-      time: 1000,
-    });
-
-    const lizzys = new Entity({
-      gameObject: {
-        height: 48,
-        widht: 48,
-        id: 'lizzys',
-        src: 'lizzys.png',
-        x: 50,
-        y: 50,
-      },
-      maxSpeed: 2,
-      animations,
-    });
-    this.scene?.addGameObject(lizzys);
+    this.control.load();
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
     this.ctx.imageSmoothingEnabled = false;
@@ -82,7 +35,7 @@ export default class Game {
   }
 
   private input() {
-    this.scene?.input(this.controll);
+    this.scene?.input(this.control);
   }
   private update() {
     this.scene?.update();

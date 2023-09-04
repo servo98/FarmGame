@@ -36,9 +36,9 @@ export default class GameObject implements IRenderable {
     this.image = img;
   }
 
-  update(time: number) {
-    this.x;
-    this.y;
+  update(x?: number, y?: number) {
+    this.x = x || this.x;
+    this.y = y || this.y;
   }
 
   render(ctx: CanvasRenderingContext2D) {

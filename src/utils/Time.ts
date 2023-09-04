@@ -13,14 +13,14 @@ export default class Time {
     const now = Date.now();
     const elapsed = now - Time.lastFrameStamp;
 
-    if (elapsed >= Time.FRAME_DELAY) {
+    const shouldFrame = elapsed >= Time.FRAME_DELAY;
+    if (shouldFrame) {
       Time.lastFrameStamp = now - (Time.lastFrameStamp % Time.FRAME_DELAY);
       Time.sinceStart = now - Time.START_TIME;
       Time.frameCount++;
       Time.FPS = Math.round(1000 / (Time.sinceStart / Time.frameCount));
-
-      return true;
+      // console.log(Time.FPS);
     }
-    return false;
+    return shouldFrame;
   }
 }

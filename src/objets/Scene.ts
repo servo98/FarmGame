@@ -1,6 +1,7 @@
+import Controll from './Controlls';
+import Entity from './Entity';
 import GameObject from './GameObject';
 import { default as GameMap } from './Map';
-import IRenderable from './IRenderable';
 
 type SceneType = {
   mapSrc: string;
@@ -10,7 +11,7 @@ type SceneType = {
 export default class Scene {
   loaded: boolean = false;
   name: string;
-  gameObjects: Map<string, IRenderable>;
+  gameObjects: Map<string, GameObject>;
   map: GameMap;
   //TODO interface UI
   constructor(args: SceneType) {
@@ -18,12 +19,21 @@ export default class Scene {
     this.map = new GameMap({
       mapSrc: args.mapSrc,
     });
-    this.gameObjects = new Map<string, IRenderable>();
+    this.gameObjects = new Map<string, GameObject>();
   }
 
   async load() {
     try {
       await this.map.load();
+
+      const gameObjectLoaders: Promise<void>[] = [];
+
+      for (const [_, object] of this.gameObjects) {
+        gameObjectLoaders.push(object.load());
+      }
+
+      await Promise.all(gameObjectLoaders);
+
       this.loaded = true;
     } catch (error) {
       console.error('Error loading scene ', this.name);
@@ -32,13 +42,27 @@ export default class Scene {
 
   addGameObject(object: GameObject) {
     this.gameObjects.set(object.uuid, object);
-    this.gameObjects.forEach;
   }
 
   removeGameObject(object: GameObject | string) {
     this.gameObjects.delete(
       object instanceof GameObject ? object.uuid : (object as string)
     );
+  }
+
+  input(controll: Controll) {
+    this.gameObjects.forEach((object) => {
+      if (object instanceof Entity) {
+        const entity = object as Entity;
+        entity.input(controll);
+      }
+    });
+  }
+
+  update() {
+    this.gameObjects.forEach((object) => {
+      object.update();
+    });
   }
 
   render(ctx: CanvasRenderingContext2D) {

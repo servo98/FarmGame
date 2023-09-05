@@ -1,19 +1,13 @@
 import Control from './Engine/objets/Controls';
-import Entity, { AnimationType } from './Engine/objets/Entity';
+import { AnimationType } from './Engine/objets/AnimatedObject';
 import Game from './Engine/objets/Game';
+import GameMap from './Engine/objets/Map';
+import Player from './Engine/objets/Player';
 import Scene from './Engine/objets/Scene';
 
 const CANVAS_ID = 'game';
 
-const control = new Control();
-
-const testScene = new Scene({
-  name: 'SCENE_1',
-  mapSrc: 'map1',
-});
-
 const animations = new Map<string, AnimationType>();
-
 animations.set('idle_down', {
   frames: 8,
   index: 1,
@@ -42,20 +36,40 @@ animations.set('idle_right', {
   time: 1000,
 });
 
-const lizzys = new Entity({
-  gameObject: {
-    height: 48,
-    widht: 48,
-    id: 'lizzys',
-    src: 'lizzys.png',
-    x: 50,
-    y: 50,
+const lizzys = new Player({
+  name: 'Lizzys player',
+  object: {
+    gameObject: {
+      height: 48,
+      width: 48,
+      id: 'lizzys',
+      src: 'lizzys.png',
+      x: 50,
+      y: 50,
+    },
+    animated: {
+      maxSpeed: 1,
+      animations,
+    },
   },
-  maxSpeed: 2,
-  animations,
 });
-testScene.addGameObject(lizzys);
+const map = new GameMap({
+  src: 'map1',
+});
 
-const game = new Game(CANVAS_ID, control, testScene);
+const testScene = new Scene({
+  name: 'SCENE_1',
+  map,
+  player: lizzys,
+});
+
+testScene.addGameObject(lizzys);
+const control = new Control();
+
+const game = new Game({
+  canvasId: CANVAS_ID,
+  control,
+  initialScene: testScene,
+});
 
 await game.init();

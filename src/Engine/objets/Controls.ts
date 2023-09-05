@@ -6,7 +6,6 @@ export default class Control {
 
   load() {
     //load controlls
-
     document.addEventListener('keydown', (event) => {
       //   console.log(`tecla ${event.key} abajo`);
       this.keysDown.add(event.key);

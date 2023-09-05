@@ -12,11 +12,11 @@ type TileOptions = {
 };
 
 type MapArgsType = {
-  mapSrc: string;
+  src: string;
 };
 
 export default class Map implements IRenderable {
-  mapSrc: string;
+  src: string;
   name?: string;
   width?: number;
   height?: number;
@@ -32,15 +32,13 @@ export default class Map implements IRenderable {
   tileImages?: HTMLImageElement[];
 
   constructor(args: MapArgsType) {
-    this.mapSrc = args.mapSrc;
+    this.src = args.src;
   }
 
-  async load() {
+  async load(): Promise<boolean> {
     try {
       //cargar csv
-      const mapRaw = await file.loadJsonMap(
-        `resources/maps/${this.mapSrc}.json`
-      );
+      const mapRaw = await file.loadJsonMap(`resources/MAP/${this.src}.json`);
       this.height = mapRaw.height;
       this.width = mapRaw.width;
       this.name = mapRaw.name;
@@ -52,8 +50,8 @@ export default class Map implements IRenderable {
       this.tiles = mapRaw.tiles.map((row, y) => {
         return row.map((col, x) => {
           return new Tile({
+            width: this.tileOptions?.width || 0,
             height: this.tileOptions?.height || 0,
-            widht: this.tileOptions?.width || 0,
             id: `${col}`,
             x: x * (this.tileOptions.width + this.tileOptions.offset.x),
             y: y * (this.tileOptions.height + this.tileOptions.offset.y),
@@ -62,7 +60,7 @@ export default class Map implements IRenderable {
       });
 
       //cargar todas las images de tiles
-      const tileImagePromises: Promise<void>[] = this.tiles
+      const tileImagePromises: Promise<boolean>[] = this.tiles
         .map((tileRow) => {
           return tileRow.map((t) => {
             return t.load();
@@ -71,9 +69,10 @@ export default class Map implements IRenderable {
         .flat();
 
       await Promise.all(tileImagePromises);
+      return true;
     } catch (error) {
-      console.error('ERROR Loadinng map', this.mapSrc);
-      throw error;
+      console.error('ERROR Loadinng map', this.src);
+      return false;
     }
   }
 

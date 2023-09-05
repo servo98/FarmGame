@@ -1,32 +1,38 @@
 import Controll from './Controls';
-import Entity from './Entity';
 import GameObject from './GameObject';
+import Player from './Player';
 import { default as GameMap } from './Map';
+import IRenderable from './IRenderable';
 
 type SceneType = {
-  mapSrc: string;
+  map: GameMap;
   name: string;
+  player?: Player;
 };
 
-export default class Scene {
+export default class Scene implements IRenderable {
   loaded: boolean = false;
   name: string;
   gameObjects: Map<string, GameObject>;
   map: GameMap;
+  player?: Player;
   //TODO interface UI
   constructor(args: SceneType) {
     this.name = args.name;
-    this.map = new GameMap({
-      mapSrc: args.mapSrc,
-    });
+    this.map = args.map;
     this.gameObjects = new Map<string, GameObject>();
+    this.player = args.player;
   }
 
-  async load() {
+  async load(): Promise<boolean> {
     try {
       await this.map.load();
 
-      const gameObjectLoaders: Promise<void>[] = [];
+      if (this.player) {
+        await this.player.load();
+      }
+
+      const gameObjectLoaders: Promise<boolean>[] = [];
 
       for (const [_, object] of this.gameObjects) {
         gameObjectLoaders.push(object.load());
@@ -37,6 +43,9 @@ export default class Scene {
       this.loaded = true;
     } catch (error) {
       console.error('Error loading scene ', this.name);
+      this.loaded = false;
+    } finally {
+      return this.loaded;
     }
   }
 
@@ -51,15 +60,15 @@ export default class Scene {
   }
 
   input(controll: Controll) {
-    this.gameObjects.forEach((object) => {
-      if (object instanceof Entity) {
-        const entity = object as Entity;
-        entity.input(controll);
-      }
-    });
+    if (this.player) {
+      this.player.input(controll);
+    }
   }
 
   update() {
+    if (this.player) {
+      this.player.update();
+    }
     this.gameObjects.forEach((object) => {
       object.update();
     });
@@ -67,6 +76,10 @@ export default class Scene {
 
   render(ctx: CanvasRenderingContext2D) {
     if (!this.loaded) return;
+
+    if (this.player) {
+      this.player.update();
+    }
     this.map?.render(ctx);
     this.gameObjects.forEach((object) => {
       object.render(ctx);

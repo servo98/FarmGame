@@ -1,12 +1,11 @@
-// import * as fs from 'fs';
-
 const rgb = () => {
-  const r = Math.floor(Math.random() * 256); // Valor entre 0 y 255
-  const g = Math.floor(Math.random() * 256); // Valor entre 0 y 255
-  const b = Math.floor(Math.random() * 256); // Valor entre 0 y 255
+  const r = Math.floor(Math.random() * 256);
+  const g = Math.floor(Math.random() * 256);
+  const b = Math.floor(Math.random() * 256);
 
   return `rgb(${r},${g},${b})`;
 };
+
 const vec2d = (maxX: number = 3, maxY: number = 3) => {
   return {
     x: Math.random() * maxX,
@@ -74,10 +73,6 @@ const loadJsonMap = async (src: string): Promise<JsonMapTypeResponse> => {
   }
 };
 
-const getTileFileName = (id: string): string => {
-  return `isometric_pixel_flat_${'0'.repeat(4 - id.length) + id}.png`;
-};
-
 const timestampToTime = (timestamp: number): string => {
   const date = new Date(timestamp);
   const hours = date.getUTCHours().toString().padStart(2, '0');
@@ -96,7 +91,6 @@ export const file = {
   loadImage,
   loadJsonMap,
   loadCSV,
-  getTileFileName,
 };
 
 export const time = {

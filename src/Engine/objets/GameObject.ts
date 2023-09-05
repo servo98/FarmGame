@@ -1,53 +1,58 @@
+import { v4 as uuid } from 'uuid';
 import { file } from '../utils/index';
 import IRenderable from './IRenderable';
-import { v4 as uuidv4 } from 'uuid';
 
-export type GameObjectType = {
-  id: string;
-  x: number;
-  y: number;
-  widht: number;
-  height: number;
-  src: string;
-};
+export enum GameObjectTypes {
+  GAME_OBJECT = 'GAME_OBJECT',
+  PLAYER = 'PLAYER',
+  TILE = 'TILE',
+}
 
-export default class GameObject implements IRenderable {
+export type GameObjectArgsType = {
   id: string;
   x: number;
   y: number;
   width: number;
   height: number;
-  image?: HTMLImageElement;
   src: string;
-  uuid: string;
+  type: GameObjectTypes;
+};
 
-  constructor(args: GameObjectType) {
+export default abstract class GameObject implements IRenderable {
+  id: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  src: string;
+  type: GameObjectTypes = GameObjectTypes.GAME_OBJECT;
+  uuid: string;
+  image?: HTMLImageElement;
+
+  constructor(args: GameObjectArgsType) {
     this.id = args.id;
     this.height = args.height;
-    this.width = args.widht;
+    this.width = args.width;
     this.x = args.x;
     this.y = args.y;
     this.src = args.src;
-    this.uuid = uuidv4();
+    this.type = args.type;
+    this.uuid = uuid();
   }
 
-  async load() {
-    const img = await file.loadImage(this.src);
-    this.image = img;
+  async load(): Promise<boolean> {
+    try {
+      const img = await file.loadImage(`resources/${this.type}/${this.src}`);
+      this.image = img;
+      return true;
+    } catch (error) {
+      console.error(
+        `Error loading GameObject ${this.id} image with src: ${this.src}`
+      );
+      return false;
+    }
   }
 
-  update(x?: number, y?: number) {
-    this.x = x || this.x;
-    this.y = y || this.y;
-  }
-
-  render(ctx: CanvasRenderingContext2D) {
-    ctx.drawImage(
-      this.image as HTMLImageElement,
-      this.x,
-      this.y,
-      this.width,
-      this.height
-    );
-  }
+  abstract update(): void;
+  abstract render(ctx: CanvasRenderingContext2D): void;
 }

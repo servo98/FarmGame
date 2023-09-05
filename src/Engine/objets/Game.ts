@@ -1,6 +1,5 @@
 import Scene from './Scene';
 import Time from '../utils/Time';
-import Entity, { AnimationType } from './Entity';
 import Control from './Controls';
 
 enum GAME_STATES {
@@ -9,20 +8,27 @@ enum GAME_STATES {
   'PAUSE',
   'INGAME',
 }
+
+type GameArgsType = {
+  canvasId: string;
+  control: Control;
+  initialScene: Scene;
+};
+
 export default class Game {
   state: GAME_STATES;
   scene: Scene;
   canvas: HTMLCanvasElement;
-  requestAnimationFrameId?: number;
   ctx: CanvasRenderingContext2D;
+  requestAnimationFrameId: number = NaN;
   control: Control;
 
-  constructor(canvasId: string, control: Control, initialScene: Scene) {
+  constructor(args: GameArgsType) {
     this.state = GAME_STATES.LOADING;
-    this.canvas = document.getElementById(canvasId) as HTMLCanvasElement;
+    this.canvas = document.getElementById(args.canvasId) as HTMLCanvasElement;
     this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D;
-    this.control = control;
-    this.scene = initialScene;
+    this.control = args.control;
+    this.scene = args.initialScene;
   }
 
   async init() {
@@ -30,19 +36,19 @@ export default class Game {
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
     this.ctx.imageSmoothingEnabled = false;
-    await this.scene?.load();
+    await this.scene.load();
     this.requestAnimationFrameId = requestAnimationFrame(this.loop.bind(this));
   }
 
   private input() {
-    this.scene?.input(this.control);
+    this.scene.input(this.control);
   }
   private update() {
-    this.scene?.update();
+    this.scene.update();
   }
   private render(ctx: CanvasRenderingContext2D) {
     //TODO: clear rect
-    this.scene?.render(ctx);
+    this.scene.render(ctx);
   }
 
   loop() {

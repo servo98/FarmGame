@@ -1,25 +1,14 @@
 import Control from './Controls';
-import AnimatedObject, {
-  AnimationType,
-  AnimatedObjectArgsNoType,
-} from './AnimatedObject';
-import { GameObjectTypes } from './GameObject';
-import IPlayable from './IPlayable';
+import IPlayable from '../types/game/interfaces/IPlayable';
+import Entity from '../objet/Entity';
+import { PlayerArgsType } from '../types/game/Player';
+import { AnimationType } from '../types/object/AnimatedObject';
 
-type PlayerArgsType = {
-  name: string;
-  object: AnimatedObjectArgsNoType;
-};
-
-export default class Player extends AnimatedObject implements IPlayable {
+export default class Player extends Entity implements IPlayable {
   name: string;
   constructor(args: PlayerArgsType) {
     super({
-      animated: args.object.animated,
-      gameObject: {
-        ...args.object.gameObject,
-        type: GameObjectTypes.PLAYER,
-      },
+      ...args.entity,
     });
     this.name = args.name;
   }

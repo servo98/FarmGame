@@ -5,6 +5,6 @@
       "module": "ESNext",
       "outDir": "./dist",
       "strict": true,
-      // "moduleResolution":"node",
+      "moduleResolution":"node"
     }
   }

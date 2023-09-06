@@ -58,21 +58,18 @@ type JsonMap = {
 };
 
 const loadJsonMap = async (src: string): Promise<JsonMapTypeResponse> => {
-  try {
-    const file = (await (await fetch(src)).json()) as JsonMap;
-    const map: JsonMapTypeResponse = {
-      height: file.tiles.length,
-      width: file.tiles[0].length,
-      name: file.name,
-      tileOptions: file.tileOptions,
-      tiles: file.tiles,
-    };
-    return map;
-  } catch (error) {
-    throw error;
-  }
+  const file = (await (await fetch(src)).json()) as JsonMap;
+  const map: JsonMapTypeResponse = {
+    height: file.tiles.length,
+    width: file.tiles[0].length,
+    name: file.name,
+    tileOptions: file.tileOptions,
+    tiles: file.tiles,
+  };
+  return map;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const loadJsonFile = async (src: string): Promise<any> => {
   const file = await (await fetch(src)).json();
   return file;

@@ -1,22 +1,12 @@
-import GameObject, { GameObjectTypes } from './GameObject';
+import GameObject from '../objet/GameObject';
+import { TileArgsType } from '../types/map/Tile';
+import { GameObjectTypes } from '../types/object/GameObject';
 
-type TileType = {
-  gameObject: {
-    id: string;
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-    image: HTMLImageElement;
-  };
-  sx: number;
-  sy: number;
-};
 export default class Tile extends GameObject {
   sx: number;
   sy: number;
 
-  constructor(args: TileType) {
+  constructor(args: TileArgsType) {
     super({
       ...args.gameObject,
       src: 'NA',
@@ -28,6 +18,7 @@ export default class Tile extends GameObject {
   update(): void {
     throw new Error('Method not implemented.');
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   render(ctx: CanvasRenderingContext2D): void {
     throw new Error('Method not implemented.');
   }

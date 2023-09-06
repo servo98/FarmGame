@@ -1,62 +1,24 @@
-import GameObject, { GameObjectArgsType } from './GameObject';
+import {
+  AnimationType,
+  AnimatedObjectArgs,
+} from '../types/object/AnimatedObject';
+import GameObject from './GameObject';
 
-type Vec2D = {
-  x: number;
-  y: number;
-};
-
-export type AnimationType = {
-  name: string;
-  index: number;
-  frames: number;
-  time: number;
-};
-
-export type AnimatedObjectType = {
-  initialSpeed?: Vec2D;
-  maxSpeed: number;
-  animations: Map<string, AnimationType>;
-};
-
-export type AnimatedObjectArgs = {
-  animated: AnimatedObjectType;
-  gameObject: GameObjectArgsType;
-};
-
-export type AnimatedObjectArgsNoType = {
-  animated: AnimatedObjectType;
-  gameObject: Omit<GameObjectArgsType, 'type'>;
-};
-
-export default class AnimatedObject extends GameObject {
-  currentSpeed: Vec2D = {
-    x: 0,
-    y: 0,
-  };
-  maxSpeed: number;
+export default abstract class AnimatedObject extends GameObject {
   animations: Map<string, AnimationType>;
   currentAnimation: AnimationType;
   lastAnimationFrameStamp: number;
   currentAnimationFrame: number = 1;
   constructor(args: AnimatedObjectArgs) {
-    if (!args.animated.animations.has('idle_down')) {
+    if (!args.animations.has('idle_down')) {
       throw Error('AnimatedObject animations must have idle_down animation');
     }
     super(args.gameObject);
 
-    this.currentSpeed = args.animated.initialSpeed ?? this.currentSpeed;
-    this.maxSpeed = args.animated.maxSpeed;
-    this.animations = args.animated.animations;
-    this.currentAnimation = args.animated.animations.get(
-      'idle_down'
-    ) as AnimationType;
+    this.animations = args.animations;
+    this.currentAnimation = args.animations.get('idle_down') as AnimationType;
     this.lastAnimationFrameStamp = Date.now();
     this.currentAnimationFrame = 1;
-  }
-
-  update() {
-    this.x += this.currentSpeed.x;
-    this.y += this.currentSpeed.y;
   }
 
   render(ctx: CanvasRenderingContext2D) {

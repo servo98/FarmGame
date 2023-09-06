@@ -1,9 +1,10 @@
-import Control from './Engine/objets/Controls';
-import { AnimationType } from './Engine/objets/AnimatedObject';
-import Game from './Engine/objets/Game';
-import GameMap from './Engine/objets/Map';
-import Player from './Engine/objets/Player';
-import Scene from './Engine/objets/Scene';
+import Control from './Engine/game/Controls';
+import Game from './Engine/game/Game';
+import Player from './Engine/game/Player';
+import Scene from './Engine/game/Scene';
+import { AnimationType } from './Engine/types/object/AnimatedObject';
+import { GameObjectTypes } from './Engine/types/object/GameObject';
+import { default as GameMap } from './Engine/map/Map';
 
 const animations = new Map<string, AnimationType>();
 animations.set('idle_down', {
@@ -30,13 +31,7 @@ animations.set('idle_right', {
   name: 'idle_right',
   time: 1000,
 });
-animations.set('idle_right', {
-  frames: 8,
-  index: 5,
-  name: 'walk_down',
-  time: 1000,
-});
-animations.set('idle_right', {
+animations.set('walk_down', {
   frames: 8,
   index: 5,
   name: 'walk_down',
@@ -61,21 +56,22 @@ animations.set('walk_left', {
   time: 1000,
 });
 const lizzys = new Player({
-  name: 'Lizzys player',
-  object: {
-    gameObject: {
-      height: 48,
-      width: 48,
-      id: 'lizzys',
-      src: 'lizzys.png',
-      x: 50,
-      y: 50,
-    },
-    animated: {
-      maxSpeed: 1,
+  entity: {
+    animatedObject: {
       animations,
+      gameObject: {
+        height: 48,
+        width: 48,
+        id: 'lizzys',
+        src: 'lizzys.png',
+        x: 50,
+        y: 50,
+        type: GameObjectTypes.PLAYER,
+      },
     },
+    maxSpeed: 2,
   },
+  name: 'Lizzys',
 });
 
 const CANVAS_ID = 'game';

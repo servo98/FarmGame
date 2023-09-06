@@ -1,27 +1,22 @@
-import Controll from './Controls';
-import GameObject from './GameObject';
+import Control from './Controls';
+import GameObject from '../objet/GameObject';
 import Player from './Player';
-import { default as GameMap } from './Map';
-import IRenderable from './IRenderable';
-
-type SceneType = {
-  map: GameMap;
-  name: string;
-  player?: Player;
-};
+import { default as GameMap } from '../map/Map';
+import { SceneArgsType } from '../types/game/Scene';
+import IRenderable from '../types/game/interfaces/IRenderable';
 
 export default class Scene implements IRenderable {
   loaded: boolean = false;
   name: string;
   gameObjects: Map<string, GameObject>;
   map: GameMap;
-  player?: Player;
+  player: Player;
   //TODO interface UI
-  constructor(args: SceneType) {
+  constructor(args: SceneArgsType) {
     this.name = args.name;
-    this.map = args.map;
     this.gameObjects = new Map<string, GameObject>();
     this.player = args.player;
+    this.map = args.map;
   }
 
   async load(): Promise<boolean> {
@@ -41,10 +36,10 @@ export default class Scene implements IRenderable {
       await Promise.all(gameObjectLoaders);
 
       this.loaded = true;
+      return this.loaded;
     } catch (error) {
       console.error('Error loading scene ', this.name);
       this.loaded = false;
-    } finally {
       return this.loaded;
     }
   }
@@ -59,7 +54,7 @@ export default class Scene implements IRenderable {
     );
   }
 
-  input(controll: Controll) {
+  input(controll: Control) {
     if (this.player) {
       this.player.input(controll);
     }

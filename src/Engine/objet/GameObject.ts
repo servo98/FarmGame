@@ -1,23 +1,10 @@
 import { v4 as uuid } from 'uuid';
 import { file } from '../utils/index';
-import IRenderable from './IRenderable';
-
-export enum GameObjectTypes {
-  GAME_OBJECT = 'GAME_OBJECT',
-  PLAYER = 'PLAYER',
-  TILE = 'TILE',
-}
-
-export type GameObjectArgsType = {
-  id: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  src: string;
-  type: GameObjectTypes;
-  image?: HTMLImageElement;
-};
+import IRenderable from '../types/game/interfaces/IRenderable';
+import {
+  GameObjectTypes,
+  GameObjectArgsType,
+} from '../types/object/GameObject';
 
 export default abstract class GameObject implements IRenderable {
   id: string;

@@ -1,37 +1,14 @@
 import { file } from '../utils/index';
-import IRenderable from './IRenderable';
 import Tile from './Tile';
-
-type MapArgsType = {
-  src: string;
-  name: string;
-};
-
-type Layer = {
-  data: number[][];
-  name: string;
-};
-
-type RawLayer = {
-  data: number[];
-  name: string;
-};
-
-type TileOptions = {
-  width: number;
-  height: number;
-};
-
-type TileSet = {
-  firstgid: number;
-  source: string;
-  img?: HTMLImageElement;
-};
-
-type Coords = {
-  x: number;
-  y: number;
-};
+import { Vec2D } from '../types';
+import {
+  Layer,
+  TileOptions,
+  TileSet,
+  MapArgsType,
+  RawLayer,
+} from '../types/map/Map';
+import IRenderable from '../types/game/interfaces/IRenderable';
 
 export default class Map implements IRenderable {
   loaded: boolean = false;
@@ -92,9 +69,9 @@ export default class Map implements IRenderable {
       this.loadTilesFromLayers();
 
       this.loaded = true;
+      return this.loaded;
     } catch (error) {
       console.error('Error loading map', this.name, error);
-    } finally {
       return this.loaded;
     }
   }
@@ -135,7 +112,7 @@ export default class Map implements IRenderable {
     return result;
   }
 
-  private dataToCoords(data: number, tileSet: TileSet): Coords {
+  private dataToCoords(data: number, tileSet: TileSet): Vec2D {
     const index = data - tileSet.firstgid;
     const imageWidth = tileSet.img?.width as number;
     const coords = {
@@ -169,7 +146,7 @@ export default class Map implements IRenderable {
     this.tiles = this.layers.map((layer) => {
       return layer.data.map((row, y) => {
         return row.map((tileNumber, x) => {
-          let tempTileSet =
+          const tempTileSet =
             this.tileSets[this.getTileSetIndexFromData(tileNumber)];
 
           const sourceCoords = this.dataToCoords(tileNumber, tempTileSet);

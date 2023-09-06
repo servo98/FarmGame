@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --mode production",
     "start": "npm run build && npm run server",
-    "server": "npx http-server -c-1"
+    "server": "npx http-server -c-1 --cors -o dist"
   },
   "keywords": [],
   "license": "ISC",

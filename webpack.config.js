@@ -28,6 +28,10 @@ module.exports = {
           from: path.resolve(__dirname, 'index.html'),
           to: path.resolve(__dirname, 'dist'),
         },
+        {
+          from: path.resolve(__dirname, 'resources'),
+          to: path.resolve(__dirname, 'dist/resources'),
+        },
       ],
     }),
   ],

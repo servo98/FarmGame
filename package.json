@@ -9,11 +9,12 @@
     "server": "npx http-server -c-1 --cors -o dist",
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "lint-and-format": "npm run lint && npm run format"
+    "lint-and-format": "npm run lint && npm run format",
+    "prepare": "husky install"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint"
+      "pre-commit": "npm run lint-and-format"
     }
   },
   "keywords": [],

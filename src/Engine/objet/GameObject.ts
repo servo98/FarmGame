@@ -36,7 +36,7 @@ export default abstract class GameObject implements IRenderable {
       return true;
     } catch (error) {
       console.error(
-        `Error loading GameObject ${this.id} image with src: ${this.src}`,
+        `Error loading GameObject ${this.id} image with src: ${this.src}`
       );
       return false;
     }

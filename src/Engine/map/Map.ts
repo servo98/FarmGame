@@ -56,7 +56,7 @@ export default class Map implements IRenderable {
       });
 
       const imagesArray = await Promise.all(
-        imagePromises as Promise<HTMLImageElement>[]
+        imagePromises as Promise<HTMLImageElement>[],
       );
 
       this.tileSets = this.tileSets?.map((tileSet, index) => {
@@ -91,7 +91,7 @@ export default class Map implements IRenderable {
             tile.x,
             tile.y,
             tile.width,
-            tile.height
+            tile.height,
           );
         });
       });
@@ -135,7 +135,7 @@ export default class Map implements IRenderable {
         firstgid: tileset.firstgid,
         source: sourceSplitted[sourceSplitted.length - 1].replace(
           new RegExp('tsj', 'g'),
-          'png'
+          'png',
         ),
       };
     });

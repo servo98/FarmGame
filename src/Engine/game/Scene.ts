@@ -50,7 +50,7 @@ export default class Scene implements IRenderable {
 
   removeGameObject(object: GameObject | string) {
     this.gameObjects.delete(
-      object instanceof GameObject ? object.uuid : (object as string)
+      object instanceof GameObject ? object.uuid : (object as string),
     );
   }
 

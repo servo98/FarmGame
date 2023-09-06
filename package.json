@@ -7,7 +7,9 @@
     "build": "webpack --mode production",
     "start": "npm run build && npm run server",
     "server": "npx http-server -c-1 --cors -o dist",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "lint-and-format": "npm run lint && npm run format"
   },
   "husky": {
     "hooks": {
@@ -23,6 +25,7 @@
     "copy-webpack-plugin": "^11.0.0",
     "eslint": "^8.48.0",
     "husky": "^8.0.3",
+    "prettier": "^3.0.3",
     "ts-loader": "^9.4.4",
     "typescript": "^5.2.2",
     "webpack": "^5.88.2",

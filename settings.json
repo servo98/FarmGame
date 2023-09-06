@@ -1,10 +1,13 @@
 {
-    "eslint.options": {
-        "configFile": "./.eslintrc.json"
-    },
-    "eslint.autoFixOnSave": true,
-    "eslint.validate": [
-        "typescript",
-        "typescriptreact"
-    ],
+  "eslint.options": {
+    "configFile": "./.eslintrc.json"
+  },
+  "eslint.autoFixOnSave": true,
+  "eslint.validate": ["typescript", "typescriptreact"],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "prettier.singleQuote": true
 }

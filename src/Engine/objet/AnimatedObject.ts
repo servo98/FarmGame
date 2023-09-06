@@ -33,7 +33,7 @@ export default abstract class AnimatedObject extends GameObject {
       this.x,
       this.y,
       this.width,
-      this.height
+      this.height,
     );
   }
 

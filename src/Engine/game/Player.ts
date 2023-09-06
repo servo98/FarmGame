@@ -27,7 +27,7 @@ export default class Player extends Entity implements IPlayable {
     if (controll.keysDown.has('d')) {
       this.currentSpeed.x = this.maxSpeed;
       this.currentAnimation = this.animations.get(
-        'idle_right'
+        'idle_right',
       ) as AnimationType;
     } else if (controll.keysDown.has('a')) {
       this.currentSpeed.x = -this.maxSpeed;

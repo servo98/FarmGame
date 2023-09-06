@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "lint-and-format": "npm run lint && npm run format",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "echo \"Ok: no test specified\" && exit 0"
   },
   "keywords": [],
   "license": "MIT",

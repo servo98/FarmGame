@@ -69,7 +69,7 @@ const lizzys = new Player({
         type: GameObjectTypes.PLAYER,
       },
     },
-    maxSpeed: 1.5,
+    maxSpeed: 3,
   },
   name: 'Lizzys',
 });
@@ -96,5 +96,3 @@ const game = new Game({
 });
 
 await game.init();
-
-console.log('Prrueba');

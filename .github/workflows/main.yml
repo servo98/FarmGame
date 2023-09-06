@@ -13,8 +13,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Instalar dependencias
-        run: npm install --no-save
-
+        run: npm install
   lint:
     needs: install
     runs-on: ubuntu-latest

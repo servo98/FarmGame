@@ -96,3 +96,5 @@ const game = new Game({
 });
 
 await game.init();
+
+console.log('Prrueba');

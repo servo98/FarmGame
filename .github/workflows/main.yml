@@ -19,6 +19,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout del código en trabajo1
+        uses: actions/checkout@v2
+
       - name: Ejecutar npm run lint
         run: npm run lint
 
@@ -27,6 +30,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout del código en trabajo1
+        uses: actions/checkout@v2
+
       - name: Run tests
         run: npm test
   build:
@@ -34,6 +40,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout del código en trabajo1
+        uses: actions/checkout@v2
+
       - name: Build
         run: npm run build
 
@@ -41,6 +50,9 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout del código en trabajo1
+        uses: actions/checkout@v2
+
       - name: Deploy to Netlify
         run: |
           npm install -g netlify-cli

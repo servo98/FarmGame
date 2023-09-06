@@ -1,0 +1,71 @@
+{
+  "compressionlevel": -1,
+  "height": 3,
+  "infinite": false,
+  "layers": [
+    {
+      "data": [
+        466,
+        466,
+        466,
+        466,
+        466,
+        466,
+        466,
+        466,
+        466
+      ],
+      "height": 3,
+      "id": 2,
+      "name": "water",
+      "opacity": 1,
+      "type": "tilelayer",
+      "visible": true,
+      "width": 3,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "data": [
+        0,
+        0,
+        0,
+        0,
+        345,
+        0,
+        0,
+        0,
+        0
+      ],
+      "height": 3,
+      "id": 1,
+      "name": "terrain",
+      "opacity": 1,
+      "type": "tilelayer",
+      "visible": true,
+      "width": 3,
+      "x": 0,
+      "y": 0
+    }
+  ],
+  "nextlayerid": 3,
+  "nextobjectid": 1,
+  "orientation": "orthogonal",
+  "renderorder": "right-down",
+  "tiledversion": "1.10.2",
+  "tileheight": 16,
+  "tilesets": [
+    {
+      "firstgid": 1,
+      "source": "../tsx/ligh_tiles.tsj"
+    },
+    {
+      "firstgid": 463,
+      "source": "../tsx/water.tsj"
+    }
+  ],
+  "tilewidth": 16,
+  "type": "map",
+  "version": "1.10",
+  "width": 3
+}

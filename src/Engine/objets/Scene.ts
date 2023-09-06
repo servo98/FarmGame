@@ -77,13 +77,13 @@ export default class Scene implements IRenderable {
   render(ctx: CanvasRenderingContext2D) {
     if (!this.loaded) return;
 
-    if (this.player) {
-      this.player.update();
-    }
-    this.map?.render(ctx);
+    this.map.render(ctx);
     this.gameObjects.forEach((object) => {
       object.render(ctx);
     });
+    if (this.player) {
+      this.player.render(ctx);
+    }
     //TODO: render interface
   }
 }

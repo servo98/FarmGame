@@ -5,8 +5,6 @@ import GameMap from './Engine/objets/Map';
 import Player from './Engine/objets/Player';
 import Scene from './Engine/objets/Scene';
 
-const CANVAS_ID = 'game';
-
 const animations = new Map<string, AnimationType>();
 animations.set('idle_down', {
   frames: 8,
@@ -14,21 +12,18 @@ animations.set('idle_down', {
   name: 'idle_down',
   time: 1000,
 });
-
 animations.set('idle_up', {
   frames: 8,
   index: 2,
   name: 'idle_up',
   time: 1000,
 });
-
 animations.set('idle_left', {
   frames: 8,
   index: 3,
   name: 'idle_left',
   time: 1000,
 });
-
 animations.set('idle_right', {
   frames: 8,
   index: 4,
@@ -53,23 +48,26 @@ const lizzys = new Player({
     },
   },
 });
+
+const CANVAS_ID = 'game';
+
 const map = new GameMap({
-  src: 'map1',
+  src: 'mini_test_2.tmj',
+  name: 'test con textura test',
 });
 
-const testScene = new Scene({
-  name: 'SCENE_1',
+const scene = new Scene({
   map,
+  name: 'SCENE_1',
   player: lizzys,
 });
 
-testScene.addGameObject(lizzys);
 const control = new Control();
 
 const game = new Game({
   canvasId: CANVAS_ID,
   control,
-  initialScene: testScene,
+  initialScene: scene,
 });
 
 await game.init();

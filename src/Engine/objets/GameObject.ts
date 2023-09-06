@@ -16,6 +16,7 @@ export type GameObjectArgsType = {
   height: number;
   src: string;
   type: GameObjectTypes;
+  image?: HTMLImageElement;
 };
 
 export default abstract class GameObject implements IRenderable {
@@ -25,8 +26,8 @@ export default abstract class GameObject implements IRenderable {
   width: number;
   height: number;
   src: string;
-  type: GameObjectTypes = GameObjectTypes.GAME_OBJECT;
   uuid: string;
+  type: GameObjectTypes = GameObjectTypes.GAME_OBJECT;
   image?: HTMLImageElement;
 
   constructor(args: GameObjectArgsType) {
@@ -38,6 +39,7 @@ export default abstract class GameObject implements IRenderable {
     this.src = args.src;
     this.type = args.type;
     this.uuid = uuid();
+    this.image = args.image;
   }
 
   async load(): Promise<boolean> {

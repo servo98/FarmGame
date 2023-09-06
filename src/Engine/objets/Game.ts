@@ -47,7 +47,7 @@ export default class Game {
     this.scene.update();
   }
   private render(ctx: CanvasRenderingContext2D) {
-    //TODO: clear rect
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.scene.render(ctx);
   }
 

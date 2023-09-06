@@ -1,5 +1,3 @@
-import { time } from '../utils/index';
-
 export default class Time {
   static lastFrameStamp: number = Date.now();
   static frameCount: number = 0;

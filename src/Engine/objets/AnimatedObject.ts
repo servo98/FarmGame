@@ -46,10 +46,6 @@ export default class AnimatedObject extends GameObject {
       throw Error('AnimatedObject animations must have idle_down animation');
     }
     super(args.gameObject);
-    // super({
-    //   ...args.gameObject,
-    //   src: `resources/entities/${args.gameObject.src}`,
-    // });
 
     this.currentSpeed = args.animated.initialSpeed ?? this.currentSpeed;
     this.maxSpeed = args.animated.maxSpeed;

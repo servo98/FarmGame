@@ -73,6 +73,11 @@ const loadJsonMap = async (src: string): Promise<JsonMapTypeResponse> => {
   }
 };
 
+const loadJsonFile = async (src: string): Promise<any> => {
+  const file = await (await fetch(src)).json();
+  return file;
+};
+
 const timestampToTime = (timestamp: number): string => {
   const date = new Date(timestamp);
   const hours = date.getUTCHours().toString().padStart(2, '0');
@@ -91,6 +96,7 @@ export const file = {
   loadImage,
   loadJsonMap,
   loadCSV,
+  loadJsonFile,
 };
 
 export const time = {

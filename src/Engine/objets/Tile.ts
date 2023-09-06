@@ -1,36 +1,34 @@
-import GameObject, { GameObjectArgsType, GameObjectTypes } from './GameObject';
-import { file } from '../utils/index';
+import GameObject, { GameObjectTypes } from './GameObject';
 
-type TileArgsType = {
-  id: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-};
-
-export default class Tile extends GameObject {
-  constructor(args: TileArgsType) {
-    super({
-      ...args,
-      type: GameObjectTypes.TILE,
-      src: `isometric_pixel_flat_0000.png`,
-    });
-    this.src = `${this.getTileFileName(args.id)}`;
-  }
-
-  update(): void {}
-  render(ctx: CanvasRenderingContext2D): void {
-    ctx.drawImage(
-      this.image as HTMLImageElement,
-      this.x,
-      this.y,
-      this.width,
-      this.height
-    );
-  }
-
-  private getTileFileName = (id: string): string => {
-    return `isometric_pixel_flat_${'0'.repeat(4 - id.length) + id}.png`;
+type TileType = {
+  gameObject: {
+    id: string;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    image: HTMLImageElement;
   };
+  sx: number;
+  sy: number;
+};
+export default class Tile extends GameObject {
+  sx: number;
+  sy: number;
+
+  constructor(args: TileType) {
+    super({
+      ...args.gameObject,
+      src: 'NA',
+      type: GameObjectTypes.TILE,
+    });
+    this.sx = args.sx;
+    this.sy = args.sy;
+  }
+  update(): void {
+    throw new Error('Method not implemented.');
+  }
+  render(ctx: CanvasRenderingContext2D): void {
+    throw new Error('Method not implemented.');
+  }
 }

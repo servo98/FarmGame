@@ -9,6 +9,11 @@
     "server": "npx http-server -c-1 --cors -o dist",
     "lint": "eslint ."
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
   "keywords": [],
   "license": "ISC",
   "devDependencies": {

@@ -5,7 +5,7 @@ on:
       - main
 
 jobs:
-  lint:
+  install:
     runs-on: ubuntu-latest
 
     steps:
@@ -13,7 +13,38 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Instalar dependencias
-        run: npm install
+        run: npm install --no-save
 
+  lint:
+    needs: install
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Ejecutar npm run lint
         run: npm run lint
+
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run tests
+        run: npm test
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build
+        run: npm run build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Netlify
+        run: |
+          npm install -g netlify-cli
+          export NETLIFY_AUTH_TOKEN= ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          netlify login
+          netlify deploy --site ${{ secrets.NETLIFY_SITE_ID }} --prod

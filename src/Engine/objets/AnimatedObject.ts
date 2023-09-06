@@ -1,7 +1,4 @@
-import Controll from './Controls';
 import GameObject, { GameObjectArgsType } from './GameObject';
-import IRenderable from './IRenderable';
-import Time from '../utils/Time';
 
 type Vec2D = {
   x: number;
@@ -15,7 +12,7 @@ export type AnimationType = {
   time: number;
 };
 
-type AnimatedObjectType = {
+export type AnimatedObjectType = {
   initialSpeed?: Vec2D;
   maxSpeed: number;
   animations: Map<string, AnimationType>;

@@ -30,7 +30,36 @@ animations.set('idle_right', {
   name: 'idle_right',
   time: 1000,
 });
-
+animations.set('idle_right', {
+  frames: 8,
+  index: 5,
+  name: 'walk_down',
+  time: 1000,
+});
+animations.set('idle_right', {
+  frames: 8,
+  index: 5,
+  name: 'walk_down',
+  time: 1000,
+});
+animations.set('walk_up', {
+  frames: 8,
+  index: 6,
+  name: 'walk_up',
+  time: 1000,
+});
+animations.set('walk_right', {
+  frames: 8,
+  index: 7,
+  name: 'walk_right',
+  time: 1000,
+});
+animations.set('walk_left', {
+  frames: 8,
+  index: 8,
+  name: 'walk_left',
+  time: 1000,
+});
 const lizzys = new Player({
   name: 'Lizzys player',
   object: {

@@ -1,5 +1,6 @@
 // webpack.config.js
 const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/index.ts',
@@ -20,4 +21,14 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
   },
   devtool: 'source-map',
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, 'index.html'),
+          to: path.resolve(__dirname, 'dist'),
+        },
+      ],
+    }),
+  ],
 };

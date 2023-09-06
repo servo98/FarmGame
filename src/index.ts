@@ -83,7 +83,7 @@ const map = new GameMap({
 
 const scene = new Scene({
   map,
-  name: 'SCENE_1',
+  name: 'SCENE_TEST',
   player: lizzys,
 });
 

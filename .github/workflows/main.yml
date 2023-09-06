@@ -25,9 +25,23 @@ jobs:
         run: npm run build
 
       - name: Deploy to Netlify
-        run: |
-          echo ${{ secrets.NETLIFY_AUTH_TOKEN }} ${{ secrets.NETLIFY_SITE_ID }}
-          npm install -g netlify-cli
-          export NETLIFY_AUTH_TOKEN= ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          netlify login
-          netlify deploy --site ${{ secrets.NETLIFY_SITE_ID }} --prod -d dist
+        uses: nwtgck/actions-netlify@v2.0
+        with:
+          publish-dir: './dist'
+          production-branch: main
+          deploy-message: 'Deploy from GitHub Actions'
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 1
+
+        # - name: Deploy to Netlify
+        # run: |
+        #   echo ${{ secrets.NETLIFY_AUTH_TOKEN }} ${{ secrets.NETLIFY_SITE_ID }}
+        #   npm install -g netlify-cli
+        #   export NETLIFY_AUTH_TOKEN= ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        #   netlify login
+        #   netlify deploy --site ${{ secrets.NETLIFY_SITE_ID }} --prod -d dist

@@ -44,21 +44,17 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
-      - name: Configure Git with Token
+      - name: Set up SSH key
         run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
           git config --global user.email "fernandonando98@live.com.mx"
-          git config --global user.name "servo98"
-          git config --global credential.helper store
-          git config --global credential.helper 'cache --timeout=3600'
-          git config --global core.askpass ""
-          echo "machine github.com login your-username password ${{ secrets.FORCE_PUSH_TOKEN }}" > ~/.netrc
-          npm run release
-          git push --follow-tags origin main
+          git config --global user.name "servo98|"
 
-      # - name: Ejecuta standard-version
-      #   run:
-      # - name: Push cambios de versión y changelog
-      #   run: |
+      - name: Push cambios de versión y changelog
+        run: git push --follow-tags origin main
 
   deploy:
     needs: release

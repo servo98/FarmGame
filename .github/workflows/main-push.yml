@@ -44,25 +44,14 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
-      - name: Get last commit author
-        id: last_commit_author
-        run: |
-          author_name=$(git log -1 --pretty=format:'%an')
-          author_email=$(git log -1 --pretty=format:'%ae')
-          echo "::set-output name=author_name::$author_name"
-          echo "::set-output name=author_email::$author_email"
-
-      - name: Configure Git
-        run: |
-          git config user.name "${{ steps.last_commit_author.outputs.author_name }}"
-          git config user.email "${{ steps.last_commit_author.outputs.author_email }}"
-
-      - name: Run release
+      - name: Ejecuta standard-version
         run: npm run release
 
-      - name: Push release changes to main
+      - name: Push cambios de versión y changelog
         run: |
           git push --follow-tags origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy:
     needs: release

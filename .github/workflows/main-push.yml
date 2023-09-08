@@ -5,34 +5,7 @@ on:
       - main
 
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v2
-
-  #     - name: Cache node_modules
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: node_modules
-  #         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-  #         restore-keys: |
-  #           ${{ runner.os }}-node-
-
-  #     - name: Install dependencies
-  #       run: npm install
-
-  #     - name: Build
-  #       run: npm run build
-
-  #     - name: Persist dist folder
-  #       uses: actions/upload-artifact@v2
-  #       with:
-  #         name: dist
-  #         path: dist
-
-  release:
-    # needs: build
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -43,42 +16,42 @@ jobs:
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
-      - name: Set up SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_FORCE_PUSH" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-          git config --global user.email "fernandonando98@live.com.mx"
-          git config --global user.name "servo98"
-          npm run release
-          git push --follow-tags origin main
+      - name: Install dependencies
+        run: npm install
 
-      # - name: Push cambios de versión y changelog
-      #   run: git push --follow-tags origin main
+      - name: Build
+        run: npm run build
 
-  # deploy:
-  #   needs: release
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Recuperar archivos de construcción
-  #       uses: actions/download-artifact@v2
-  #       with:
-  #         name: dist
-  #         path: dist
+      - name: Persist dist folder
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: dist
 
-  #     - name: Deploy to Netlify
-  #       uses: nwtgck/actions-netlify@v2.0
-  #       with:
-  #         publish-dir: './dist'
-  #         production-branch: main
-  #         deploy-message: 'Deploy from GitHub Actions'
-  #         enable-pull-request-comment: false
-  #         enable-commit-comment: true
-  #         overwrites-pull-request-comment: true
-  #         github-token: ${{ secrets.GITHUB_TOKEN }}
-  #       env:
-  #         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-  #         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-  #       timeout-minutes: 1
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Recuperar archivos de construcción
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: dist
+
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v2.0
+        with:
+          publish-dir: './dist'
+          production-branch: main
+          deploy-message: 'Deploy from GitHub Actions'
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 1

@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/servo98/servo98.github.io/compare/v2.0.0...v3.0.0) (2023-09-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* bump auto on pre push
+
+### Features
+
+* add url to readme ([d72bf11](https://github.com/servo98/servo98.github.io/commit/d72bf11a3633a25f904f456e1416f17e6ec91334))
+
+
+### Bug Fixes
+
+* add auto approve ([61f5814](https://github.com/servo98/servo98.github.io/commit/61f5814ca62450816982b61d8fca5d866c1bb214))
+* add token to push ([e56fabe](https://github.com/servo98/servo98.github.io/commit/e56fabe1e5e5deefe345f7199404161cd8373355))
+* again ([62b27a1](https://github.com/servo98/servo98.github.io/commit/62b27a1f40e50b610c1c245ed68f86c531e484de))
+* again ([2d09dc8](https://github.com/servo98/servo98.github.io/commit/2d09dc8e5c472fbb5364280d41a14ffd5029a831))
+* again ([ddfa615](https://github.com/servo98/servo98.github.io/commit/ddfa615786691e84a6b6f84a112b9fdc5c4f4522))
+* again ([0dd409b](https://github.com/servo98/servo98.github.io/commit/0dd409b9f4231f866966a2247ad2380ec2372684))
+* again ([cc6696f](https://github.com/servo98/servo98.github.io/commit/cc6696f1b14dbd085eadee9be7eb3dcb8bb3b06a))
+* again ([a1eff93](https://github.com/servo98/servo98.github.io/commit/a1eff9319ed863cab723928a66855b9875d9f842))
+* again ([98a88b7](https://github.com/servo98/servo98.github.io/commit/98a88b74c3545ae36874b4e09d1ffdfd3e37cab0))
+* again ([eec4271](https://github.com/servo98/servo98.github.io/commit/eec427137f39790fdaac3b2f82ba799d24535137))
+* bump auto on pre push ([7db5d99](https://github.com/servo98/servo98.github.io/commit/7db5d99860e55d78d25612f9a32372ce104252bb))
+* forces push ([6909153](https://github.com/servo98/servo98.github.io/commit/6909153603fbfcc5baed94ad14325c8de260246e))
+* only push anter release ([fb4414f](https://github.com/servo98/servo98.github.io/commit/fb4414f74df45cb823002f1f173cd10f1bcb94e9))
+* push with env token ([5ecae2e](https://github.com/servo98/servo98.github.io/commit/5ecae2e26b2a2e3eb71f1febb400eafb2a9fcb1a))
+* second attemp to fix actions ([91a5ac7](https://github.com/servo98/servo98.github.io/commit/91a5ac72940737522aa5e4b6426ff9209ab9e4f9))
+* something ([2dbc42d](https://github.com/servo98/servo98.github.io/commit/2dbc42d392c7e21700928434ab7e240b7afa131d))
+* token from NODE_AUTH_TOKEN ([1333913](https://github.com/servo98/servo98.github.io/commit/1333913c9b92bf80ebcd47497975c18bec5ea6f8))
+
 ## 2.0.0 (2023-09-08)
 
 

@@ -46,8 +46,8 @@ jobs:
 
       - name: Configure Git with Token
         run: |
-          git config --global user.email "your-email@example.com"
-          git config --global user.name "Your Name"
+          git config --global user.email "fernandonando98@live.com.mx"
+          git config --global user.name "servo98"
           git config --global credential.helper store
           git config --global credential.helper 'cache --timeout=3600'
           git config --global core.askpass ""

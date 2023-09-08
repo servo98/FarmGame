@@ -58,8 +58,6 @@ jobs:
       - name: Push cambios de versión y changelog
         run: |
           git push --follow-tags
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.FORCE_PUSH_TOKEN }}
 
   deploy:
     needs: release

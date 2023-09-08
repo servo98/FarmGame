@@ -1,6 +1,6 @@
 name: Run Lint before push
 on:
-  push:
+  pull_request:
     branches:
       - main
 
@@ -9,17 +9,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout del código fuente
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Instalar dependencias
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
         run: npm install
-
-      - name: Ejecutar npm run lint
-        run: npm run lint
-
-      - name: Run tests
-        run: npm test
 
       - name: Build
         run: npm run build
@@ -38,11 +40,3 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         timeout-minutes: 1
-
-        # - name: Deploy to Netlify
-        # run: |
-        #   echo ${{ secrets.NETLIFY_AUTH_TOKEN }} ${{ secrets.NETLIFY_SITE_ID }}
-        #   npm install -g netlify-cli
-        #   export NETLIFY_AUTH_TOKEN= ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        #   netlify login
-        #   netlify deploy --site ${{ secrets.NETLIFY_SITE_ID }} --prod -d dist

@@ -1,4 +1,4 @@
-name: Run Lint before push
+name: Build and Deploy
 on:
   pull_request:
     branches:

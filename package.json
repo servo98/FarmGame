@@ -12,7 +12,8 @@
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "prepare": "husky install",
-    "test": "echo \"Ok: no test specified\" && exit 0"
+    "test": "echo \"Ok: no test specified\" && exit 0",
+    "release": "standard-version --no-lock"
   },
   "keywords": [],
   "license": "MIT",
@@ -25,6 +26,7 @@
     "eslint": "^8.48.0",
     "husky": "^8.0.3",
     "prettier": "^3.0.3",
+    "standard-version": "^9.5.0",
     "terser-webpack-plugin": "^5.3.9",
     "ts-loader": "^9.4.4",
     "typescript": "^5.2.2",

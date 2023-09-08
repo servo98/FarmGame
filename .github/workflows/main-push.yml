@@ -62,10 +62,7 @@ jobs:
 
       - name: Push release changes to main
         run: |
-          git checkout main
-          git add package.json CHANGELOG.md
-          git commit -m "chore(release): Release version"
-          git push origin main
+          git push --follow-tags origin main
 
   deploy:
     needs: release

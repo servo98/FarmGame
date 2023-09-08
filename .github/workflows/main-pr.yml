@@ -3,6 +3,8 @@ on:
   pull_request:
     branches:
       - main
+    types:
+      - opened
 
 jobs:
   install:
@@ -52,3 +54,16 @@ jobs:
 
       - name: Run tests
         run: npm run test
+
+  approve-pr:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == github.event.repository.owner.login
+    steps:
+      - name: Aprobar PR
+        run: |
+          PR_NUMBER=$(jq -r ".pull_request.number" "$GITHUB_EVENT_PATH")
+          echo "Aprobando PR #$PR_NUMBER"
+          curl -X POST "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/reviews" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            --data '{"body": "Automatically approved by GitHub Actions.", "event": "APPROVE"}'

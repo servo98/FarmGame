@@ -5,34 +5,34 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  # build:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
 
-      - name: Cache node_modules
-        uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+  #     - name: Cache node_modules
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: node_modules
+  #         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+  #         restore-keys: |
+  #           ${{ runner.os }}-node-
 
-      - name: Install dependencies
-        run: npm install
+  #     - name: Install dependencies
+  #       run: npm install
 
-      - name: Build
-        run: npm run build
+  #     - name: Build
+  #       run: npm run build
 
-      - name: Persist dist folder
-        uses: actions/upload-artifact@v2
-        with:
-          name: dist
-          path: dist
+  #     - name: Persist dist folder
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: dist
+  #         path: dist
 
   release:
-    needs: build
+    # needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -52,13 +52,13 @@ jobs:
           git config --global credential.helper 'cache --timeout=3600'
           git config --global core.askpass ""
           echo "machine github.com login your-username password ${{ secrets.FORCE_PUSH_TOKEN }}" > ~/.netrc
+          run: npm run release
+          git push --follow-tags origin main
 
-      - name: Ejecuta standard-version
-        run: npm run release
+      # - name: Ejecuta standard-version
 
-      - name: Push cambios de versión y changelog
-        run: |
-          git push --follow-tags
+      # - name: Push cambios de versión y changelog
+      #   run: |
 
   deploy:
     needs: release

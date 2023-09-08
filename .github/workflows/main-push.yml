@@ -59,8 +59,8 @@ jobs:
 
       - name: Push changes to main
         run: |
-          git config user.name "GitHub Actions"
-          git config user.email "<>"
+          git fetch origin main
+          git checkout main
           git add package.json CHANGELOG.md
           git commit -m "chore(release): Release version"
           git push origin main

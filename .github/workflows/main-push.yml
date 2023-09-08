@@ -44,6 +44,14 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
+      - name: Configure Git with Token
+        run: |
+          git config --global user.email "your-email@example.com"
+          git config --global user.name "Your Name"
+          git config --global credential.helper store
+          git config --global credential.helper 'cache --timeout=3600'
+          git config --global http.https://github.com/.extraheader "AUTHORIZATION: basic ${{ secrets.FORCE_PUSH_TOKEN }}"
+
       - name: Ejecuta standard-version
         run: npm run release
 

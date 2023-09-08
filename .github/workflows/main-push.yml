@@ -54,7 +54,7 @@ jobs:
 
       - name: Push cambios de versión y changelog
         run: |
-          git push --follow-tags origin main
+          git push --follow-tags origin main --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

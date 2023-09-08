@@ -47,7 +47,7 @@ animations.set('walk_right', {
   frames: 8,
   index: 7,
   name: 'walk_right',
-  time: 1000,
+  time: 800,
 });
 animations.set('walk_left', {
   frames: 8,
@@ -69,7 +69,7 @@ const lizzys = new Player({
         type: GameObjectTypes.PLAYER,
       },
     },
-    maxSpeed: 3,
+    maxSpeed: 0.9,
   },
   name: 'Lizzys',
 });

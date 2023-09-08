@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 2.1.0 (2023-09-08)
+
+
+### Features
+
+* add url to readme ([d72bf11](https://github.com/servo98/servo98.github.io/commit/d72bf11a3633a25f904f456e1416f17e6ec91334))
+
 ## 2.0.0 (2023-09-08)
 
 

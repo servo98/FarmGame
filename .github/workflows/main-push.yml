@@ -50,7 +50,8 @@ jobs:
           git config --global user.name "Your Name"
           git config --global credential.helper store
           git config --global credential.helper 'cache --timeout=3600'
-          git config --global http.https://github.com/.extraheader "AUTHORIZATION: basic ${{ secrets.FORCE_PUSH_TOKEN }}"
+          git config --global core.askpass ""
+          echo "machine github.com login your-username password ${{ secrets.FORCE_PUSH_TOKEN }}" > ~/.netrc
 
       - name: Ejecuta standard-version
         run: npm run release

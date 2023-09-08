@@ -1,6 +1,6 @@
 name: Build and Deploy
 on:
-  pull_request:
+  push:
     branches:
       - main
 
@@ -43,7 +43,7 @@ jobs:
 
       - name: Run release
         run: npm run release
-        
+
       - name: Push changes to main
         run: |
           git config user.name "GitHub Actions"

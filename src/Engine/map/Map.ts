@@ -139,7 +139,6 @@ export default class Map implements IRenderable {
         ),
       };
     });
-    // .sort((a: TileSet, b: TileSet) => b.firstgid - a.firstgid);
   }
 
   private loadTilesFromLayers() {

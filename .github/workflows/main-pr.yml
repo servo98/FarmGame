@@ -7,7 +7,6 @@ on:
 jobs:
   install:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout del código fuente
         uses: actions/checkout@v2
@@ -20,11 +19,36 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Instalar dependencias
+      - name: Install dependencies
         run: npm install
 
-      - name: Ejecutar npm run lint
+  lint:
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código fuente
+        uses: actions/checkout@v2
+
+      - name: Restore cached node_modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Run lint
         run: npm run lint
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código fuente
+        uses: actions/checkout@v2
+
+      - name: Restore cached node_modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
       - name: Run tests
-        run: npm test
+        run: npm run test

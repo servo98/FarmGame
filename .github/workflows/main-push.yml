@@ -44,6 +44,11 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
+      - name: Configure Git author
+        run: |
+          git config user.email "actions-bot@example.com"
+          git config user.name "GitHub Actions"
+
       - name: Ejecuta standard-version
         run: npm run release
 

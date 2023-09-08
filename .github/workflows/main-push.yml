@@ -40,3 +40,14 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         timeout-minutes: 1
+
+      - name: Run release
+        run: npm run release
+        
+      - name: Push changes to main
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "<>"
+          git add package.json CHANGELOG.md
+          git commit -m "chore(release): Release version"
+          git push origin main

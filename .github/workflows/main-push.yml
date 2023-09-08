@@ -52,11 +52,11 @@ jobs:
           git config --global credential.helper 'cache --timeout=3600'
           git config --global core.askpass ""
           echo "machine github.com login your-username password ${{ secrets.FORCE_PUSH_TOKEN }}" > ~/.netrc
-          run: npm run release
+          npm run release
           git push --follow-tags origin main
 
       # - name: Ejecuta standard-version
-
+      #   run:
       # - name: Push cambios de versión y changelog
       #   run: |
 

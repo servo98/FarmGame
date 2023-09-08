@@ -44,17 +44,12 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
-      - name: Configure Git author
-        run: |
-          git config user.email "actions-bot@example.com"
-          git config user.name "GitHub Actions"
-
       - name: Ejecuta standard-version
         run: npm run release
 
       - name: Push cambios de versión y changelog
         run: |
-          git push https://${{secrets.MY_SECRET_TOKEN}}@github.com/servo98/FarmGame.git main --force
+          git push --follow-tags
         env:
           NODE_AUTH_TOKEN: ${{ secrets.FORCE_PUSH_TOKEN }}
 

@@ -29,6 +29,12 @@ jobs:
       - name: Checkout del código fuente
         uses: actions/checkout@v2
 
+      - name: Restore cached node_modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
       - name: Run lint
         run: npm run lint
   test:
@@ -37,6 +43,12 @@ jobs:
     steps:
       - name: Checkout del código fuente
         uses: actions/checkout@v2
+
+      - name: Restore cached node_modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
       - name: Run tests
         run: npm run test

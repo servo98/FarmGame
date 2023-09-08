@@ -54,7 +54,7 @@ jobs:
 
       - name: Push cambios de versión y changelog
         run: |
-          git push --follow-tags origin main --force
+          git push https://${{secrets.MY_SECRET_TOKEN}}@github.com/servo98/FarmGame.git --force
         env:
           GITHUB_TOKEN: ${{ secrets.FORCE_PUSH_TOKEN }}
 

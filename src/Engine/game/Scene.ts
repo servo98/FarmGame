@@ -4,6 +4,7 @@ import Player from './Player';
 import { default as GameMap } from '../map/Map';
 import { SceneArgsType } from '../types/game/Scene';
 import IRenderable from '../types/game/interfaces/IRenderable';
+import IMovable from '../types/game/interfaces/IMovable';
 
 export default class Scene implements IRenderable {
   loaded: boolean = false;
@@ -65,7 +66,10 @@ export default class Scene implements IRenderable {
       this.player.update();
     }
     this.gameObjects.forEach((object) => {
-      object.update();
+      if ('update' in object) {
+        const movableObject = object as IMovable;
+        movableObject.update();
+      }
     });
   }
 

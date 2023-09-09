@@ -82,17 +82,7 @@ export default class Map implements IRenderable {
       layer.forEach((row) => {
         row.forEach((tile) => {
           if (!tile) return;
-          ctx.drawImage(
-            tile.image as HTMLImageElement,
-            tile.sx,
-            tile.sy,
-            tile.width,
-            tile.height,
-            tile.x,
-            tile.y,
-            tile.width,
-            tile.height,
-          );
+          tile.render(ctx);
         });
       });
     });
@@ -167,23 +157,6 @@ export default class Map implements IRenderable {
         });
       });
     });
-
-    // this.layers.forEach((layer) => {
-    //   let tempLayer: Tile[][] = [];
-    //   for (let y = 0; y < this.height; y++) {
-    //     let tempRow: Tile[] = [];
-    //     for (let x = 0; x < this.width; x++) {
-    //       let tempData = layer.data[this.matrixToArrayIndex(x, y)];
-    //       let tempTileSet =
-    //         this.tileSets[this.getTileSetIndexFromData(layer.data[y][x])];
-    //       let sourceCoords = this.dataToCoords(tempData, tempTileSet.firstgid);
-
-    //       tempRow.push();
-    //     }
-    //     tempLayer.push(tempRow);
-    //   }
-    //   this.tiles.push(tempLayer);
-    // });
   }
 
   private arrayToMatrix(arr: number[]): number[][] {

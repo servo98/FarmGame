@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/servo98/servo98.github.io/compare/v2.1.3...v2.2.0) (2023-09-12)
+
+
+### Features
+
+* add metadata to html ([bc29ba5](https://github.com/servo98/servo98.github.io/commit/bc29ba56f435f0cad0ba0b8e4657cba7cdbfd1f8))
+
 ### [2.1.3](https://github.com/servo98/servo98.github.io/compare/v2.1.2...v2.1.3) (2023-09-12)
 
 

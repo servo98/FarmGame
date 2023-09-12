@@ -7,6 +7,22 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Bug Fixes
 
+* add color to release script ([90f9995](https://github.com/servo98/servo98.github.io/commit/90f9995207c6245274e40538d6d1f9ea047dc015))
+* added post push hook ([c1a4bb6](https://github.com/servo98/servo98.github.io/commit/c1a4bb60c637296d91c68ea235456ec8e371f361))
+* bump version post commit ([6a57aa1](https://github.com/servo98/servo98.github.io/commit/6a57aa1c5103148987152c91a79c7860e9f57680))
+* command ([dbfe10f](https://github.com/servo98/servo98.github.io/commit/dbfe10f5ef90764bc3f2f40c6808bee00b32527b))
+* delete color ([fad49e7](https://github.com/servo98/servo98.github.io/commit/fad49e720cf34e3ff12d4b66cdf212aa9b27a18d))
+* disable post commit hook ([a8dfca6](https://github.com/servo98/servo98.github.io/commit/a8dfca6a89195346050430e8ff799e43ac222774))
+* recursivity ([2cd2b8a](https://github.com/servo98/servo98.github.io/commit/2cd2b8a124360984870efcd4c9ab3e3459b6f3b6))
+* set color on linux os ([e1bc185](https://github.com/servo98/servo98.github.io/commit/e1bc185ee18e9350e2aff455367ba63271c24df2))
+* to set ([f43ed4b](https://github.com/servo98/servo98.github.io/commit/f43ed4b75c90d59dcb887c771aec6c3e3cb3f20f))
+* to set ([f74afa3](https://github.com/servo98/servo98.github.io/commit/f74afa3dd3be7c8adadc5b6626126cc3e78bc265))
+
+### [2.1.3](https://github.com/servo98/servo98.github.io/compare/v2.1.2...v2.1.3) (2023-09-12)
+
+
+### Bug Fixes
+
 * added post push hook ([c1a4bb6](https://github.com/servo98/servo98.github.io/commit/c1a4bb60c637296d91c68ea235456ec8e371f361))
 * bump version post commit ([6a57aa1](https://github.com/servo98/servo98.github.io/commit/6a57aa1c5103148987152c91a79c7860e9f57680))
 * command ([dbfe10f](https://github.com/servo98/servo98.github.io/commit/dbfe10f5ef90764bc3f2f40c6808bee00b32527b))

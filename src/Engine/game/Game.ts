@@ -1,6 +1,7 @@
 import Scene from './Scene';
 import Time from '../utils/Time';
 import Control from './Controls';
+import { file } from '../utils';
 
 enum GAME_STATES {
   'LOADING',
@@ -32,9 +33,12 @@ export default class Game {
   }
 
   async init() {
-    this.control.load();
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
+    const graphicJsonConfig = await file.loadJsonFile(
+      'resources/CONFIG/graphics.json',
+    );
+    await this.control.load();
+    this.canvas.width = graphicJsonConfig.window.width;
+    this.canvas.height = graphicJsonConfig.window.height;
     this.ctx.imageSmoothingEnabled = false;
     await this.scene.load();
     this.requestAnimationFrameId = requestAnimationFrame(this.loop.bind(this));
@@ -47,7 +51,11 @@ export default class Game {
     this.scene.update();
   }
   private render(ctx: CanvasRenderingContext2D) {
-    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    ctx.rect(0, 0, this.canvas.width, this.canvas.height);
+    ctx.fillStyle = 'black';
+    ctx.fill();
+
+    // ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.scene.render(ctx);
   }
 

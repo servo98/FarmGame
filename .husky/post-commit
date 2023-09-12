@@ -1,6 +1,16 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+
+# Determine the current operating system
+if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
+  # Windows
+  export FORCE_COLOR=true
+else
+  # Linux or other Unix-like systems
+  FORCE_COLOR=true npm run release
+fi
+
 mv .husky/post-commit .husky/post-commit-disabled
 npm run release
 mv .husky/post-commit-disabled .husky/post-commit

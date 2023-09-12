@@ -1,6 +1,6 @@
 {
-  "name": "ts-webpack-html-template",
-  "version": "21.0.0",
+  "name": "farm-game",
+  "version": "2.1.2",
   "description": "",
   "main": "index.js",
   "scripts": {

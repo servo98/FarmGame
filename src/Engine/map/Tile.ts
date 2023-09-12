@@ -15,11 +15,18 @@ export default class Tile extends GameObject {
     this.sx = args.sx;
     this.sy = args.sy;
   }
-  update(): void {
-    throw new Error('Method not implemented.');
-  }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   render(ctx: CanvasRenderingContext2D): void {
-    throw new Error('Method not implemented.');
+    ctx.drawImage(
+      this.image as HTMLImageElement,
+      this.sx,
+      this.sy,
+      this.width,
+      this.height,
+      this.x,
+      this.y,
+      this.width,
+      this.height,
+    );
   }
 }

@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+mv .husky/post-commit .husky/post-commit-disabled
+npm run release
+mv .husky/post-commit-disabled .husky/post-commit

@@ -7,17 +7,20 @@ import {
   TileSet,
   MapArgsType,
   RawLayer,
-} from '../types/map/Map';
+  TileSetRaw,
+} from '../types/map/GameMap';
 import IRenderable from '../types/game/interfaces/IRenderable';
+import AnimatedTile from './AnimatedTile';
+import { AnimationType } from '../types/object/AnimatedObject';
 
-export default class Map implements IRenderable {
+export default class GameMap implements IRenderable {
   loaded: boolean = false;
   name: string;
   src: string;
   width: number = 0;
   height: number = 0;
   layers: Layer[] = [];
-  tiles: (Tile | null)[][][] = [];
+  tiles: (Tile | AnimatedTile | null)[][][] = [];
   tileOptions: TileOptions = {
     height: 0,
     width: 0,
@@ -48,11 +51,21 @@ export default class Map implements IRenderable {
         height: mapFile.tileheight,
       };
 
-      this.changeTileSetsFileNames(mapFile.tilesets);
+      this.tileSets = await this.changeTileSetsFileNames(mapFile.tilesets);
+
+      const rawTileSetsArrayFromFile = this.tileSets.map((tileSet: TileSet) => {
+        return this.getTsjFile(tileSet.source);
+      }) as [Promise<TileSetRaw>];
+
+      const tileSetArrayFromFile: [TileSetRaw] = await Promise.all(
+        rawTileSetsArrayFromFile,
+      );
 
       //leer tilesets images
-      const imagePromises = this.tileSets?.map((tileSet) => {
-        return file.loadImage(`resources/TILE/${tileSet.source}`);
+      const imagePromises = tileSetArrayFromFile.map((tileSet) => {
+        return file.loadImage(
+          `resources/TILE/${tileSet.image.replace('../', '')}`,
+        );
       });
 
       const imagesArray = await Promise.all(
@@ -60,10 +73,22 @@ export default class Map implements IRenderable {
       );
 
       this.tileSets = this.tileSets?.map((tileSet, index) => {
-        return {
+        const preTileSet = {
           ...tileSet,
           img: imagesArray[index],
         };
+
+        if ('animation' in tileSetArrayFromFile[index].tiles[0]) {
+          return {
+            ...preTileSet,
+            animation: {
+              frames: tileSetArrayFromFile[index].columns,
+              time: 200,
+            },
+          };
+        } else {
+          return preTileSet;
+        }
       });
 
       this.loadTilesFromLayers();
@@ -82,17 +107,7 @@ export default class Map implements IRenderable {
       layer.forEach((row) => {
         row.forEach((tile) => {
           if (!tile) return;
-          ctx.drawImage(
-            tile.image as HTMLImageElement,
-            tile.sx,
-            tile.sy,
-            tile.width,
-            tile.height,
-            tile.x,
-            tile.y,
-            tile.width,
-            tile.height,
-          );
+          tile.render(ctx);
         });
       });
     });
@@ -127,16 +142,16 @@ export default class Map implements IRenderable {
     return coords;
   }
 
-  private changeTileSetsFileNames(tilesets: TileSet[]) {
+  private getTsjFile(src: string) {
+    return file.loadJsonFile(`resources/${src.replace('../', '')}`);
+  }
+
+  private async changeTileSetsFileNames(tilesets: TileSet[]) {
     //TODO case when file anem doesn't have / or \
-    this.tileSets = tilesets.map((tileset: TileSet) => {
-      const sourceSplitted = tileset.source.split('/');
+    return tilesets.map((tileset: TileSet) => {
       return {
         firstgid: tileset.firstgid,
-        source: sourceSplitted[sourceSplitted.length - 1].replace(
-          new RegExp('tsj', 'g'),
-          'png',
-        ),
+        source: tileset.source,
       };
     });
   }
@@ -150,40 +165,45 @@ export default class Map implements IRenderable {
 
           const sourceCoords = this.dataToCoords(tileNumber, tempTileSet);
 
-          return tileNumber != 0
-            ? new Tile({
-                gameObject: {
-                  height: this.tileOptions.height,
-                  width: this.tileOptions.width,
-                  id: layer.name + ': ' + x + ', ' + y,
-                  image: tempTileSet.img as HTMLImageElement,
-                  x: x * this.tileOptions.width,
-                  y: y * this.tileOptions.height,
-                },
-                sx: sourceCoords.x,
-                sy: sourceCoords.y,
-              })
-            : null;
+          if (tileNumber == 0) {
+            return null;
+          }
+
+          const gameObject = {
+            height: this.tileOptions.height,
+            id: layer.name + ': ' + x + ', ' + y,
+            width: this.tileOptions.width,
+            image: tempTileSet.img as HTMLImageElement,
+            x: x * this.tileOptions.width,
+            y: y * this.tileOptions.height,
+          };
+
+          if (tempTileSet.animation) {
+            const animations = new Map<string, AnimationType>();
+            animations.set('animated_block', {
+              frames: tempTileSet.animation.frames,
+              index: 1,
+              name: 'animated_block',
+              time: 1000,
+            });
+            return new AnimatedTile({
+              animatedObject: {
+                animations: animations,
+                gameObject,
+              },
+              sx: sourceCoords.x,
+              sy: sourceCoords.y,
+            });
+          } else {
+            return new Tile({
+              gameObject,
+              sx: sourceCoords.x,
+              sy: sourceCoords.y,
+            });
+          }
         });
       });
     });
-
-    // this.layers.forEach((layer) => {
-    //   let tempLayer: Tile[][] = [];
-    //   for (let y = 0; y < this.height; y++) {
-    //     let tempRow: Tile[] = [];
-    //     for (let x = 0; x < this.width; x++) {
-    //       let tempData = layer.data[this.matrixToArrayIndex(x, y)];
-    //       let tempTileSet =
-    //         this.tileSets[this.getTileSetIndexFromData(layer.data[y][x])];
-    //       let sourceCoords = this.dataToCoords(tempData, tempTileSet.firstgid);
-
-    //       tempRow.push();
-    //     }
-    //     tempLayer.push(tempRow);
-    //   }
-    //   this.tiles.push(tempLayer);
-    // });
   }
 
   private arrayToMatrix(arr: number[]): number[][] {

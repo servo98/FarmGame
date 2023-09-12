@@ -1,8 +1,9 @@
 import { Vec2D } from '../types';
+import IMovable from '../types/game/interfaces/IMovable';
 import { EntityArgsType } from '../types/object/Entity';
 import AnimatedObject from './AnimatedObject';
 
-export default class Entity extends AnimatedObject {
+export default class Entity extends AnimatedObject implements IMovable {
   currentSpeed: Vec2D;
   maxSpeed: number;
   constructor(args: EntityArgsType) {

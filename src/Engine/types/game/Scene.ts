@@ -1,5 +1,5 @@
 import Player from '../../game/Player';
-import { default as GameMap } from '../../map/Map';
+import GameMap from '../../map/GameMap';
 export type SceneArgsType = {
   map: GameMap;
   name: string;

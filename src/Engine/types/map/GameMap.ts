@@ -21,5 +21,24 @@ export type TileOptions = {
 export type TileSet = {
   firstgid: number;
   source: string;
+  animation?: {
+    frames: number;
+    time: number;
+  };
   img?: HTMLImageElement;
+};
+
+type RawTile = {
+  id: number;
+  probability: number;
+};
+
+type AnimationTile = {
+  animation: [RawTile];
+};
+
+export type TileSetRaw = {
+  image: string;
+  tiles: [AnimationTile | RawTile];
+  columns: number;
 };

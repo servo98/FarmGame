@@ -10,13 +10,21 @@ export default abstract class AnimatedObject extends GameObject {
   lastAnimationFrameStamp: number;
   currentAnimationFrame: number = 1;
   constructor(args: AnimatedObjectArgs) {
-    if (!args.animations.has('idle_down')) {
-      throw Error('AnimatedObject animations must have idle_down animation');
+    let firstAnimation: AnimationType | undefined = undefined;
+
+    for (const [_, animation] of args.animations) {
+      firstAnimation = animation;
+      break;
     }
+
     super(args.gameObject);
 
     this.animations = args.animations;
-    this.currentAnimation = args.animations.get('idle_down') as AnimationType;
+
+    if (!firstAnimation) {
+      throw new Error('Animations arg must have at least 1 animation');
+    }
+    this.currentAnimation = firstAnimation;
     this.lastAnimationFrameStamp = Date.now();
     this.currentAnimationFrame = 1;
   }

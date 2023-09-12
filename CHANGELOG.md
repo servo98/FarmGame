@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.1](https://github.com/servo98/servo98.github.io/compare/v3.0.2...v2.1.1) (2023-09-12)
+
+
+### Bug Fixes
+
+* no verify on push hook ([3ba41f8](https://github.com/servo98/servo98.github.io/commit/3ba41f817acc037ead2437edc0f7cc8820e78d11))
+
 ### [3.0.2](https://github.com/servo98/servo98.github.io/compare/v3.0.1...v3.0.2) (2023-09-12)
 
 ### [3.0.1](https://github.com/servo98/servo98.github.io/compare/v3.0.0...v3.0.1) (2023-09-12)

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/servo98/servo98.github.io/compare/v3.0.0...v3.1.0) (2023-09-12)
+
+
+### Features
+
+* control update closes [#14](https://github.com/servo98/servo98.github.io/issues/14) ([00ef2fa](https://github.com/servo98/servo98.github.io/commit/00ef2fac0d9c620ab11514f6319170b7ca629711))
+
 ## 3.0.0 (2023-09-12)
 
 

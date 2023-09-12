@@ -1,7 +1,7 @@
 import Control from './Controls';
 import GameObject from '../objet/GameObject';
 import Player from './Player';
-import { default as GameMap } from '../map/Map';
+import GameMap from '../map/GameMap';
 import { SceneArgsType } from '../types/game/Scene';
 import IRenderable from '../types/game/interfaces/IRenderable';
 import IMovable from '../types/game/interfaces/IMovable';

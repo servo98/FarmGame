@@ -57,11 +57,11 @@
   "tilesets": [
     {
       "firstgid": 1,
-      "source": "../tsx/ligh_tiles.tsj"
+      "source": "../TILE/tsj/ligh_tiles.tsj"
     },
     {
       "firstgid": 463,
-      "source": "../tsx/water.tsj"
+      "source": "../TILE/tsj/water.tsj"
     }
   ],
   "tilewidth": 16,

@@ -5,7 +5,7 @@
 # Determine the current operating system
 if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
   # Windows
-  export FORCE_COLOR=true
+  set FORCE_COLOR=true
 else
   # Linux or other Unix-like systems
   FORCE_COLOR=true npm run release

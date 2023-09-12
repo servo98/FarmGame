@@ -18,7 +18,7 @@
 # <a id="introduction"></a>Introduction
 
 ## <a id="description"></a>Description ✨
-Canvas 2D context game made for _fun_ 👽
+Canvas 2D context game made for _fun_ 
 
 # <a id="installation"></a>Installation 💻
   Follow the next steps

@@ -13,7 +13,7 @@
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "prepare": "husky install",
     "test": "echo \"Ok: no test specified\" && exit 0",
-    "release": "standard-version --no-verify",
+    "release": "FORCE_COLOR=true standard-version --no-verify",
     "postinstall": "git config --global push.default current && echo 'Git default branch configured'"
   },
   "keywords": [],

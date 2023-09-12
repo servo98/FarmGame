@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-mv .git/hooks/post-commit .git/hooks/post-commit-disabled
+mv .husky/post-commit .husky/post-commit-disabled
 npm run release
-mv .git/hooks/post-commit-disabled .git/hooks/post-commit
+mv .husky/post-commit-disabled .husky/post-commit

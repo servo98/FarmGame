@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/servo98/servo98.github.io/compare/v1.1.0...v3.0.0) (2023-09-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* animation tile added and layer from tsj
+
+### Features
+
+* animation tile added and layer from tsj ([c693974](https://github.com/servo98/servo98.github.io/commit/c6939740effb39a87938c0c53e785f7ec3e2bddb))
+
 ## [2.0.0](https://github.com/servo98/servo98.github.io/compare/v1.1.0...v2.0.0) (2023-09-12)
 
 

@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.3](https://github.com/servo98/servo98.github.io/compare/v2.1.2...v2.1.3) (2023-09-12)
+
+
+### Bug Fixes
+
+* added post push hook ([c1a4bb6](https://github.com/servo98/servo98.github.io/commit/c1a4bb60c637296d91c68ea235456ec8e371f361))
+* bump version post commit ([6a57aa1](https://github.com/servo98/servo98.github.io/commit/6a57aa1c5103148987152c91a79c7860e9f57680))
+* command ([dbfe10f](https://github.com/servo98/servo98.github.io/commit/dbfe10f5ef90764bc3f2f40c6808bee00b32527b))
+* disable post commit hook ([a8dfca6](https://github.com/servo98/servo98.github.io/commit/a8dfca6a89195346050430e8ff799e43ac222774))
+* recursivity ([2cd2b8a](https://github.com/servo98/servo98.github.io/commit/2cd2b8a124360984870efcd4c9ab3e3459b6f3b6))
+
 ## 21.0.0 (2023-09-12)
 
 

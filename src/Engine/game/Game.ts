@@ -25,8 +25,15 @@ export default class Game {
       'resources/CONFIG/graphics.json',
     );
     await this.control.load();
-    this.canvas.width = graphicJsonConfig.window.width;
-    this.canvas.height = graphicJsonConfig.window.height;
+    console.log(graphicJsonConfig.window.fullScreen);
+
+    if (graphicJsonConfig.window.fullScreen) {
+      this.canvas.width = window.innerWidth;
+      this.canvas.height = window.innerHeight;
+    } else {
+      this.canvas.width = graphicJsonConfig.window.width;
+      this.canvas.height = graphicJsonConfig.window.height;
+    }
     this.ctx.imageSmoothingEnabled = false;
     await this.scene.load();
     this.requestAnimationFrameId = requestAnimationFrame(this.loop.bind(this));

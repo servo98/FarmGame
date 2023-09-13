@@ -6,19 +6,22 @@ import { SceneArgsType } from '../types/game/Scene';
 import IRenderable from '../types/game/interfaces/IRenderable';
 import IMovable from '../types/game/interfaces/IMovable';
 import IPlayable from '../types/game/interfaces/IPlayable';
+import Camera from './Camera';
 
 export default class Scene implements IRenderable, IPlayable {
   loaded: boolean = false;
   name: string;
   gameObjects: Map<string, GameObject>;
   map: GameMap;
-  player: Player;
+  player?: Player;
+  camera: Camera;
   //TODO interface UI
   constructor(args: SceneArgsType) {
     this.name = args.name;
     this.gameObjects = new Map<string, GameObject>();
-    this.player = args.player;
+    this.player = args.player ?? undefined;
     this.map = args.map;
+    this.camera = args.camera;
   }
 
   async load(): Promise<boolean> {
@@ -56,16 +59,18 @@ export default class Scene implements IRenderable, IPlayable {
     );
   }
 
-  input(controll: Control) {
+  input(control: Control) {
     if (this.player) {
-      this.player.input(controll);
+      this.player.input(control);
     }
+    this.camera.input(control);
   }
 
   update() {
     if (this.player) {
       this.player.update();
     }
+    this.camera.update();
     this.gameObjects.forEach((object) => {
       if ('update' in object) {
         const movableObject = object as IMovable;
@@ -77,12 +82,12 @@ export default class Scene implements IRenderable, IPlayable {
   render(ctx: CanvasRenderingContext2D) {
     if (!this.loaded) return;
 
-    this.map.render(ctx);
+    this.map.render(ctx, this.camera);
     this.gameObjects.forEach((object) => {
-      object.render(ctx);
+      object.render(ctx, this.camera);
     });
     if (this.player) {
-      this.player.render(ctx);
+      this.player.render(ctx, this.camera);
     }
     //TODO: render interface
   }

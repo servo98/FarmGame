@@ -1,3 +1,4 @@
+import Camera from '../game/Camera';
 import {
   AnimationType,
   AnimatedObjectArgs,
@@ -28,17 +29,17 @@ export default abstract class AnimatedObject extends GameObject {
     this.currentAnimationFrame = 1;
   }
 
-  render(ctx: CanvasRenderingContext2D) {
+  render(ctx: CanvasRenderingContext2D, camera: Camera) {
     ctx.drawImage(
       this.image as HTMLImageElement,
       this.width * this.calculateAnimationFrame() - this.width,
       this.height * this.currentAnimation.index - this.height,
       this.width,
       this.height,
-      this.x,
-      this.y,
-      this.width,
-      this.height,
+      (this.x - camera.x) / camera.zoom,
+      (this.y - camera.y) / camera.zoom,
+      this.width / camera.zoom,
+      this.height / camera.zoom,
     );
   }
 

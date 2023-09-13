@@ -1,3 +1,4 @@
+import Camera from '../game/Camera';
 import GameObject from '../objet/GameObject';
 import { TileArgsType } from '../types/map/Tile';
 import { GameObjectTypes } from '../types/object/GameObject';
@@ -16,17 +17,17 @@ export default class Tile extends GameObject {
     this.sy = args.sy;
   }
 
-  render(ctx: CanvasRenderingContext2D): void {
+  render(ctx: CanvasRenderingContext2D, camera: Camera): void {
     ctx.drawImage(
       this.image as HTMLImageElement,
       this.sx,
       this.sy,
       this.width,
       this.height,
-      this.x,
-      this.y,
-      this.width,
-      this.height,
+      (this.x - camera.x) / camera.zoom,
+      (this.y - camera.y) / camera.zoom,
+      this.width / camera.zoom,
+      this.height / camera.zoom,
     );
   }
 }

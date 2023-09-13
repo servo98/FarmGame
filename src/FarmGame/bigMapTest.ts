@@ -1,3 +1,4 @@
+import Camera from '../Engine/game/Camera';
 import Control from '../Engine/game/Controls';
 import Game from '../Engine/game/Game';
 import Player from '../Engine/game/Player';
@@ -64,8 +65,8 @@ const player = new Player({
         width: 48,
         id: 'lizzys',
         src: 'lizzys.png',
-        x: 50,
-        y: 50,
+        x: 200,
+        y: 200,
         type: GameObjectTypes.PLAYER,
       },
     },
@@ -81,10 +82,20 @@ const map = new GameMap({
   name: 'test con textura test',
 });
 
+const camera = new Camera({
+  x: 0,
+  y: 0,
+  height: 760,
+  width: 1600,
+  maxSpeed: 1,
+  zoom: 3,
+});
+
 const scene = new Scene({
   map,
   name: 'SCENE_TEST',
   player,
+  camera,
 });
 
 const control = new Control();

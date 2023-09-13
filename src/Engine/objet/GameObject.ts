@@ -5,6 +5,7 @@ import {
   GameObjectTypes,
   GameObjectArgsType,
 } from '../types/object/GameObject';
+import Camera from '../game/Camera';
 
 export default abstract class GameObject implements IRenderable {
   id: string;
@@ -41,5 +42,5 @@ export default abstract class GameObject implements IRenderable {
       return false;
     }
   }
-  abstract render(ctx: CanvasRenderingContext2D): void;
+  abstract render(ctx: CanvasRenderingContext2D, camera: Camera): void;
 }

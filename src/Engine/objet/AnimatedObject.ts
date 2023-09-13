@@ -17,25 +17,22 @@ export default abstract class AnimatedObject extends GameObject {
       break;
     }
 
-    super(args.gameObject);
-
-    this.animations = args.animations;
-
     if (!firstAnimation) {
       throw new Error('Animations arg must have at least 1 animation');
     }
+
+    super(args.gameObject);
+    this.animations = args.animations;
     this.currentAnimation = firstAnimation;
     this.lastAnimationFrameStamp = Date.now();
     this.currentAnimationFrame = 1;
   }
 
   render(ctx: CanvasRenderingContext2D) {
-    const currentAnimationIndex = this.currentAnimation.index;
-
     ctx.drawImage(
       this.image as HTMLImageElement,
       this.width * this.calculateAnimationFrame() - this.width,
-      this.height * currentAnimationIndex - this.height,
+      this.height * this.currentAnimation.index - this.height,
       this.width,
       this.height,
       this.x,

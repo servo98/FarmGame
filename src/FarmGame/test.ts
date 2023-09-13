@@ -69,7 +69,7 @@ const player = new Player({
         type: GameObjectTypes.PLAYER,
       },
     },
-    maxSpeed: 3,
+    maxSpeed: 1,
   },
   name: 'Lizzys',
 });

@@ -6,3 +6,15 @@ export type EntityArgsType = {
   maxSpeed?: number;
   animatedObject: AnimatedObjectArgs;
 };
+export enum ENTITY_DIRECTION {
+  UP = 'UP',
+  DOWN = 'DOWN',
+  RIGHT = 'RIGHT',
+  LEFT = 'LEFT',
+}
+
+export enum ENTITY_ACTION {
+  WALK = 'WALK',
+  RUN = 'RUN',
+  IDLE = 'IDLE',
+}

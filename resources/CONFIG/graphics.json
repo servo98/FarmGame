@@ -1,5 +1,6 @@
 {
   "window": {
+    "fullScreen": true,
     "width": 700,
     "height": 500
   }

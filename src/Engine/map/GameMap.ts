@@ -12,6 +12,7 @@ import {
 import IRenderable from '../types/game/interfaces/IRenderable';
 import AnimatedTile from './AnimatedTile';
 import { AnimationType } from '../types/object/AnimatedObject';
+import Camera from '../game/Camera';
 
 export default class GameMap implements IRenderable {
   loaded: boolean = false;
@@ -26,20 +27,22 @@ export default class GameMap implements IRenderable {
     width: 0,
   };
   tileSets: TileSet[] = [];
+  multipliedWidth: number;
+  multipliedHeight: number;
 
   constructor(args: MapArgsType) {
     this.name = args.name;
     this.src = args.src;
+    this.multipliedWidth = 0;
+    this.multipliedHeight = 0;
   }
 
   async load(): Promise<boolean> {
     try {
       //leer tmj file
       const mapFile = await file.loadJsonFile(`resources/MAP/${this.src}`);
-
       this.width = mapFile.width;
       this.height = mapFile.height;
-
       this.layers = mapFile.layers.map((layer: RawLayer) => {
         return {
           data: this.arrayToMatrix(layer.data),
@@ -50,6 +53,9 @@ export default class GameMap implements IRenderable {
         width: mapFile.tilewidth,
         height: mapFile.tileheight,
       };
+
+      this.multipliedWidth = mapFile.width * mapFile.tilewidth;
+      this.multipliedHeight = mapFile.height * mapFile.tileheight;
 
       this.tileSets = await this.changeTileSetsFileNames(mapFile.tilesets);
 
@@ -78,7 +84,10 @@ export default class GameMap implements IRenderable {
           img: imagesArray[index],
         };
 
-        if ('animation' in tileSetArrayFromFile[index].tiles[0]) {
+        if (
+          tileSetArrayFromFile[index].tiles &&
+          'animation' in tileSetArrayFromFile[index].tiles[0]
+        ) {
           return {
             ...preTileSet,
             animation: {
@@ -90,10 +99,9 @@ export default class GameMap implements IRenderable {
           return preTileSet;
         }
       });
-
       this.loadTilesFromLayers();
-
       this.loaded = true;
+
       return this.loaded;
     } catch (error) {
       console.error('Error loading map', this.name, error);
@@ -101,16 +109,43 @@ export default class GameMap implements IRenderable {
     }
   }
 
-  render(ctx: CanvasRenderingContext2D) {
+  render(ctx: CanvasRenderingContext2D, camera: Camera) {
     if (!this.loaded) return;
-    this.tiles.forEach((layer) => {
-      layer.forEach((row) => {
-        row.forEach((tile) => {
-          if (!tile) return;
-          tile.render(ctx);
-        });
-      });
-    });
+
+    // this.tiles.forEach((layer) => {
+    //   layer.forEach((row) => {
+    //     row.forEach((tile) => {
+    //       if (!tile) return;
+    //       tile.render(ctx);
+    //     });
+    //   });
+    // });
+
+    let fromX: number = Math.floor(camera.x / this.tileOptions.width);
+    let fromY: number = Math.floor(camera.y / this.tileOptions.height);
+
+    fromX = fromX < 0 ? 0 : fromX;
+    fromY = fromY < 0 ? 0 : fromY;
+
+    let toX: number = camera.x + camera.width;
+    let toY: number = camera.y + camera.height;
+
+    toX = toX > this.multipliedWidth ? this.multipliedWidth : toX;
+    toY = toY > this.multipliedHeight ? this.multipliedHeight : toY;
+
+    toX = Math.floor(toX / this.tileOptions.width);
+    toY = Math.floor(toY / this.tileOptions.height);
+
+    for (let z = 0; z < this.tiles.length; z++) {
+      for (let y = fromY; y < toY; y++) {
+        for (let x = fromX; x < toX; x++) {
+          const tile = this.tiles[z][y][x];
+          if (tile) {
+            tile.render(ctx, camera);
+          }
+        }
+      }
+    }
   }
 
   private getTileSetIndexFromData(id: number): number {

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.1.0](https://github.com/servo98/servo98.github.io/compare/v6.0.0...v6.1.0) (2023-09-13)
+
+
+### Features
+
+* added camear system with zoom ([82c69ed](https://github.com/servo98/servo98.github.io/commit/82c69ed433642179a6f0eb5ba33e6292adea3bad))
+
 ## 6.0.0 (2023-09-13)
 
 

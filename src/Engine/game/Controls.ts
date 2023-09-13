@@ -1,12 +1,19 @@
-import { MOVEMENT, IsPressedType, JsonControl } from '../types/game/Control';
+import {
+  MOVEMENT,
+  IsPressedType,
+  JsonControl,
+  ControlType,
+} from '../types/game/Control';
 import { file } from '../utils';
 
 export default class Control {
   keys: Map<MOVEMENT, IsPressedType>;
   gamePadConnected: boolean;
+  currentControlType: ControlType;
   constructor() {
     this.keys = new Map<MOVEMENT, IsPressedType>();
     this.gamePadConnected = false;
+    this.currentControlType = ControlType.KEYBOARD;
   }
 
   async load() {
@@ -44,6 +51,8 @@ export default class Control {
 
     //load controlls
     window.addEventListener('keydown', (event) => {
+      this.currentControlType = ControlType.KEYBOARD;
+
       const temporalKey = this.keyToMOVEMENT(event.key);
       if (!temporalKey) return;
       const temp = this.keys.get(temporalKey) as IsPressedType;
@@ -59,18 +68,18 @@ export default class Control {
       this.keys.set(temporalKey, temp);
     });
 
-    window.addEventListener('gamepadconnected', (event) => {
-      console.log(`Gamepad connected: ${event.gamepad.id}`);
-      console.log(event.gamepad);
+    window.addEventListener('gamepadconnected', (_) => {
+      //TODO: pop up notice
+      // console.log(`Gamepad connected: ${event.gamepad.id}`);
+      // console.log(event.gamepad);
 
       this.gamePadConnected = true;
     });
 
-    window.addEventListener('gamepaddisconnected', (event) => {
-      console.log(`Gamepad disconected: ${event.gamepad.id}`);
+    window.addEventListener('gamepaddisconnected', (_) => {
+      // console.log(`Gamepad disconected: ${event.gamepad.id}`);
       this.gamePadConnected = false;
     });
-    console.log(this.keys);
   }
 
   input() {
@@ -104,13 +113,21 @@ export default class Control {
       const rightStickY = gamepad.axes[3];
 
      */
+
+    let wasPadTouched = false;
     gamepad.buttons.forEach((button, index) => {
       const temporalKey = this.buttonToMovement(index);
       if (!temporalKey) return;
-      const temp = this.keys.get(temporalKey) as IsPressedType;
-      temp.isPressed = button.pressed;
-      this.keys.set(temporalKey, temp);
+      wasPadTouched = wasPadTouched || button.touched;
+      if (this.currentControlType === ControlType.GAMEPAD) {
+        const temp = this.keys.get(temporalKey) as IsPressedType;
+        temp.isPressed = button.pressed;
+        this.keys.set(temporalKey, temp);
+      }
     });
+    if (wasPadTouched) {
+      this.currentControlType = ControlType.GAMEPAD;
+    }
 
     // if (gamepad.axes[0] < -0.8) {
     //   console.log('LEFT');

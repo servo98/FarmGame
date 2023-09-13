@@ -4,10 +4,6 @@ import Control from './Controls';
 import { file } from '../utils';
 import { GAME_STATES, GameArgsType } from '../types/game/Game';
 
-const gamepads = navigator.getGamepads();
-
-console.log(gamepads[0]);
-
 export default class Game {
   state: GAME_STATES;
   scene: Scene;

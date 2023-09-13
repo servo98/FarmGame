@@ -19,3 +19,8 @@ export enum MOVEMENT {
   LEFT = 'LEFT',
   RIGHT = 'RIGHT',
 }
+
+export enum ControlType {
+  KEYBOARD = 'KEYBOARD',
+  GAMEPAD = 'GAMEPAD',
+}

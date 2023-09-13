@@ -2,19 +2,11 @@ import Scene from './Scene';
 import Time from '../utils/Time';
 import Control from './Controls';
 import { file } from '../utils';
+import { GAME_STATES, GameArgsType } from '../types/game/Game';
 
-enum GAME_STATES {
-  'LOADING',
-  'MAIN_MANU',
-  'PAUSE',
-  'INGAME',
-}
+const gamepads = navigator.getGamepads();
 
-type GameArgsType = {
-  canvasId: string;
-  control: Control;
-  initialScene: Scene;
-};
+console.log(gamepads[0]);
 
 export default class Game {
   state: GAME_STATES;
@@ -45,6 +37,7 @@ export default class Game {
   }
 
   private input() {
+    this.control.input();
     this.scene.input(this.control);
   }
   private update() {

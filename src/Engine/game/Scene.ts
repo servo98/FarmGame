@@ -5,8 +5,9 @@ import GameMap from '../map/GameMap';
 import { SceneArgsType } from '../types/game/Scene';
 import IRenderable from '../types/game/interfaces/IRenderable';
 import IMovable from '../types/game/interfaces/IMovable';
+import IPlayable from '../types/game/interfaces/IPlayable';
 
-export default class Scene implements IRenderable {
+export default class Scene implements IRenderable, IPlayable {
   loaded: boolean = false;
   name: string;
   gameObjects: Map<string, GameObject>;

@@ -1,6 +1,14 @@
 {
-  "UP": "w",
-  "DOWN": "s",
-  "LEFT": "a",
-  "RIGHT": "d"
+  "keyboard": {
+    "UP": "w",
+    "DOWN": "s",
+    "LEFT": "a",
+    "RIGHT": "d"
+  },
+  "gamepad": {
+    "UP": 12,
+    "DOWN": 13,
+    "LEFT": 14,
+    "RIGHT": 15
+  }
 }

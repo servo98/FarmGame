@@ -1,16 +1,13 @@
-import Control from './Controls';
-import IPlayable from '../types/game/interfaces/IPlayable';
-import Entity from '../objet/Entity';
-import { PlayerArgsType } from '../types/game/Player';
-import { MOVEMENT } from '../types/game/Control';
-import { ENTITY_ACTION, ENTITY_DIRECTION } from '../types/object/Entity';
+import { MOVEMENT } from '../_types/game/Control';
+import { ENTITY_ACTION, ENTITY_DIRECTION } from '../_types/object/Entity';
+import { PlayerArgs } from '../_types/game/Player';
+import Entity from '../objects/Entity';
+import Control from './Control';
 
-export default class Player extends Entity implements IPlayable {
+export default class Player extends Entity {
   name: string;
-  constructor(args: PlayerArgsType) {
-    super({
-      ...args.entity,
-    });
+  constructor(args: PlayerArgs) {
+    super(args);
     this.name = args.name;
   }
 

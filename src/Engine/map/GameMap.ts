@@ -1,6 +1,4 @@
-import { file } from '../utils/index';
-import Tile from './Tile';
-import { Vec2D } from '../types';
+import { Vec2D } from '../_types';
 import {
   Layer,
   TileOptions,
@@ -8,20 +6,22 @@ import {
   MapArgsType,
   RawLayer,
   TileSetRaw,
-} from '../types/map/GameMap';
-import IRenderable from '../types/game/interfaces/IRenderable';
-import AnimatedTile from './AnimatedTile';
-import { AnimationType } from '../types/object/AnimatedObject';
+} from '../_types/map/GameMap';
+import { AnimationType } from '../_types/object/AnimatedGameObject';
+import { GameObjectTypes } from '../_types/object/GameObject';
 import Camera from '../game/Camera';
+import { file } from '../utils';
+import AnimatedMapObject from './AnimatedMapObject';
+import MapObject from './MapObject';
 
-export default class GameMap implements IRenderable {
+export default class GameMap {
   loaded: boolean = false;
   name: string;
   src: string;
   width: number = 0;
   height: number = 0;
   layers: Layer[] = [];
-  tiles: (Tile | AnimatedTile | null)[][][] = [];
+  tiles: (MapObject | AnimatedMapObject | null)[][][] = [];
   tileOptions: TileOptions = {
     height: 0,
     width: 0,
@@ -204,14 +204,14 @@ export default class GameMap implements IRenderable {
             return null;
           }
 
-          const gameObject = {
-            height: this.tileOptions.height,
-            id: layer.name + ': ' + x + ', ' + y,
-            width: this.tileOptions.width,
-            image: tempTileSet.img as HTMLImageElement,
-            x: x * this.tileOptions.width,
-            y: y * this.tileOptions.height,
-          };
+          // const gameObject = {
+          //   height: this.tileOptions.height,
+          //   id: layer.name + ': ' + x + ', ' + y,
+          //   width: this.tileOptions.width,
+          //   image: tempTileSet.img as HTMLImageElement,
+          //   x: x * this.tileOptions.width,
+          //   y: y * this.tileOptions.height,
+          // };
 
           if (tempTileSet.animation) {
             const animations = new Map<string, AnimationType>();
@@ -221,20 +221,45 @@ export default class GameMap implements IRenderable {
               name: 'animated_block',
               time: 1000,
             });
-            return new AnimatedTile({
-              animatedObject: {
-                animations: animations,
-                gameObject,
-              },
+            return new AnimatedMapObject({
+              height: this.tileOptions.height,
+              id: layer.name + ': ' + x + ', ' + y,
+              width: this.tileOptions.width,
+              image: tempTileSet.img as HTMLImageElement,
+              x: x * this.tileOptions.width,
+              y: y * this.tileOptions.height,
+              animations,
+              src: 'NA',
               sx: sourceCoords.x,
               sy: sourceCoords.y,
+              type: GameObjectTypes.ANIMATED_TILE,
             });
+            // return new AnimatedTile({
+            //   animatedObject: {
+            //     animations: animations,
+            //     gameObject,
+            //   },
+            //   sx: sourceCoords.x,
+            //   sy: sourceCoords.y,
+            // });
           } else {
-            return new Tile({
-              gameObject,
+            return new MapObject({
+              height: this.tileOptions.height,
+              id: layer.name + ': ' + x + ', ' + y,
+              width: this.tileOptions.width,
+              image: tempTileSet.img as HTMLImageElement,
+              x: x * this.tileOptions.width,
+              y: y * this.tileOptions.height,
+              src: 'NA',
               sx: sourceCoords.x,
               sy: sourceCoords.y,
+              type: GameObjectTypes.ANIMATED_TILE,
             });
+            // return new Tile({
+            //   gameObject,
+            //   sx: sourceCoords.x,
+            //   sy: sourceCoords.y,
+            // });
           }
         });
       });

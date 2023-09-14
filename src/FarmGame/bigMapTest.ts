@@ -1,11 +1,11 @@
+import { AnimationType } from '../Engine/_types/object/AnimatedGameObject';
+import { GameObjectTypes } from '../Engine/_types/object/GameObject';
 import Camera from '../Engine/game/Camera';
-import Control from '../Engine/game/Controls';
+import Control from '../Engine/game/Control';
 import Game from '../Engine/game/Game';
 import Player from '../Engine/game/Player';
 import Scene from '../Engine/game/Scene';
 import GameMap from '../Engine/map/GameMap';
-import { AnimationType } from '../Engine/types/object/AnimatedObject';
-import { GameObjectTypes } from '../Engine/types/object/GameObject';
 
 const animations = new Map<string, AnimationType>();
 animations.set('idle_down', {
@@ -57,21 +57,17 @@ animations.set('walk_left', {
   time: 1000,
 });
 const player = new Player({
-  entity: {
-    animatedObject: {
-      animations,
-      gameObject: {
-        height: 48,
-        width: 48,
-        id: 'lizzys',
-        src: 'lizzys.png',
-        x: 200,
-        y: 200,
-        type: GameObjectTypes.PLAYER,
-      },
-    },
-    maxSpeed: 1,
-  },
+  animations,
+  height: 48,
+  width: 48,
+  id: 'lizzys',
+  maxSpeed: 1,
+  src: 'lizzys.png',
+  sx: 0,
+  sy: 0,
+  type: GameObjectTypes.PLAYER,
+  x: 200,
+  y: 200,
   name: 'Lizzys',
 });
 

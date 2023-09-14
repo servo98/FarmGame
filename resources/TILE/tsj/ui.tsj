@@ -1,0 +1,14 @@
+{ "columns":56,
+ "image":"..\/..\/..\/..\/granja\/tiled\/images\/ui.png",
+ "imageheight":896,
+ "imagewidth":896,
+ "margin":0,
+ "name":"ui",
+ "spacing":0,
+ "tilecount":3136,
+ "tiledversion":"1.10.2",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.10"
+}

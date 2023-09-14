@@ -1,17 +1,18 @@
-import Camera from '../game/Camera';
 import {
+  AnimatedGameObjectArgs,
   AnimationType,
-  AnimatedObjectArgs,
-} from '../types/object/AnimatedObject';
+} from '../_types/object/AnimatedGameObject';
+import { DrawProperitesType } from '../_types/object/GameObject';
+import Camera from '../game/Camera';
 import GameObject from './GameObject';
 
-export default abstract class AnimatedObject extends GameObject {
+export default class AnimatedGameObject extends GameObject {
   animations: Map<string, AnimationType>;
   currentAnimation: AnimationType;
-  lastAnimationFrameStamp: number;
-  currentAnimationFrame: number = 1;
-  constructor(args: AnimatedObjectArgs) {
-    let firstAnimation: AnimationType | undefined = undefined;
+  private lastAnimationFrameStamp: number;
+  private currentAnimationFrame: number;
+  constructor(args: AnimatedGameObjectArgs) {
+    let firstAnimation;
 
     for (const [_, animation] of args.animations) {
       firstAnimation = animation;
@@ -19,31 +20,17 @@ export default abstract class AnimatedObject extends GameObject {
     }
 
     if (!firstAnimation) {
-      throw new Error('Animations arg must have at least 1 animation');
+      throw new Error('AnimatedGameObject must have at least 1 animation');
     }
 
-    super(args.gameObject);
+    super(args);
     this.animations = args.animations;
     this.currentAnimation = firstAnimation;
     this.lastAnimationFrameStamp = Date.now();
     this.currentAnimationFrame = 1;
   }
 
-  render(ctx: CanvasRenderingContext2D, camera: Camera) {
-    ctx.drawImage(
-      this.image as HTMLImageElement,
-      this.width * this.calculateAnimationFrame() - this.width,
-      this.height * this.currentAnimation.index - this.height,
-      this.width,
-      this.height,
-      (this.x - camera.x) / camera.zoom,
-      (this.y - camera.y) / camera.zoom,
-      this.width / camera.zoom,
-      this.height / camera.zoom,
-    );
-  }
-
-  private calculateAnimationFrame(): number {
+  calculateAnimationFrame(): number {
     if (this.shouldChangeAnimationFrame()) {
       this.currentAnimationFrame =
         (++this.currentAnimationFrame % this.currentAnimation.frames) + 1;
@@ -64,5 +51,18 @@ export default abstract class AnimatedObject extends GameObject {
       this.lastAnimationFrameStamp = now;
     }
     return shouldChange;
+  }
+
+  getDrawProperties(_camera?: Camera): DrawProperitesType {
+    return {
+      sx: this.width * this.calculateAnimationFrame() - this.width,
+      sy: this.height * this.currentAnimation.index - this.height,
+      swidth: this.width,
+      sheight: this.height,
+      dx: this.x,
+      dy: this.y,
+      dWidth: this.width,
+      dHeight: this.height,
+    };
   }
 }

@@ -1,8 +1,8 @@
-import Scene from './Scene';
-import Time from '../utils/Time';
-import Control from './Controls';
+import { GAME_STATES, GameArgsType } from '../_types/game/Game';
 import { file } from '../utils';
-import { GAME_STATES, GameArgsType } from '../types/game/Game';
+import Time from '../utils/Time';
+import Control from './Control';
+import Scene from './Scene';
 
 export default class Game {
   state: GAME_STATES;

@@ -1,9 +1,9 @@
 import {
-  MOVEMENT,
+  ControlType,
   IsPressedType,
   JsonControl,
-  ControlType,
-} from '../types/game/Control';
+  MOVEMENT,
+} from '../_types/game/Control';
 import { file } from '../utils';
 
 export default class Control {
@@ -88,31 +88,31 @@ export default class Control {
     const gamepad = navigator.getGamepads()[0] as Gamepad;
 
     /**
-     *  0 => A
-        1 => B
-        2 => X
-        3 => Y
-        4 => LB
-        5 => RB
-        6 => LT
-        7 => RT
-        8 => SELECT
-        9 => START
-        10 => LS
-        11 => RS
-        12 => Pad up
-        13 => Pad down
-        14 => Pad left
-        15 => Pad right
-        16 => XBOX button
-
-
-        const leftStickX = gamepad.axes[0];
-      const leftStickY = gamepad.axes[1];
-      const rightStickX = gamepad.axes[2];
-      const rightStickY = gamepad.axes[3];
-
-     */
+       *  0 => A
+          1 => B
+          2 => X
+          3 => Y
+          4 => LB
+          5 => RB
+          6 => LT
+          7 => RT
+          8 => SELECT
+          9 => START
+          10 => LS
+          11 => RS
+          12 => Pad up
+          13 => Pad down
+          14 => Pad left
+          15 => Pad right
+          16 => XBOX button
+  
+  
+          const leftStickX = gamepad.axes[0];
+        const leftStickY = gamepad.axes[1];
+        const rightStickX = gamepad.axes[2];
+        const rightStickY = gamepad.axes[3];
+  
+       */
 
     let wasPadTouched = false;
     gamepad.buttons.forEach((button, index) => {

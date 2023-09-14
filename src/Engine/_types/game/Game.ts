@@ -1,4 +1,4 @@
-import Control from '../../game/Controls';
+import Control from '../../game/Control';
 import Scene from '../../game/Scene';
 
 export enum GAME_STATES {

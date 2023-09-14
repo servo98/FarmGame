@@ -4,15 +4,19 @@ import {
   ENTITY_DIRECTION,
   EntityArgs,
 } from '../_types/object/Entity';
-import AnimatedGameObject from './AnimatedGameObject';
+import { GameObjectTypes } from '../_types/object/GameObject';
+import AnimatedMapObject from '../map/AnimatedMapObject';
 
-export default class Entity extends AnimatedGameObject {
+export default class Entity extends AnimatedMapObject {
   maxSpeed: number;
   currentSpeed: Vec2D;
   action: ENTITY_ACTION;
   direction: ENTITY_DIRECTION;
   constructor(args: EntityArgs) {
-    super(args);
+    super({
+      ...args,
+      type: `${GameObjectTypes.ENTITY}.${args.type}`,
+    });
     this.direction = args.direction || ENTITY_DIRECTION.DOWN;
     this.action = args.action || ENTITY_ACTION.IDLE;
     this.currentSpeed = args.currentSpeed || {

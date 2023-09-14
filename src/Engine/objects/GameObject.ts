@@ -15,9 +15,9 @@ export default class GameObject {
   sy: number;
   width: number;
   height: number;
-  src: string;
+  src?: string;
   uuid: string;
-  type: GameObjectTypes = GameObjectTypes.GAME_OBJECT;
+  type: string;
   image?: HTMLImageElement;
 
   constructor(args: GameObjectArgs) {
@@ -26,21 +26,23 @@ export default class GameObject {
     this.width = args.width;
     this.x = args.x;
     this.y = args.y;
-    this.sx = args.sx;
-    this.sy = args.sy;
+    this.sx = args.sx || 0;
+    this.sy = args.sy || 0;
     this.src = args.src;
-    this.type = args.type;
+    this.type = `${GameObjectTypes.GAME_OBJECT}.${args.type}`;
     this.image = args.image;
     this.uuid = uuid();
   }
 
   async load(): Promise<void> {
     try {
-      const img = await file.loadImage(`resources/${this.type}/${this.src}`);
+      const img = await file.loadImage(
+        `resources/${this.getFolderName()}/${this.src}`,
+      );
       this.image = img;
     } catch (error) {
       console.error(
-        `Error loading GameObject[${this.type}] ${this.id} image with src: ${this.src}`,
+        `Error loading [${this.type}] ${this.id} image with src: ${this.src}`,
       );
     }
   }
@@ -59,8 +61,8 @@ export default class GameObject {
   }
 
   render(ctx: CanvasRenderingContext2D, camera?: Camera) {
-    const drawProperties = this.getDrawProperties(camera);
     if (!this.image) return;
+    const drawProperties = this.getDrawProperties(camera);
     ctx.drawImage(
       this.image,
       drawProperties.sx,
@@ -72,5 +74,10 @@ export default class GameObject {
       drawProperties.dWidth,
       drawProperties.dHeight,
     );
+  }
+
+  private getFolderName() {
+    const types = this.type.split('.');
+    return types[types.length - 1];
   }
 }

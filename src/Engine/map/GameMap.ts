@@ -229,7 +229,6 @@ export default class GameMap {
               x: x * this.tileOptions.width,
               y: y * this.tileOptions.height,
               animations,
-              src: 'NA',
               sx: sourceCoords.x,
               sy: sourceCoords.y,
               type: GameObjectTypes.ANIMATED_TILE,
@@ -250,10 +249,9 @@ export default class GameMap {
               image: tempTileSet.img as HTMLImageElement,
               x: x * this.tileOptions.width,
               y: y * this.tileOptions.height,
-              src: 'NA',
               sx: sourceCoords.x,
               sy: sourceCoords.y,
-              type: GameObjectTypes.ANIMATED_TILE,
+              type: GameObjectTypes.TILE,
             });
             // return new Tile({
             //   gameObject,

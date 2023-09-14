@@ -25,7 +25,6 @@ export default class Game {
       'resources/CONFIG/graphics.json',
     );
     await this.control.load();
-    console.log(graphicJsonConfig.window.fullScreen);
 
     if (graphicJsonConfig.window.fullScreen) {
       this.canvas.width = window.innerWidth;
@@ -47,7 +46,8 @@ export default class Game {
     this.scene.update();
   }
   private render(ctx: CanvasRenderingContext2D) {
-    ctx.rect(0, 0, this.canvas.width, this.canvas.height);
+    //TODO: redo clear rect
+    // ctx.rect(0, 0, 100, 100);
     ctx.fillStyle = 'black';
     ctx.fill();
 

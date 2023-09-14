@@ -2,7 +2,10 @@ import {
   AnimatedGameObjectArgs,
   AnimationType,
 } from '../_types/object/AnimatedGameObject';
-import { DrawProperitesType } from '../_types/object/GameObject';
+import {
+  DrawProperitesType,
+  GameObjectTypes,
+} from '../_types/object/GameObject';
 import Camera from '../game/Camera';
 import GameObject from './GameObject';
 
@@ -23,7 +26,10 @@ export default class AnimatedGameObject extends GameObject {
       throw new Error('AnimatedGameObject must have at least 1 animation');
     }
 
-    super(args);
+    super({
+      ...args,
+      type: `${GameObjectTypes.ANIMATED_GAME_OBJECT}.${args.type}`,
+    });
     this.animations = args.animations;
     this.currentAnimation = firstAnimation;
     this.lastAnimationFrameStamp = Date.now();
@@ -53,7 +59,7 @@ export default class AnimatedGameObject extends GameObject {
     return shouldChange;
   }
 
-  getDrawProperties(_camera?: Camera): DrawProperitesType {
+  getDrawProperties(_camera: Camera): DrawProperitesType {
     return {
       sx: this.width * this.calculateAnimationFrame() - this.width,
       sy: this.height * this.currentAnimation.index - this.height,

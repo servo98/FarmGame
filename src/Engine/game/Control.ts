@@ -2,53 +2,57 @@ import {
   ControlType,
   IsPressedType,
   JsonControl,
+  MouseType,
   MOVEMENT,
 } from '../_types/game/Control';
 import { file } from '../utils';
 
 export default class Control {
   keys: Map<MOVEMENT, IsPressedType>;
+  mouse: MouseType;
   gamePadConnected: boolean;
   currentControlType: ControlType;
   constructor() {
     this.keys = new Map<MOVEMENT, IsPressedType>();
     this.gamePadConnected = false;
     this.currentControlType = ControlType.KEYBOARD;
+    this.mouse = {
+      isLeftButtonDown: false,
+      isCenterButtonDown: false,
+      isRightButtonDown: false,
+      currentX: 0,
+      currentY: 0,
+    };
   }
 
   async load() {
-    const jsonControls = (await file.loadJsonFile(
-      'resources/CONFIG/controls.json',
-    )) as JsonControl;
-    this.keys = new Map<MOVEMENT, IsPressedType>();
+    await this.loadControlsFromConfig();
+    this.loadEvents();
+  }
 
-    const keyboardControls = jsonControls.keyboard;
+  input() {
+    this.gamePadInput();
+  }
 
-    for (const [key, value] of Object.entries(keyboardControls)) {
-      const tempKey = this.keys.get(
-        MOVEMENT[key as keyof typeof MOVEMENT],
-      ) as IsPressedType;
-
-      this.keys.set(MOVEMENT[key as keyof typeof MOVEMENT], {
-        ...tempKey,
-        isPressed: false,
-        key: value,
-      });
+  private keyToMOVEMENT(searchKey: string): MOVEMENT | null {
+    for (const [key, isPressedObj] of this.keys) {
+      if (isPressedObj.key.toUpperCase() === searchKey.toUpperCase()) {
+        return key;
+      }
     }
+    return null;
+  }
 
-    const gamepadControls = jsonControls.gamepad;
-
-    for (const [key, value] of Object.entries(gamepadControls)) {
-      const tempKey = this.keys.get(
-        MOVEMENT[key as keyof typeof MOVEMENT],
-      ) as IsPressedType;
-      this.keys.set(MOVEMENT[key as keyof typeof MOVEMENT], {
-        ...tempKey,
-        isPressed: false,
-        padButton: value,
-      });
+  private buttonToMovement(button: number): MOVEMENT | null {
+    for (const [key, isPressedObj] of this.keys) {
+      if (isPressedObj.padButton === button) {
+        return key;
+      }
     }
+    return null;
+  }
 
+  private loadEvents() {
     //load controlls
     window.addEventListener('keydown', (event) => {
       this.currentControlType = ControlType.KEYBOARD;
@@ -70,23 +74,96 @@ export default class Control {
 
     window.addEventListener('gamepadconnected', (_) => {
       //TODO: pop up notice
-      // console.log(`Gamepad connected: ${event.gamepad.id}`);
-      // console.log(event.gamepad);
 
       this.gamePadConnected = true;
     });
 
     window.addEventListener('gamepaddisconnected', (_) => {
-      // console.log(`Gamepad disconected: ${event.gamepad.id}`);
+      //TODO: pop up notice
       this.gamePadConnected = false;
+    });
+
+    window.addEventListener('mousedown', (event) => {
+      switch (event.button) {
+        case 0:
+          this.mouse.isLeftButtonDown = true;
+          break;
+        case 1:
+          this.mouse.isCenterButtonDown = true;
+          break;
+        case 2:
+          this.mouse.isRightButtonDown = true;
+          break;
+        default:
+          break;
+      }
+    });
+
+    window.addEventListener('mouseup', (event) => {
+      switch (event.button) {
+        case 0:
+          this.mouse.isLeftButtonDown = false;
+          break;
+        case 1:
+          this.mouse.isCenterButtonDown = false;
+          break;
+        case 2:
+          this.mouse.isRightButtonDown = false;
+          break;
+        default:
+          break;
+      }
+    });
+
+    window.addEventListener('mousemove', (event) => {
+      this.mouse.currentX = event.clientX;
+      this.mouse.currentY = event.clientY;
+    });
+
+    document.addEventListener('contextmenu', function (event) {
+      event.preventDefault();
     });
   }
 
-  input() {
-    if (!this.gamePadConnected) return;
+  private async loadControlsFromConfig() {
+    try {
+      const jsonControls = (await file.loadJsonFile(
+        'resources/CONFIG/controls.json',
+      )) as JsonControl;
+      this.keys = new Map<MOVEMENT, IsPressedType>();
 
-    const gamepad = navigator.getGamepads()[0] as Gamepad;
+      const keyboardControls = jsonControls.keyboard;
 
+      for (const [key, value] of Object.entries(keyboardControls)) {
+        const tempKey = this.keys.get(
+          MOVEMENT[key as keyof typeof MOVEMENT],
+        ) as IsPressedType;
+
+        this.keys.set(MOVEMENT[key as keyof typeof MOVEMENT], {
+          ...tempKey,
+          isPressed: false,
+          key: value,
+        });
+      }
+
+      const gamepadControls = jsonControls.gamepad;
+
+      for (const [key, value] of Object.entries(gamepadControls)) {
+        const tempKey = this.keys.get(
+          MOVEMENT[key as keyof typeof MOVEMENT],
+        ) as IsPressedType;
+        this.keys.set(MOVEMENT[key as keyof typeof MOVEMENT], {
+          ...tempKey,
+          isPressed: false,
+          padButton: value,
+        });
+      }
+    } catch (error) {
+      console.error('Error loading control config file', error);
+    }
+  }
+
+  private gamePadInput() {
     /**
        *  0 => A
           1 => B
@@ -114,6 +191,9 @@ export default class Control {
   
        */
 
+    if (!this.gamePadConnected) return;
+
+    const gamepad = navigator.getGamepads()[0] as Gamepad;
     let wasPadTouched = false;
     gamepad.buttons.forEach((button, index) => {
       const temporalKey = this.buttonToMovement(index);
@@ -128,39 +208,5 @@ export default class Control {
     if (wasPadTouched) {
       this.currentControlType = ControlType.GAMEPAD;
     }
-
-    // if (gamepad.axes[0] < -0.8) {
-    //   console.log('LEFT');
-    // } else if (gamepad.axes[0] > 0.8) {
-    //   console.log('RIGHT');
-    // } else {
-    //   console.log('x centered');
-    // }
-
-    // if (gamepad.axes[1] < -0.8) {
-    //   console.log('UP');
-    // } else if (gamepad.axes[1] > 0.8) {
-    //   console.log('DOWN');
-    // } else {
-    //   console.log('y centered');
-    // }
-  }
-
-  private keyToMOVEMENT(searchKey: string): MOVEMENT | null {
-    for (const [key, isPressedObj] of this.keys) {
-      if (isPressedObj.key.toUpperCase() === searchKey.toUpperCase()) {
-        return key;
-      }
-    }
-    return null;
-  }
-
-  private buttonToMovement(button: number): MOVEMENT | null {
-    for (const [key, isPressedObj] of this.keys) {
-      if (isPressedObj.padButton === button) {
-        return key;
-      }
-    }
-    return null;
   }
 }

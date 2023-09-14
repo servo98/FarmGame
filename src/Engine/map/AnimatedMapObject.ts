@@ -1,11 +1,17 @@
 import { AnimatedGameObjectArgs } from '../_types/object/AnimatedGameObject';
-import { DrawProperitesType } from '../_types/object/GameObject';
+import {
+  DrawProperitesType,
+  GameObjectTypes,
+} from '../_types/object/GameObject';
 import Camera from '../game/Camera';
 import AnimatedGameObject from '../objects/AnimatedGameObject';
 
 export default class AnimatedMapObject extends AnimatedGameObject {
   constructor(args: AnimatedGameObjectArgs) {
-    super(args);
+    super({
+      ...args,
+      type: `${GameObjectTypes.ANIMATED_MAP_OBJECT}.${args.type}`,
+    });
   }
 
   getDrawProperties(camera: Camera): DrawProperitesType {

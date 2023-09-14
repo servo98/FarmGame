@@ -1,11 +1,13 @@
 import { AnimationType } from '../Engine/_types/object/AnimatedGameObject';
-import { GameObjectTypes } from '../Engine/_types/object/GameObject';
 import Camera from '../Engine/game/Camera';
 import Control from '../Engine/game/Control';
 import Game from '../Engine/game/Game';
 import Player from '../Engine/game/Player';
 import Scene from '../Engine/game/Scene';
 import GameMap from '../Engine/map/GameMap';
+import Cursor from '../Engine/ui/Cursor';
+import GameInterface from '../Engine/ui/GameInterface';
+import UIElement from '../Engine/ui/UIElement';
 
 const animations = new Map<string, AnimationType>();
 animations.set('idle_down', {
@@ -61,13 +63,12 @@ const player = new Player({
   height: 48,
   width: 48,
   id: 'lizzys',
-  maxSpeed: 1,
+  maxSpeed: 2,
   src: 'lizzys.png',
   sx: 0,
   sy: 0,
-  type: GameObjectTypes.PLAYER,
-  x: 200,
-  y: 200,
+  x: window.innerWidth / 2 - 48,
+  y: window.innerHeight / 2 - 48,
   name: 'Lizzys',
 });
 
@@ -81,10 +82,45 @@ const map = new GameMap({
 const camera = new Camera({
   x: 0,
   y: 0,
-  height: 760,
-  width: 1600,
-  maxSpeed: 1,
+  width: window.innerWidth,
+  height: window.innerHeight,
+  maxSpeed: 2,
   zoom: 3,
+});
+
+const cursorAnimationsMap = new Map<string, AnimationType>();
+
+cursorAnimationsMap.set('cursor', {
+  frames: 1,
+  index: 3,
+  name: 'cursor',
+  time: 1,
+});
+cursorAnimationsMap.set('pointer', {
+  frames: 1,
+  index: 2,
+  name: 'pointer',
+  time: 1,
+});
+
+cursorAnimationsMap.set('click', {
+  frames: 1,
+  index: 1,
+  name: 'click',
+  time: 1,
+});
+
+const gameInterface = new GameInterface({
+  name: 'interface 1',
+  cursor: new Cursor({
+    animations: cursorAnimationsMap,
+    width: 32,
+    height: 32,
+    id: 'curosrTest',
+    name: 'cursor',
+    src: 'paw_cursor.png',
+  }),
+  elements: new Map<string, UIElement>(),
 });
 
 const scene = new Scene({
@@ -92,6 +128,7 @@ const scene = new Scene({
   name: 'SCENE_TEST',
   player,
   camera,
+  gameInterface,
 });
 
 const control = new Control();
@@ -104,4 +141,5 @@ const game = new Game({
 
 export const start = async () => {
   await game.init();
+  console.log(game);
 };

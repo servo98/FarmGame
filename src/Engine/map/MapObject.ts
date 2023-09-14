@@ -1,6 +1,7 @@
 import {
   DrawProperitesType,
   GameObjectArgs,
+  GameObjectTypes,
 } from '../_types/object/GameObject';
 import Camera from '../game/Camera';
 
@@ -8,7 +9,10 @@ import GameObject from '../objects/GameObject';
 
 export default class MapObject extends GameObject {
   constructor(args: GameObjectArgs) {
-    super(args);
+    super({
+      ...args,
+      type: `${GameObjectTypes.MAP_OBJECT}.${args.type}`,
+    });
   }
   getDrawProperties(camera: Camera): DrawProperitesType {
     return {

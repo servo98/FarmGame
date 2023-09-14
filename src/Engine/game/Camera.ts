@@ -14,8 +14,8 @@ export default class Camera {
 
   constructor(args: CameraArgs) {
     this.zoom = 1 / args.zoom;
-    this.x = args.x;
-    this.y = args.y;
+    this.x = args.x + (args.width - args.width / args.zoom) / 2;
+    this.y = args.y + (args.height - args.height / args.zoom) / 2;
     this.width = args.width;
     this.height = args.height;
     this.currentSpeed = {

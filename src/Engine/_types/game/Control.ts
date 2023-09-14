@@ -24,3 +24,11 @@ export enum ControlType {
   KEYBOARD = 'KEYBOARD',
   GAMEPAD = 'GAMEPAD',
 }
+
+export type MouseType = {
+  currentX: number;
+  currentY: number;
+  isLeftButtonDown: boolean;
+  isCenterButtonDown: boolean;
+  isRightButtonDown: boolean;
+};

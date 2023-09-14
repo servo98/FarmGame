@@ -3,6 +3,12 @@ export enum GameObjectTypes {
   PLAYER = 'PLAYER',
   TILE = 'TILE',
   ANIMATED_TILE = 'ANIMATED_TILE',
+  ANIMATED_GAME_OBJECT = 'ANIMATED_GAME_OBJECT',
+  MAP_OBJECT = 'MAP_OBJECT',
+  ANIMATED_MAP_OBJECT = 'ANIMATED_MAP_OBJECT',
+  ENTITY = 'ENTITY',
+  UIELEMENT = 'UIELEMENT',
+  CURSOR = 'CURSOR',
 }
 export type DrawProperitesType = {
   sx: number;
@@ -21,9 +27,9 @@ export type GameObjectArgs = {
   width: number;
   x: number;
   y: number;
-  sx: number;
-  sy: number;
-  src: string;
-  type: GameObjectTypes;
+  sx?: number;
+  sy?: number;
+  src?: string;
+  type?: string;
   image?: HTMLImageElement;
 };

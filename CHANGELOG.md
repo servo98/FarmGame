@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.2.0](https://github.com/servo98/servo98.github.io/compare/v6.0.0...v6.2.0) (2023-09-14)
+
+
+### Features
+
+* base interface with cursor ([2216362](https://github.com/servo98/servo98.github.io/commit/221636232970e8e48c2e63dc8853c2485d3e2233))
+
 ### [6.1.1](https://github.com/servo98/servo98.github.io/compare/v6.0.0...v6.1.1) (2023-09-14)
 
 ## [6.1.0](https://github.com/servo98/servo98.github.io/compare/v6.0.0...v6.1.0) (2023-09-13)

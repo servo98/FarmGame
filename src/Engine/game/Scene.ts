@@ -1,14 +1,11 @@
-import Control from './Controls';
-import GameObject from '../objet/GameObject';
-import Player from './Player';
+import { SceneArgsType } from '../_types/game/Scene';
 import GameMap from '../map/GameMap';
-import { SceneArgsType } from '../types/game/Scene';
-import IRenderable from '../types/game/interfaces/IRenderable';
-import IMovable from '../types/game/interfaces/IMovable';
-import IPlayable from '../types/game/interfaces/IPlayable';
 import Camera from './Camera';
+import Control from './Control';
+import GameObject from '../objects/GameObject';
+import Player from './Player';
 
-export default class Scene implements IRenderable, IPlayable {
+export default class Scene {
   loaded: boolean = false;
   name: string;
   gameObjects: Map<string, GameObject>;
@@ -24,7 +21,7 @@ export default class Scene implements IRenderable, IPlayable {
     this.camera = args.camera;
   }
 
-  async load(): Promise<boolean> {
+  async load(): Promise<void> {
     try {
       await this.map.load();
 
@@ -32,7 +29,7 @@ export default class Scene implements IRenderable, IPlayable {
         await this.player.load();
       }
 
-      const gameObjectLoaders: Promise<boolean>[] = [];
+      const gameObjectLoaders: Promise<void>[] = [];
 
       for (const [_, object] of this.gameObjects) {
         gameObjectLoaders.push(object.load());
@@ -41,11 +38,9 @@ export default class Scene implements IRenderable, IPlayable {
       await Promise.all(gameObjectLoaders);
 
       this.loaded = true;
-      return this.loaded;
     } catch (error) {
       console.error('Error loading scene ', this.name);
       this.loaded = false;
-      return this.loaded;
     }
   }
 
@@ -71,21 +66,21 @@ export default class Scene implements IRenderable, IPlayable {
       this.player.update();
     }
     this.camera.update();
-    this.gameObjects.forEach((object) => {
-      if ('update' in object) {
-        const movableObject = object as IMovable;
-        movableObject.update();
-      }
-    });
+    // this.gameObjects.forEach((object) => {
+    //   if ('update' in object) {
+    //     const movableObject = object as IMovable;
+    //     object.update();
+    //   }
+    // });
   }
 
   render(ctx: CanvasRenderingContext2D) {
     if (!this.loaded) return;
 
     this.map.render(ctx, this.camera);
-    this.gameObjects.forEach((object) => {
-      object.render(ctx, this.camera);
-    });
+    // this.gameObjects.forEach((object) => {
+    //   object.render(ctx, this.camera);
+    // });
     if (this.player) {
       this.player.render(ctx, this.camera);
     }

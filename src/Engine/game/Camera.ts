@@ -1,11 +1,9 @@
-import { Vec2D } from '../types';
-import { CameraArgs } from '../types/game/Camera';
-import { MOVEMENT } from '../types/game/Control';
-import IMovable from '../types/game/interfaces/IMovable';
-import IPlayable from '../types/game/interfaces/IPlayable';
-import Control from './Controls';
+import { Vec2D } from '../_types';
+import { CameraArgs } from '../_types/game/Camera';
+import { MOVEMENT } from '../_types/game/Control';
+import Control from './Control';
 
-export default class Camera implements IPlayable, IMovable {
+export default class Camera {
   x: number;
   y: number;
   width: number;
@@ -27,8 +25,10 @@ export default class Camera implements IPlayable, IMovable {
     this.maxSpeed = args.maxSpeed;
   }
   update(): void {
-    this.x += this.currentSpeed.x;
-    this.y += this.currentSpeed.y;
+    this.x =
+      /*this.x + this.currentSpeed.x <= 0 ? 0 :*/ this.x + this.currentSpeed.x;
+    this.y =
+      /*this.y + this.currentSpeed.y <= 0 ? 0 :*/ this.y + this.currentSpeed.y;
   }
   input(control: Control): void {
     if (control.keys.get(MOVEMENT.DOWN)?.isPressed) {

@@ -9,7 +9,7 @@ export default class Game {
   scene: Scene;
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
-  requestAnimationFrameId: number = NaN;
+  requestAnimationFrameId: number;
   control: Control;
 
   constructor(args: GameArgsType) {
@@ -18,6 +18,7 @@ export default class Game {
     this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D;
     this.control = args.control;
     this.scene = args.initialScene;
+    this.requestAnimationFrameId = 0;
   }
 
   async init() {
@@ -38,28 +39,23 @@ export default class Game {
     this.requestAnimationFrameId = requestAnimationFrame(this.loop.bind(this));
   }
 
-  private input() {
+  private input(scene: Scene) {
     this.control.input();
-    this.scene.input(this.control);
+    scene.input(this.control);
   }
-  private update() {
-    this.scene.update();
+  private update(scene: Scene) {
+    scene.update();
   }
-  private render(ctx: CanvasRenderingContext2D) {
+  private render(scene: Scene) {
     //TODO: redo clear rect
-    // ctx.rect(0, 0, 100, 100);
-    ctx.fillStyle = 'black';
-    ctx.fill();
-
-    // ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.scene.render(ctx);
+    scene.render(this.ctx);
   }
 
   loop() {
     if (Time.shouldAnimate()) {
-      this.input();
-      this.update();
-      this.render(this.ctx);
+      this.input(this.scene);
+      this.update(this.scene);
+      this.render(this.scene);
     }
     this.requestAnimationFrameId = requestAnimationFrame(this.loop.bind(this));
   }

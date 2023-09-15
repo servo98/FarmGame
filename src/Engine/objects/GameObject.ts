@@ -35,6 +35,7 @@ export default class GameObject {
   }
 
   async load(): Promise<void> {
+    if (this.image) return;
     try {
       const img = await file.loadImage(
         `resources/${this.getFolderName()}/${this.src}`,

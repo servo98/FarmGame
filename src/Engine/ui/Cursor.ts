@@ -6,6 +6,7 @@ import UIElement from './UIElement';
 
 export default class Cursor extends UIElement {
   name: string;
+  overPointer: boolean;
   constructor(args: CursorArgs) {
     if (
       !args.animations.get('cursor') ||
@@ -23,6 +24,7 @@ export default class Cursor extends UIElement {
       type: GameObjectTypes.CURSOR,
     });
     this.name = args.name;
+    this.overPointer = false;
   }
 
   input(control: Control): void {
@@ -30,6 +32,8 @@ export default class Cursor extends UIElement {
     this.y = control.mouse.currentY;
     if (control.mouse.isLeftButtonDown) {
       this.currentAnimation = this.animations.get('click') as AnimationType;
+    } else if (this.overPointer) {
+      this.currentAnimation = this.animations.get('pointer') as AnimationType;
     } else {
       this.currentAnimation = this.animations.get('cursor') as AnimationType;
     }

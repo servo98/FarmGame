@@ -4,7 +4,7 @@ import { PlayerArgs } from '../_types/game/Player';
 import Entity from '../objects/Entity';
 import Control from './Control';
 import { GameObjectTypes } from '../_types/object/GameObject';
-import IInteractive from '../_types/game/IInteractive';
+import { IInteractive } from '../_types/game/IInteractive';
 
 export default class Player extends Entity implements IInteractive {
   name: string;

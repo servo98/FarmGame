@@ -30,7 +30,7 @@ export default class GameInterface {
   input(control: Control) {
     this.cursor.input(control);
     for (const [_, element] of this.elements) {
-      element.input(control);
+      element.input(control, this.cursor);
     }
   }
 

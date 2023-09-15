@@ -9,6 +9,7 @@ export enum GameObjectTypes {
   ENTITY = 'ENTITY',
   UIELEMENT = 'UIELEMENT',
   CURSOR = 'CURSOR',
+  BUTTON = 'BUTTON',
 }
 export type DrawProperitesType = {
   sx: number;

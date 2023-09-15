@@ -11,6 +11,7 @@ export default abstract class UIElement {
   sWidth: number;
   sHeight: number;
   uuid: string;
+  src: string;
 
   constructor(args: UIElementArgs) {
     this.x = args.x;
@@ -20,31 +21,8 @@ export default abstract class UIElement {
     this.dHeight = args.dHeight || args.sHeight;
     this.dWidth = args.dWidth || args.sWidth;
     this.uuid = uuid();
+    this.src = args.src;
   }
-  // async load(): Promise<void> {
-  //   if (this.image) return;
-  //   try {
-  //     const img = await file.loadImage(`resources/UI/${this.src}`);
-  //     this.image = img;
-  //   } catch (error) {
-  //     console.error(
-  //       `Error loading [${this.type}] ${this.id} image with src: ${this.src}`,
-  //     );
-  //   }
-  // }
-
-  // getDrawProperties(): DrawProperitesType {
-  //   return {
-  //     sx: this.width * this.calculateAnimationFrame() - this.width,
-  //     sy: this.height * this.currentAnimation.index - this.height,
-  //     swidth: this.width,
-  //     sheight: this.height,
-  //     dx: this.x,
-  //     dy: this.y,
-  //     dWidth: this.dWidth,
-  //     dHeight: this.dHeight,
-  //   };
-  // }
 
   abstract load(): Promise<void>;
   abstract input(control: Control, cursor: Cursor): void;

@@ -80,7 +80,9 @@ export default class Button extends UIElementTarget {
     ctx.fillText(
       this.text,
       this.x + this.dWidth / 2,
-      this.y + this.dHeight / 2,
+      this.state == BUTTON_SATES.NORMAL
+        ? this.y + this.dHeight / 2
+        : this.y + this.dHeight / 2 + 3,
     );
   }
 

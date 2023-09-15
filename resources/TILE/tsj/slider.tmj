@@ -1,0 +1,48 @@
+{ "compressionlevel":-1,
+ "height":3,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[986, 987, 988, 989, 990, 991, 991, 991, 991, 991, 992,
+            1045, 1046, 1046, 1046, 1046, 1046, 1046, 1046, 1046, 1046, 1047,
+            104, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":3,
+         "id":1,
+         "name":"Capa de patrones 1",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":11,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":3,
+         "id":4,
+         "name":"Capa de patrones 2",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":false,
+         "width":11,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":5,
+ "nextobjectid":1,
+ "orientation":"orthogonal",
+ "renderorder":"right-down",
+ "tiledversion":"1.10.2",
+ "tileheight":16,
+ "tilesets":[
+        {
+         "firstgid":1,
+         "source":"ui.tsj"
+        }],
+ "tilewidth":16,
+ "type":"map",
+ "version":"1.10",
+ "width":11
+}

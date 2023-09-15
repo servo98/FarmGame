@@ -8,9 +8,13 @@ import GameMap from '../Engine/map/GameMap';
 import Button from '../Engine/ui/Button';
 import Cursor from '../Engine/ui/Cursor';
 import GameInterface from '../Engine/ui/GameInterface';
+import Slider from '../Engine/ui/Slider';
 import UIElement from '../Engine/ui/UIElement';
 
 let isAlreadyPLaying = false;
+
+const audioElement = new Audio('resources/SOUNDS/music/music1.mp3');
+
 const animations = new Map<string, AnimationType>();
 animations.set('idle_down', {
   frames: 8,
@@ -122,28 +126,55 @@ const buttonTest = new Button({
   text: 'PLAY',
   x: 100,
   y: 100,
+  dHeight: 48 * 3,
+  dWidth: 7 * 16 * 2,
 });
-// const button1 = new Button({
-//   animations: button1Animations,
-//   height: 48,
-//   id: 'button1',
-//   width: 7 * 16,
-//   text: 'PLAY',
-//   x: 100,
-//   y: 100,
-//   src: 'button.png',
-//   dHeight: 48 * 2,
-//   dWidth: 16 * 7 * 2,
-// });
 
 buttonTest.addEventListener('click', (_e) => {
   if (isAlreadyPLaying) return;
-  isAlreadyPLaying = true;
-
   playMusic();
 });
 
 elements.set(buttonTest.uuid, buttonTest);
+
+const buttonTest2 = new Button({
+  id: 'button2',
+  sWidth: 7 * 16,
+  sHeight: 48,
+  src: 'button.png',
+  text: 'PAUSE',
+  x: 100,
+  y: 100 * 3,
+  dHeight: 48 * 3,
+  dWidth: 7 * 16 * 2,
+});
+
+buttonTest2.addEventListener('click', (_e) => {
+  pauseMusic();
+});
+
+elements.set(buttonTest2.uuid, buttonTest2);
+
+for (let i = 0; i <= 0; i++) {
+  const slider1 = new Slider({
+    grabberOptions: {
+      height: 16,
+      width: 16,
+    },
+    id: 'slider1',
+    lenght: 10,
+    sWidth: 176,
+    sHeight: 16,
+    src: 'slider.png',
+    x: 100,
+    y: 16 * 2 * i + 100,
+    value: i * 10,
+    dHeight: 16 * 2,
+    dWidth: 16 * 11 * 2,
+  });
+
+  elements.set(slider1.uuid, slider1);
+}
 
 const cursor = new Cursor({
   id: 'cursor_paw',
@@ -174,17 +205,25 @@ const game = new Game({
   initialScene: scene,
 });
 
-async function playMusic() {
+function playMusic() {
   try {
+    isAlreadyPLaying = true;
     const audioContext = new AudioContext();
-    const audioElement = new Audio('resources/SOUNDS/music/music1.mp3');
     audioElement.volume = 0.2;
     audioElement.loop = true;
-
     const source = audioContext.createMediaElementSource(audioElement);
     source.connect(audioContext.destination);
-    // gainNode.gain.value = 0.5;
     audioElement.play();
+    console.log('play');
+  } catch (error) {
+    console.error('Error al cargar o reproducir la música:', error);
+  }
+}
+
+function pauseMusic() {
+  try {
+    isAlreadyPLaying = false;
+    audioElement.pause();
   } catch (error) {
     console.error('Error al cargar o reproducir la música:', error);
   }

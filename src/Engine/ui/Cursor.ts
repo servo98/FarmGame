@@ -40,10 +40,10 @@ export default class Cursor extends UIElement {
     });
 
     this.gameAnimatedObj = new AnimatedGameObject({
-      animations,
-      height: args.sHeight,
       id: args.id,
+      animations,
       width: args.sWidth,
+      height: args.sHeight,
       dHeight: args.dHeight,
       dWidth: args.dWidth,
       x: 0,

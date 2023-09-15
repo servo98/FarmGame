@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.4.0](https://github.com/servo98/servo98.github.io/compare/v6.3.1...v6.4.0) (2023-09-15)
+
+
+### Features
+
+* slider ([330bbd6](https://github.com/servo98/servo98.github.io/commit/330bbd68a9005480ed9bab553dbfe4cb5aa35a2b))
+
 ### [6.3.1](https://github.com/servo98/servo98.github.io/compare/v6.3.0...v6.3.1) (2023-09-15)
 
 ## [6.3.0](https://github.com/servo98/servo98.github.io/compare/v6.2.0...v6.3.0) (2023-09-15)

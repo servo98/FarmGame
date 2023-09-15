@@ -5,9 +5,9 @@ import Control from './Control';
 // import GameObject from '../objects/GameObject';
 import Player from './Player';
 import GameInterface from '../ui/GameInterface';
+import IRenderable from '../_types/game/IRenderable';
 
-export default class Scene {
-  loaded: boolean = false;
+export default class Scene implements IRenderable {
   name: string;
   // gameObjects: Map<string, GameObject>;
   map: GameMap;
@@ -42,11 +42,8 @@ export default class Scene {
       // }
 
       // await Promise.all(gameObjectLoaders);
-
-      this.loaded = true;
     } catch (error) {
       console.error('Error loading scene ', this.name);
-      this.loaded = false;
     }
   }
 
@@ -84,8 +81,6 @@ export default class Scene {
   }
 
   render(ctx: CanvasRenderingContext2D) {
-    if (!this.loaded) return;
-
     this.map.render(ctx, this.camera);
     if (this.player) {
       this.player.render(ctx, this.camera);

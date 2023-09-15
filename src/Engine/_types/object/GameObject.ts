@@ -7,9 +7,9 @@ export enum GameObjectTypes {
   MAP_OBJECT = 'MAP_OBJECT',
   ANIMATED_MAP_OBJECT = 'ANIMATED_MAP_OBJECT',
   ENTITY = 'ENTITY',
-  UIELEMENT = 'UIELEMENT',
   CURSOR = 'CURSOR',
   BUTTON = 'BUTTON',
+  UI = 'UI',
 }
 export type DrawProperitesType = {
   sx: number;
@@ -33,4 +33,6 @@ export type GameObjectArgs = {
   src?: string;
   type?: string;
   image?: HTMLImageElement;
+  dWidth?: number;
+  dHeight?: number;
 };

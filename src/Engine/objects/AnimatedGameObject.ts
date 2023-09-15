@@ -67,8 +67,8 @@ export default class AnimatedGameObject extends GameObject {
       sheight: this.height,
       dx: this.x,
       dy: this.y,
-      dWidth: this.width,
-      dHeight: this.height,
+      dWidth: this.dWidth,
+      dHeight: this.dHeight,
     };
   }
 }

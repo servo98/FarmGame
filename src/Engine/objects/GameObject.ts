@@ -6,8 +6,9 @@ import {
   DrawProperitesType,
 } from '../_types/object/GameObject';
 import { file } from '../utils';
+import IRenderable from '../_types/game/IRenderable';
 
-export default class GameObject {
+export default class GameObject implements IRenderable {
   id: string;
   x: number;
   y: number;
@@ -19,6 +20,8 @@ export default class GameObject {
   uuid: string;
   type: string;
   image?: HTMLImageElement;
+  dWidth: number;
+  dHeight: number;
 
   constructor(args: GameObjectArgs) {
     this.id = args.id;
@@ -32,6 +35,8 @@ export default class GameObject {
     this.type = `${GameObjectTypes.GAME_OBJECT}.${args.type}`;
     this.image = args.image;
     this.uuid = uuid();
+    this.dHeight = args.dHeight || args.height;
+    this.dWidth = args.dWidth || args.width;
   }
 
   async load(): Promise<void> {
@@ -50,8 +55,8 @@ export default class GameObject {
 
   getDrawProperties(_camera?: Camera): DrawProperitesType {
     return {
-      dHeight: this.height,
-      dWidth: this.width,
+      dHeight: this.dHeight,
+      dWidth: this.dWidth,
       dx: this.x,
       dy: this.y,
       sheight: this.height,

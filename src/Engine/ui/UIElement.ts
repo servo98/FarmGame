@@ -1,50 +1,52 @@
-import {
-  DrawProperitesType,
-  GameObjectTypes,
-} from '../_types/object/GameObject';
-import { UIElementargs } from '../_types/ui/UIElement';
-import Camera from '../game/Camera';
+import { UIElementArgs } from '../_types/ui/UIElement';
 import Control from '../game/Control';
-import AnimatedGameObject from '../objects/AnimatedGameObject';
-import { file } from '../utils';
 import Cursor from './Cursor';
+import { v4 as uuid } from 'uuid';
 
-export default abstract class UIElement extends AnimatedGameObject {
+export default abstract class UIElement {
+  x: number;
+  y: number;
   dWidth: number;
   dHeight: number;
-  constructor(args: UIElementargs) {
-    super({
-      ...args,
-      type: `${GameObjectTypes.UIELEMENT}.${args.type}`,
-    });
-    this.dWidth = args.dWidth || args.width;
-    this.dHeight = args.dHeight || args.height;
-  }
+  sWidth: number;
+  sHeight: number;
+  uuid: string;
 
-  async load(): Promise<void> {
-    if (this.image) return;
-    try {
-      const img = await file.loadImage(`resources/UI/${this.src}`);
-      this.image = img;
-    } catch (error) {
-      console.error(
-        `Error loading [${this.type}] ${this.id} image with src: ${this.src}`,
-      );
-    }
+  constructor(args: UIElementArgs) {
+    this.x = args.x;
+    this.y = args.y;
+    this.sHeight = args.sHeight;
+    this.sWidth = args.sWidth;
+    this.dHeight = args.dHeight || args.sHeight;
+    this.dWidth = args.dWidth || args.sWidth;
+    this.uuid = uuid();
   }
+  // async load(): Promise<void> {
+  //   if (this.image) return;
+  //   try {
+  //     const img = await file.loadImage(`resources/UI/${this.src}`);
+  //     this.image = img;
+  //   } catch (error) {
+  //     console.error(
+  //       `Error loading [${this.type}] ${this.id} image with src: ${this.src}`,
+  //     );
+  //   }
+  // }
 
-  getDrawProperties(_camera: Camera): DrawProperitesType {
-    return {
-      sx: this.width * this.calculateAnimationFrame() - this.width,
-      sy: this.height * this.currentAnimation.index - this.height,
-      swidth: this.width,
-      sheight: this.height,
-      dx: this.x,
-      dy: this.y,
-      dWidth: this.dWidth,
-      dHeight: this.dHeight,
-    };
-  }
+  // getDrawProperties(): DrawProperitesType {
+  //   return {
+  //     sx: this.width * this.calculateAnimationFrame() - this.width,
+  //     sy: this.height * this.currentAnimation.index - this.height,
+  //     swidth: this.width,
+  //     sheight: this.height,
+  //     dx: this.x,
+  //     dy: this.y,
+  //     dWidth: this.dWidth,
+  //     dHeight: this.dHeight,
+  //   };
+  // }
 
+  abstract load(): Promise<void>;
   abstract input(control: Control, cursor: Cursor): void;
+  abstract render(ctx: CanvasRenderingContext2D): void;
 }

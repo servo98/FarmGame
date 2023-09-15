@@ -1,9 +1,10 @@
-import { GameInterfaceArgs } from '../_types/ui/UIElement';
+import IRenderable from '../_types/game/IRenderable';
+import { GameInterfaceArgs } from '../_types/ui/GameInterface';
 import Control from '../game/Control';
 import Cursor from './Cursor';
 import UIElement from './UIElement';
 
-export default class GameInterface {
+export default class GameInterface implements IRenderable {
   elements: Map<string, UIElement>;
   cursor: Cursor;
   name: string;

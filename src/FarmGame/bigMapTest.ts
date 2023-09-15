@@ -114,68 +114,47 @@ cursorAnimationsMap.set('click', {
 
 const elements = new Map<string, UIElement>();
 
-const button1Animations = new Map<string, AnimationType>();
-button1Animations.set('button', {
-  frames: 1,
-  index: 1,
-  name: 'button',
-  time: 100,
-});
-button1Animations.set('click', {
-  frames: 3,
-  index: 2,
-  name: 'click',
-  time: 100,
-});
-button1Animations.set('clicked', {
-  frames: 1,
-  index: 3,
-  name: 'clicked',
-  time: 100,
-});
-button1Animations.set('unclick', {
-  frames: 3,
-  index: 4,
-  name: 'unclick',
-  time: 100,
-});
-button1Animations.set('disabled', {
-  frames: 1,
-  index: 15,
-  name: 'disabled',
-  time: 100,
-});
-const button1 = new Button({
-  animations: button1Animations,
-  height: 48,
+const buttonTest = new Button({
   id: 'button1',
-  width: 7 * 16,
-  onClick: () => {
-    if (isAlreadyPLaying) return;
-    isAlreadyPLaying = true;
-
-    playMusic();
-  },
+  sWidth: 7 * 16,
+  sHeight: 48,
+  src: 'button.png',
   text: 'PLAY',
   x: 100,
   y: 100,
-  src: 'button.png',
-  dHeight: 48 * 2,
-  dWidth: 16 * 7 * 2,
+});
+// const button1 = new Button({
+//   animations: button1Animations,
+//   height: 48,
+//   id: 'button1',
+//   width: 7 * 16,
+//   text: 'PLAY',
+//   x: 100,
+//   y: 100,
+//   src: 'button.png',
+//   dHeight: 48 * 2,
+//   dWidth: 16 * 7 * 2,
+// });
+
+buttonTest.addEventListener('click', (_e) => {
+  if (isAlreadyPLaying) return;
+  isAlreadyPLaying = true;
+
+  playMusic();
 });
 
-elements.set(button1.uuid, button1);
+elements.set(buttonTest.uuid, buttonTest);
+
+const cursor = new Cursor({
+  id: 'cursor_paw',
+  sHeight: 32,
+  src: 'paw_cursor.png',
+  sWidth: 32,
+});
 
 const gameInterface = new GameInterface({
   name: 'interface 1',
-  cursor: new Cursor({
-    animations: cursorAnimationsMap,
-    width: 32,
-    height: 32,
-    id: 'curosrTest',
-    name: 'cursor',
-    src: 'paw_cursor.png',
-  }),
+  cursor,
   elements,
 });
 
@@ -199,11 +178,12 @@ async function playMusic() {
   try {
     const audioContext = new AudioContext();
     const audioElement = new Audio('resources/SOUNDS/music/music1.mp3');
-    const gainNode = audioContext.createGain();
-    gainNode.connect(audioContext.destination);
+    audioElement.volume = 0.2;
+    audioElement.loop = true;
+
     const source = audioContext.createMediaElementSource(audioElement);
-    source.connect(gainNode);
-    gainNode.gain.value = 0.5;
+    source.connect(audioContext.destination);
+    // gainNode.gain.value = 0.5;
     audioElement.play();
   } catch (error) {
     console.error('Error al cargar o reproducir la música:', error);

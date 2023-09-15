@@ -1,4 +1,5 @@
 import { Vec2D } from '../_types';
+import IRenderable from '../_types/game/IRenderable';
 import {
   Layer,
   TileOptions,
@@ -14,8 +15,7 @@ import { file } from '../utils';
 import AnimatedMapObject from './AnimatedMapObject';
 import MapObject from './MapObject';
 
-export default class GameMap {
-  loaded: boolean = false;
+export default class GameMap implements IRenderable {
   name: string;
   src: string;
   width: number = 0;
@@ -37,7 +37,7 @@ export default class GameMap {
     this.multipliedHeight = 0;
   }
 
-  async load(): Promise<boolean> {
+  async load(): Promise<void> {
     try {
       //leer tmj file
       const mapFile = await file.loadJsonFile(`resources/MAP/${this.src}`);
@@ -100,18 +100,12 @@ export default class GameMap {
         }
       });
       this.loadTilesFromLayers();
-      this.loaded = true;
-
-      return this.loaded;
     } catch (error) {
       console.error('Error loading map', this.name, error);
-      return this.loaded;
     }
   }
 
   render(ctx: CanvasRenderingContext2D, camera: Camera) {
-    if (!this.loaded) return;
-
     // this.tiles.forEach((layer) => {
     //   layer.forEach((row) => {
     //     row.forEach((tile) => {

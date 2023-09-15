@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.3.0](https://github.com/servo98/servo98.github.io/compare/v6.2.0...v6.3.0) (2023-09-15)
+
+
+### Features
+
+* ui buttons and sound test ([865f34b](https://github.com/servo98/servo98.github.io/commit/865f34b8252f270c72bc88036e3c67ad7eb7df30))
+
 ## [6.2.0](https://github.com/servo98/servo98.github.io/compare/v6.0.0...v6.2.0) (2023-09-14)
 
 

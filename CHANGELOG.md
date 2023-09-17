@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.5.0](https://github.com/servo98/servo98.github.io/compare/v6.4.0...v6.5.0) (2023-09-17)
+
+
+### Features
+
+* refactor events for uielements and refactor input for ui ([06c16c5](https://github.com/servo98/servo98.github.io/commit/06c16c53edbd25a95e0dee90f7da0f9e1bb41280))
+
 ## [6.4.0](https://github.com/servo98/servo98.github.io/compare/v6.3.1...v6.4.0) (2023-09-15)
 
 

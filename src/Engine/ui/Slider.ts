@@ -7,9 +7,9 @@ import Camera from '../game/Camera';
 import Control from '../game/Control';
 import GameObject from '../objects/GameObject';
 import { file } from '../utils';
-import UIElementTarget from './UIElementTarget';
+import UIElement from './UIElement';
 
-export default class Slider extends UIElementTarget {
+export default class Slider extends UIElement {
   emptyBar: GameObject;
   fillBar: GameObject;
   grabber: GameObject;
@@ -71,20 +71,18 @@ export default class Slider extends UIElementTarget {
 
   private fillBarProperties(_camera?: Camera): DrawProperitesType {
     return {
-      dHeight: this.dHeight,
-      dWidth: (this.dWidth * this.value) / 100,
+      sx: 0,
+      sy: this.grabber.height * SLIDER_PARTS.FILL,
+      swidth: (this.value * this.sWidth) / 100,
+      sheight: this.sHeight,
       dx: this.x,
       dy: this.y,
-      sheight: this.sHeight,
-      swidth: (this.sWidth * this.value) / 100,
-      sx: 0,
-      sy: this.grabberOptions.height * SLIDER_PARTS.FILL,
+      dWidth: (this.value * this.dWidth) / 100,
+      dHeight: this.dHeight,
     };
   }
 
   private grabberProperties(_camera?: Camera): DrawProperitesType {
-    console.log();
-
     const aux = this.sWidth / this.grabberOptions.width - 1;
     return {
       dHeight: this.dHeight,
@@ -105,14 +103,29 @@ export default class Slider extends UIElementTarget {
       this.grabber.image = img;
       this.fillBar.image = img;
     } catch (error) {
-      console.log(`Error loading slider image src:${this.src}`);
+      console.error(`Error loading slider image src:${this.src}`);
     }
   }
 
-  input(_control: Control): void {}
+  handleInput(control: Control): void {
+    if (this.isMouseOver && control.mouse.isLeftButtonDown) {
+      const newValue = Math.floor(
+        ((control.mouse.currentX - this.x) / this.dWidth) * 100,
+      );
+      this.value = newValue;
+      this.dispatchEvent(
+        new CustomEvent('valueChange', {
+          detail: {
+            newValue,
+          },
+        }),
+      );
+    }
+  }
+
   render(ctx: CanvasRenderingContext2D): void {
     this.emptyBar.render(ctx);
-    // this.fillBar.render(ctx);
+    this.fillBar.render(ctx);
     this.grabber.render(ctx);
   }
 }

@@ -7,17 +7,14 @@ import AnimatedGameObject from '../objects/AnimatedGameObject';
 import UIElement from './UIElement';
 
 export default class Cursor extends UIElement {
-  overPointer: boolean;
   gameAnimatedObj: AnimatedGameObject;
-  state: CURSOR_STATES;
+  state: CURSOR_STATES = CURSOR_STATES.NORMAL;
   constructor(args: CursorArgs) {
     super({
       ...args,
       x: 0,
       y: 0,
     });
-    this.overPointer = false;
-    this.state = CURSOR_STATES.NORMAL;
 
     const animations = new Map<string, AnimationType>();
     animations.set(CURSOR_STATES[CURSOR_STATES.NORMAL], {
@@ -52,24 +49,22 @@ export default class Cursor extends UIElement {
       src: args.src,
     });
   }
+  input(control: Control) {
+    this.handleInput(control);
+  }
 
-  input(control: Control): void {
+  handleInput(control: Control): void {
     this.x = this.gameAnimatedObj.x = control.mouse.currentX;
     this.y = this.gameAnimatedObj.y = control.mouse.currentY;
-    if (control.mouse.isLeftButtonDown) {
-      this.gameAnimatedObj.currentAnimation = this.getAnimationfromState(
-        CURSOR_STATES.CLICKED,
-      );
-    } else if (this.overPointer) {
-      this.gameAnimatedObj.currentAnimation = this.getAnimationfromState(
-        CURSOR_STATES.HOVER,
-      );
-    } else {
-      this.gameAnimatedObj.currentAnimation = this.getAnimationfromState(
-        CURSOR_STATES.NORMAL,
-      );
-    }
+
+    this.gameAnimatedObj.currentAnimation = this.getAnimationfromState(
+      this.state,
+    );
   }
+
+  // input(control: Control): void {
+
+  // }
 
   async load(): Promise<void> {
     try {
@@ -90,4 +85,6 @@ export default class Cursor extends UIElement {
       CURSOR_STATES[state],
     ) as AnimationType;
   }
+
+  //TODO: universal state changer with booleans and ORs
 }

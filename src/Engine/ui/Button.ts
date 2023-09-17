@@ -1,5 +1,4 @@
 import GameObject from '../objects/GameObject';
-import UIElementTarget from './UIElementTarget';
 import Control from '../game/Control';
 import Cursor from './Cursor';
 import Camera from '../game/Camera';
@@ -7,10 +6,10 @@ import {
   DrawProperitesType,
   GameObjectTypes,
 } from '../_types/object/GameObject';
-import { MouseType } from '../_types/game/Control';
 import { BUTTON_SATES, ButtonArgs } from '../_types/ui/Button';
+import UIElement from './UIElement';
 
-export default class Button extends UIElementTarget {
+export default class Button extends UIElement {
   gameObject: GameObject;
   text: string;
   state: BUTTON_SATES;
@@ -53,19 +52,14 @@ export default class Button extends UIElementTarget {
       console.error(`Error loading button id:${this.gameObject.id}`, error);
     }
   }
-  input(control: Control, cursor: Cursor): void {
-    const mouseOver = this.isMouseOver(control.mouse);
-    cursor.overPointer = mouseOver;
-    if (mouseOver) {
-      this.state = BUTTON_SATES.HOVER;
-      cursor.overPointer = true;
+  handleInput(control: Control, _cursor: Cursor): void {
+    if (this.isMouseOver) {
       if (control.mouse.isLeftButtonDown) {
-        //TODO: only dispatch when is mouse up
-        this.dispatchEvent(new Event('click'));
         this.state = BUTTON_SATES.CLICKED;
+      } else {
+        this.state = BUTTON_SATES.HOVER;
       }
     } else {
-      cursor.overPointer = false;
       this.state = BUTTON_SATES.NORMAL;
     }
   }
@@ -83,15 +77,6 @@ export default class Button extends UIElementTarget {
       this.state == BUTTON_SATES.NORMAL
         ? this.y + this.dHeight / 2
         : this.y + this.dHeight / 2 + 3,
-    );
-  }
-
-  private isMouseOver(mouse: MouseType) {
-    return (
-      mouse.currentX > this.x &&
-      mouse.currentX < this.x + this.dWidth &&
-      mouse.currentY > this.y &&
-      mouse.currentY < this.y + this.dHeight
     );
   }
 }

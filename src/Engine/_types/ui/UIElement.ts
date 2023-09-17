@@ -8,3 +8,10 @@ export type UIElementArgs = {
   id: string;
   src: string;
 };
+
+export enum UIEVENTS {
+  MOUSE_ENTER = 'MOUSE_ENTER',
+  MOUSE_EXIT = 'MOUSE_EXIT',
+  MOUSE_DOWN = 'MOUSE_DOWN',
+  MOUSE_UP = 'MOUSE_UP',
+}

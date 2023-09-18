@@ -1,11 +1,10 @@
-import { AnimationType } from '../_types/object/AnimatedGameObject';
 import { GameObjectTypes } from '../_types/object/GameObject';
 import { CURSOR_STATES } from '../_types/ui/Cursor';
 import { CursorArgs } from '../_types/ui/Cursor';
 import Control from '../game/Control';
 import AnimatedGameObject from '../objects/AnimatedGameObject';
 import UIElement from './UIElement';
-
+import Animation from '../objects/Animation';
 export default class Cursor extends UIElement {
   gameAnimatedObj: AnimatedGameObject;
   state: CURSOR_STATES = CURSOR_STATES.NORMAL;
@@ -16,25 +15,37 @@ export default class Cursor extends UIElement {
       y: 0,
     });
 
-    const animations = new Map<string, AnimationType>();
-    animations.set(CURSOR_STATES[CURSOR_STATES.NORMAL], {
-      frames: 1,
-      index: 1,
-      name: CURSOR_STATES[CURSOR_STATES.NORMAL],
-      time: 100,
-    });
-    animations.set(CURSOR_STATES[CURSOR_STATES.HOVER], {
-      frames: 1,
-      index: 2,
-      name: CURSOR_STATES[CURSOR_STATES.HOVER],
-      time: 100,
-    });
-    animations.set(CURSOR_STATES[CURSOR_STATES.CLICKED], {
-      frames: 1,
-      index: 3,
-      name: CURSOR_STATES[CURSOR_STATES.CLICKED],
-      time: 100,
-    });
+    const animations = new Map<string, Animation>();
+    animations.set(
+      CURSOR_STATES[CURSOR_STATES.NORMAL],
+      new Animation({
+        frames: 1,
+        index: 1,
+        name: CURSOR_STATES[CURSOR_STATES.NORMAL],
+        duration: 100,
+        allowOverride: true,
+      }),
+    );
+    animations.set(
+      CURSOR_STATES[CURSOR_STATES.HOVER],
+      new Animation({
+        frames: 1,
+        index: 2,
+        name: CURSOR_STATES[CURSOR_STATES.HOVER],
+        duration: 100,
+        allowOverride: true,
+      }),
+    );
+    animations.set(
+      CURSOR_STATES[CURSOR_STATES.CLICKED],
+      new Animation({
+        frames: 1,
+        index: 3,
+        name: CURSOR_STATES[CURSOR_STATES.CLICKED],
+        duration: 100,
+        allowOverride: true,
+      }),
+    );
 
     this.gameAnimatedObj = new AnimatedGameObject({
       id: args.id,
@@ -62,10 +73,6 @@ export default class Cursor extends UIElement {
     );
   }
 
-  // input(control: Control): void {
-
-  // }
-
   async load(): Promise<void> {
     try {
       await this.gameAnimatedObj.load();
@@ -80,10 +87,10 @@ export default class Cursor extends UIElement {
     this.gameAnimatedObj.render(ctx);
   }
 
-  private getAnimationfromState(state: CURSOR_STATES): AnimationType {
+  private getAnimationfromState(state: CURSOR_STATES): Animation {
     return this.gameAnimatedObj.animations.get(
       CURSOR_STATES[state],
-    ) as AnimationType;
+    ) as Animation;
   }
 
   //TODO: universal state changer with booleans and ORs

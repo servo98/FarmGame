@@ -1,6 +1,6 @@
 import {
   AnimatedGameObjectArgs,
-  AnimationType,
+  // AnimationType,
 } from '../_types/object/AnimatedGameObject';
 import {
   DrawProperitesType,
@@ -8,12 +8,14 @@ import {
 } from '../_types/object/GameObject';
 import Camera from '../game/Camera';
 import GameObject from './GameObject';
+import Animation from './Animation';
+import AnimationStateMachine from './AnimationStateMachine';
 
 export default class AnimatedGameObject extends GameObject {
-  animations: Map<string, AnimationType>;
-  currentAnimation: AnimationType;
-  private lastAnimationFrameStamp: number;
-  private currentAnimationFrame: number;
+  animations: Map<string, Animation>;
+  currentAnimation: Animation;
+  animationStateMachine: AnimationStateMachine;
+
   constructor(args: AnimatedGameObjectArgs) {
     let firstAnimation;
 
@@ -32,36 +34,14 @@ export default class AnimatedGameObject extends GameObject {
     });
     this.animations = args.animations;
     this.currentAnimation = firstAnimation;
-    this.lastAnimationFrameStamp = Date.now();
-    this.currentAnimationFrame = 1;
-  }
-
-  calculateAnimationFrame(): number {
-    if (this.shouldChangeAnimationFrame()) {
-      this.currentAnimationFrame =
-        (++this.currentAnimationFrame % this.currentAnimation.frames) + 1;
-    }
-
-    return this.currentAnimationFrame;
-  }
-
-  private shouldChangeAnimationFrame(): boolean {
-    const now = Date.now();
-    const msPerAnimationFrame =
-      this.currentAnimation.time / this.currentAnimation.frames;
-
-    const shouldChange =
-      now - this.lastAnimationFrameStamp > msPerAnimationFrame;
-
-    if (shouldChange) {
-      this.lastAnimationFrameStamp = now;
-    }
-    return shouldChange;
+    this.animationStateMachine = new AnimationStateMachine();
   }
 
   getDrawProperties(_camera: Camera): DrawProperitesType {
     return {
-      sx: this.width * this.calculateAnimationFrame() - this.width,
+      sx:
+        this.width * this.currentAnimation.calculateAnimationFrame() -
+        this.width,
       sy: this.height * this.currentAnimation.index - this.height,
       swidth: this.width,
       sheight: this.height,

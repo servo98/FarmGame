@@ -16,3 +16,11 @@ export enum SLIDER_PARTS {
   FILL,
   GRABBER,
 }
+
+export enum SLIDER_EVENTS {
+  VALUE_CHANGE = 'VALUE_CHANGE',
+}
+
+export interface ChangeSliderValueEvent extends Event {
+  newValue: number;
+}

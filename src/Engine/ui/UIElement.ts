@@ -1,6 +1,6 @@
 import { MouseType } from '../_types/game/Control';
 import { CURSOR_STATES } from '../_types/ui/Cursor';
-import { UIEVENTS, UIElementArgs } from '../_types/ui/UIElement';
+import { CustomUIEvent, UIEVENTS, UIElementArgs } from '../_types/ui/UIElement';
 import Control from '../game/Control';
 import Cursor from './Cursor';
 import { v4 as uuid } from 'uuid';
@@ -34,14 +34,6 @@ export default abstract class UIElement {
   }
 
   input(control: Control, cursor: Cursor): void {
-    /**
-     * //TODO: mouse over
-     * //TODO: mouse enter
-     * //TODO: mouse exit
-     * //TODO: mouse down
-     * //TODO: mouse up
-     */
-
     if (this.isMouseOverFromCoords(control.mouse)) {
       this.isMouseOver = true;
       this.mouseExitDispached = false;
@@ -96,9 +88,11 @@ export default abstract class UIElement {
     );
   }
 
-  addEventListener(
+  addEventListener<CET extends Event>(
     type: string,
-    listener: EventListenerOrEventListenerObject,
+    listener: CET extends Event
+      ? CustomUIEvent<CET>
+      : EventListenerOrEventListenerObject,
   ): void {
     if (!(type in this.eventListeners)) {
       this.eventListeners[type] = [];
@@ -124,6 +118,7 @@ export default abstract class UIElement {
     if (event.type in this.eventListeners) {
       for (const listener of this.eventListeners[event.type]) {
         if (typeof listener === 'function') {
+          // console.log(event);
           listener.call(this, event);
         }
       }

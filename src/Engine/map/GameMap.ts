@@ -8,12 +8,12 @@ import {
   RawLayer,
   TileSetRaw,
 } from '../_types/map/GameMap';
-import { AnimationType } from '../_types/object/AnimatedGameObject';
 import { GameObjectTypes } from '../_types/object/GameObject';
 import Camera from '../game/Camera';
 import { file } from '../utils';
 import AnimatedMapObject from './AnimatedMapObject';
 import MapObject from './MapObject';
+import Animation from '../objects/Animation';
 
 export default class GameMap implements IRenderable {
   name: string;
@@ -208,13 +208,17 @@ export default class GameMap implements IRenderable {
           // };
 
           if (tempTileSet.animation) {
-            const animations = new Map<string, AnimationType>();
-            animations.set('animated_block', {
-              frames: tempTileSet.animation.frames,
-              index: 1,
-              name: 'animated_block',
-              time: 1000,
-            });
+            const animations = new Map<string, Animation>();
+            animations.set(
+              'animated_block',
+              new Animation({
+                frames: tempTileSet.animation.frames,
+                index: 1,
+                name: 'animated_block',
+                duration: 1000,
+                allowOverride: true,
+              }),
+            );
             return new AnimatedMapObject({
               height: this.tileOptions.height,
               id: layer.name + ': ' + x + ', ' + y,

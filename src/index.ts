@@ -6,6 +6,6 @@
 
 // await test2();
 
-import { start as test3 } from './FarmGame/bigMapTest';
+import { start as test3 } from './bigMapTest';
 
 await test3();

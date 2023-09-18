@@ -2,7 +2,12 @@ import {
   DrawProperitesType,
   GameObjectTypes,
 } from '../_types/object/GameObject';
-import { GrabberOptions, SLIDER_PARTS, SliderArgs } from '../_types/ui/Slider';
+import {
+  GrabberOptions,
+  SLIDER_EVENTS,
+  SLIDER_PARTS,
+  SliderArgs,
+} from '../_types/ui/Slider';
 import Camera from '../game/Camera';
 import Control from '../game/Control';
 import GameObject from '../objects/GameObject';
@@ -113,13 +118,12 @@ export default class Slider extends UIElement {
         ((control.mouse.currentX - this.x) / this.dWidth) * 100,
       );
       this.value = newValue;
-      this.dispatchEvent(
-        new CustomEvent('valueChange', {
-          detail: {
-            newValue,
-          },
-        }),
-      );
+      const event = new CustomEvent(SLIDER_EVENTS.VALUE_CHANGE, {
+        detail: {
+          newValue,
+        },
+      });
+      this.dispatchEvent(event);
     }
   }
 

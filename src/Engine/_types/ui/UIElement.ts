@@ -15,3 +15,7 @@ export enum UIEVENTS {
   MOUSE_DOWN = 'MOUSE_DOWN',
   MOUSE_UP = 'MOUSE_UP',
 }
+
+export interface CustomUIEvent<T extends Event> {
+  (evt: { detail: T }): void;
+}

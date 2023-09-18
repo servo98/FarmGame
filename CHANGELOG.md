@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.6.0](https://github.com/servo98/servo98.github.io/compare/v6.5.0...v6.6.0) (2023-09-18)
+
+
+### Features
+
+* pre machine state ([dc59bd9](https://github.com/servo98/servo98.github.io/commit/dc59bd9882b383db6c8033ba54e2aebf56e8f6c0))
+
 ## [6.5.0](https://github.com/servo98/servo98.github.io/compare/v6.4.0...v6.5.0) (2023-09-17)
 
 

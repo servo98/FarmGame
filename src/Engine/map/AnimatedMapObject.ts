@@ -16,9 +16,7 @@ export default class AnimatedMapObject extends AnimatedGameObject {
 
   getDrawProperties(camera: Camera): DrawProperitesType {
     return {
-      sx:
-        this.width * this.currentAnimation.calculateAnimationFrame() -
-        this.width,
+      sx: this.width * this.currentAnimation.calculateAnimationFrame(),
       sy: this.height * this.currentAnimation.index - this.height,
       swidth: this.width,
       sheight: this.height,

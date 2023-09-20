@@ -1,24 +1,23 @@
 import { Vec2D } from '../_types';
-import {
-  ENTITY_ACTION,
-  ENTITY_DIRECTION,
-  EntityArgs,
-} from '../_types/object/Entity';
+import { ENTITY_DIRECTION, EntityArgs } from '../_types/object/Entity';
 import { GameObjectTypes } from '../_types/object/GameObject';
 import AnimatedMapObject from '../map/AnimatedMapObject';
+import Animation from './Animation';
 
-export default class Entity extends AnimatedMapObject {
+export default abstract class Entity<
+  STATES extends string,
+> extends AnimatedMapObject {
   maxSpeed: number;
   currentSpeed: Vec2D;
-  action: ENTITY_ACTION;
-  direction: ENTITY_DIRECTION;
-  constructor(args: EntityArgs) {
+  private state: STATES;
+  private direction: ENTITY_DIRECTION;
+  constructor(args: EntityArgs<STATES>) {
     super({
       ...args,
       type: `${GameObjectTypes.ENTITY}.${args.type}`,
     });
-    this.direction = args.direction || ENTITY_DIRECTION.DOWN;
-    this.action = args.action || ENTITY_ACTION.IDLE;
+    this.direction = args.direction;
+    this.state = args.state;
     this.currentSpeed = args.currentSpeed || {
       x: 0,
       y: 0,
@@ -26,16 +25,39 @@ export default class Entity extends AnimatedMapObject {
     this.maxSpeed = args.maxSpeed;
   }
 
-  update() {
-    const tempAnimation = this.animations.get(this.getCurrentAnimationName());
-    if (tempAnimation) {
-      this.currentAnimation = tempAnimation;
-    }
-    this.x += this.currentSpeed.x;
-    this.y += this.currentSpeed.y;
+  abstract update(): void;
+
+  changeStateOrDir(
+    state: STATES,
+    direction: ENTITY_DIRECTION,
+    justChanged: boolean = true,
+  ) {
+    this.state = state;
+    this.direction = direction;
+    this.currentAnimation = this.getAnimationFromState();
+    this.currentAnimation.justChanged = justChanged;
   }
 
-  private getCurrentAnimationName(): string {
-    return `${this.action.toLowerCase()}_${this.direction.toLowerCase()}`;
+  private getAnimationFromState(): Animation {
+    const tempAnimation = this.animations.get(
+      `${this.state.toLowerCase()}_${this.direction.toLowerCase()}`,
+    ) as Animation;
+
+    if (!tempAnimation) {
+      console.error(
+        `${this.state.toLowerCase()}_${this.direction.toLowerCase()} animation not found on ID:${
+          this.id
+        } type:${this.type}`,
+      );
+    }
+    return tempAnimation;
+  }
+
+  getDirection(): ENTITY_DIRECTION {
+    return this.direction;
+  }
+
+  getState(): STATES {
+    return this.state;
   }
 }

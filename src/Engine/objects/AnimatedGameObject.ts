@@ -9,12 +9,10 @@ import {
 import Camera from '../game/Camera';
 import GameObject from './GameObject';
 import Animation from './Animation';
-import AnimationStateMachine from './AnimationStateMachine';
 
 export default class AnimatedGameObject extends GameObject {
   animations: Map<string, Animation>;
   currentAnimation: Animation;
-  animationStateMachine: AnimationStateMachine;
 
   constructor(args: AnimatedGameObjectArgs) {
     let firstAnimation;
@@ -34,14 +32,11 @@ export default class AnimatedGameObject extends GameObject {
     });
     this.animations = args.animations;
     this.currentAnimation = firstAnimation;
-    this.animationStateMachine = new AnimationStateMachine();
   }
 
   getDrawProperties(_camera: Camera): DrawProperitesType {
     return {
-      sx:
-        this.width * this.currentAnimation.calculateAnimationFrame() -
-        this.width,
+      sx: this.width * this.currentAnimation.calculateAnimationFrame(),
       sy: this.height * this.currentAnimation.index - this.height,
       swidth: this.width,
       sheight: this.height,

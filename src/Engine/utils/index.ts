@@ -69,8 +69,7 @@ const loadJsonMap = async (src: string): Promise<JsonMapTypeResponse> => {
   return map;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const loadJsonFile = async (src: string): Promise<any> => {
+const loadJsonFile = async (src: string) => {
   const file = await (await fetch(src)).json();
   return file;
 };

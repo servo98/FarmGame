@@ -48,7 +48,7 @@ export default class GameObject implements IRenderable {
       this.image = img;
     } catch (error) {
       console.error(
-        `Error loading [${this.type}] ${this.id} image with src: ${this.src}`,
+        `Error loading TYPE:[${this.type}] ID:[${this.id}] image with src: ${this.src}`,
       );
     }
   }
@@ -68,6 +68,7 @@ export default class GameObject implements IRenderable {
 
   render(ctx: CanvasRenderingContext2D, camera?: Camera) {
     if (!this.image) return;
+
     const drawProperties = this.getDrawProperties(camera);
     ctx.drawImage(
       this.image,

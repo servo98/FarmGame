@@ -1,13 +1,14 @@
 import { GameObjectArgs } from './GameObject';
 import Animation from '../../objects/Animation';
 
-// export type AnimationType = {
-//   name: string;
-//   index: number;
-//   frames: number;
-//   duration: number;
-//   allowOverride: boolean;
-// };
+export type AnimationArgs = {
+  name: string;
+  index: number;
+  frames: number;
+  duration: number;
+  allowOverride: boolean;
+  loopeable?: boolean;
+};
 
 type AnimatedGameObject = {
   animations: Map<string, Animation>;

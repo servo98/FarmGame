@@ -43,12 +43,17 @@ export default class GameMap implements IRenderable {
       const mapFile = await file.loadJsonFile(`resources/MAP/${this.src}`);
       this.width = mapFile.width;
       this.height = mapFile.height;
-      this.layers = mapFile.layers.map((layer: RawLayer) => {
-        return {
-          data: this.arrayToMatrix(layer.data),
-          name: layer.name,
-        };
-      });
+      this.layers = mapFile.layers
+        .map((layer: RawLayer) => {
+          return {
+            data: this.arrayToMatrix(layer.data),
+            name: layer.name,
+            visible: layer.visible,
+          };
+        })
+        .filter((layer: RawLayer) => {
+          return layer.visible;
+        });
       this.tileOptions = {
         width: mapFile.tilewidth,
         height: mapFile.tileheight,
@@ -106,15 +111,6 @@ export default class GameMap implements IRenderable {
   }
 
   render(ctx: CanvasRenderingContext2D, camera: Camera) {
-    // this.tiles.forEach((layer) => {
-    //   layer.forEach((row) => {
-    //     row.forEach((tile) => {
-    //       if (!tile) return;
-    //       tile.render(ctx);
-    //     });
-    //   });
-    // });
-
     let fromX: number = Math.floor(camera.x / this.tileOptions.width);
     let fromY: number = Math.floor(camera.y / this.tileOptions.height);
 
@@ -187,6 +183,7 @@ export default class GameMap implements IRenderable {
 
   private loadTilesFromLayers() {
     this.tiles = this.layers.map((layer) => {
+      // if (!layer.visible) return [[null]];
       return layer.data.map((row, y) => {
         return row.map((tileNumber, x) => {
           const tempTileSet =
@@ -197,15 +194,6 @@ export default class GameMap implements IRenderable {
           if (tileNumber == 0) {
             return null;
           }
-
-          // const gameObject = {
-          //   height: this.tileOptions.height,
-          //   id: layer.name + ': ' + x + ', ' + y,
-          //   width: this.tileOptions.width,
-          //   image: tempTileSet.img as HTMLImageElement,
-          //   x: x * this.tileOptions.width,
-          //   y: y * this.tileOptions.height,
-          // };
 
           if (tempTileSet.animation) {
             const animations = new Map<string, Animation>();
@@ -231,14 +219,6 @@ export default class GameMap implements IRenderable {
               sy: sourceCoords.y,
               type: GameObjectTypes.ANIMATED_TILE,
             });
-            // return new AnimatedTile({
-            //   animatedObject: {
-            //     animations: animations,
-            //     gameObject,
-            //   },
-            //   sx: sourceCoords.x,
-            //   sy: sourceCoords.y,
-            // });
           } else {
             return new MapObject({
               height: this.tileOptions.height,
@@ -251,15 +231,11 @@ export default class GameMap implements IRenderable {
               sy: sourceCoords.y,
               type: GameObjectTypes.TILE,
             });
-            // return new Tile({
-            //   gameObject,
-            //   sx: sourceCoords.x,
-            //   sy: sourceCoords.y,
-            // });
           }
         });
       });
     });
+    // .filter((layer) => layer != null);
   }
 
   private arrayToMatrix(arr: number[]): number[][] {

@@ -48,6 +48,7 @@ export default class Game {
   }
   private render(scene: Scene) {
     //TODO: redo clear rect
+    this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     scene.render(this.ctx);
   }
 

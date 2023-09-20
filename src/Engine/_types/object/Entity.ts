@@ -8,17 +8,11 @@ export enum ENTITY_DIRECTION {
   LEFT = 'LEFT',
 }
 
-export enum ENTITY_ACTION {
-  WALK = 'WALK',
-  RUN = 'RUN',
-  IDLE = 'IDLE',
-}
-
-export type Entity = {
+export type Entity<STATES> = {
   maxSpeed: number;
   currentSpeed?: Vec2D;
-  action?: ENTITY_ACTION;
-  direction?: ENTITY_DIRECTION;
+  state: STATES;
+  direction: ENTITY_DIRECTION;
 };
 
-export type EntityArgs = AnimatedGameObjectArgs & Entity;
+export type EntityArgs<STATES> = AnimatedGameObjectArgs & Entity<STATES>;

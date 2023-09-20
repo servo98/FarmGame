@@ -1,10 +1,4 @@
-type AnimationArgs = {
-  name: string;
-  index: number;
-  frames: number;
-  duration: number;
-  allowOverride: boolean;
-};
+import { AnimationArgs } from '../_types/object/AnimatedGameObject';
 
 export default class Animation {
   name: string;
@@ -12,9 +6,11 @@ export default class Animation {
   frames: number;
   duration: number;
   allowOverride: boolean;
+  loopeable: boolean;
 
-  private lastAnimationFrameStamp: number;
-  private currentAnimationFrame: number;
+  currentAnimationFrame: number;
+  lastAnimationFrameStamp: number;
+  justChanged: boolean = true;
 
   constructor(args: AnimationArgs) {
     this.name = args.name;
@@ -23,24 +19,33 @@ export default class Animation {
     this.allowOverride = args.allowOverride;
     this.duration = args.duration;
     this.lastAnimationFrameStamp = Date.now();
-    this.currentAnimationFrame = 1;
+    this.currentAnimationFrame = 0;
+    this.loopeable = args.loopeable ?? true;
   }
 
   calculateAnimationFrame(): number {
+    if (this.justChanged) {
+      this.currentAnimationFrame = 0;
+    }
+    const result = this.currentAnimationFrame;
+
     if (this.shouldChangeAnimationFrame()) {
       this.currentAnimationFrame =
-        (++this.currentAnimationFrame % this.frames) + 1;
+        (this.currentAnimationFrame + 1) % this.frames;
     }
-
-    return this.currentAnimationFrame;
+    return result;
   }
 
   shouldChangeAnimationFrame(): boolean {
     const now = Date.now();
     const msPerAnimationFrame = this.duration / this.frames;
+    if (this.justChanged) {
+      this.lastAnimationFrameStamp = now;
+      this.justChanged = false;
+    }
 
     const shouldChange =
-      now - this.lastAnimationFrameStamp > msPerAnimationFrame;
+      now - this.lastAnimationFrameStamp >= msPerAnimationFrame;
 
     if (shouldChange) {
       this.lastAnimationFrameStamp = now;

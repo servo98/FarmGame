@@ -118,7 +118,6 @@ export default abstract class UIElement {
     if (event.type in this.eventListeners) {
       for (const listener of this.eventListeners[event.type]) {
         if (typeof listener === 'function') {
-          // console.log(event);
           listener.call(this, event);
         }
       }

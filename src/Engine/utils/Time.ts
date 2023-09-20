@@ -8,6 +8,7 @@ export default class Time {
   static FPS: number = 0;
 
   static shouldAnimate(): boolean {
+    // return false;
     const now = Date.now();
     const elapsed = now - Time.lastFrameStamp;
 

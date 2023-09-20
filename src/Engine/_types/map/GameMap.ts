@@ -6,11 +6,13 @@ export type MapArgsType = {
 export type Layer = {
   data: number[][];
   name: string;
+  visible: boolean;
 };
 
 export type RawLayer = {
   data: number[];
   name: string;
+  visible: boolean;
 };
 
 export type TileOptions = {

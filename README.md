@@ -45,5 +45,9 @@ Canvas 2D context game made for _fun_
 
     `npm run start`
 
+  - With webpack run local server in watch moode
+
+    `npm run dev`
+
 
   > **_Note:_**  If you already build the project with `npm run build` you can just create the server with `npm run server`

@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.0.0](https://github.com/servo98/servo98.github.io/compare/v6.6.0...v7.0.0) (2023-09-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* new states and new render implementation
+
+### Features
+
+* new states and new render implementation ([ea99e86](https://github.com/servo98/servo98.github.io/commit/ea99e86439262f83f6cda0f69f3ee2fbc300e837))
+
 ## [6.6.0](https://github.com/servo98/servo98.github.io/compare/v6.5.0...v6.6.0) (2023-09-18)
 
 

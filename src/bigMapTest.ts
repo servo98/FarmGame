@@ -15,8 +15,8 @@ import GameInterface from './Engine/ui/GameInterface';
 import Slider from './Engine/ui/Slider';
 import UIElement from './Engine/ui/UIElement';
 import Animation from './Engine/objects/Animation';
-import Animal, { ANIMAL_STATES, ANIMAL_TYPES } from './FarmGame/Animals/Animal';
 import { ENTITY_DIRECTION } from './Engine/_types/object/Entity';
+import Cow from './FarmGame/Animals/Cow';
 
 let isAlreadyPLaying = false;
 let firstPlay = true;
@@ -128,118 +128,6 @@ const player = new Player({
   direction: ENTITY_DIRECTION.DOWN,
 });
 
-const cowAnimations = new Map<string, Animation>();
-
-cowAnimations.set(
-  'idle_right',
-  new Animation({
-    allowOverride: false,
-    duration: 2000,
-    frames: 3,
-    index: 1,
-    name: 'idle_right',
-  }),
-);
-cowAnimations.set(
-  'walk_right',
-  new Animation({
-    allowOverride: false,
-    duration: 2000,
-    frames: 8,
-    index: 2,
-    name: 'walk_right',
-  }),
-);
-
-cowAnimations.set(
-  'sit_right',
-  new Animation({
-    allowOverride: false,
-    duration: 2000,
-    frames: 3,
-    index: 3,
-    name: 'sit_right',
-    loopeable: false,
-  }),
-);
-
-cowAnimations.set(
-  'sit_idle_right',
-  new Animation({
-    allowOverride: false,
-    duration: 2000,
-    frames: 3,
-    index: 4,
-    name: 'sit_idle_right',
-  }),
-);
-
-cowAnimations.set(
-  'sit_up_right',
-  new Animation({
-    allowOverride: false,
-    duration: 2000,
-    frames: 4,
-    index: 5,
-    name: 'sit_up_right',
-    loopeable: false,
-  }),
-);
-
-cowAnimations.set(
-  'sit_sleep_right',
-  new Animation({
-    allowOverride: false,
-    duration: 3000,
-    frames: 4,
-    index: 6,
-    name: 'sit_sleep_right',
-  }),
-);
-
-const cowAnimationStates = new Map<ANIMAL_STATES, ANIMAL_STATES[]>();
-cowAnimationStates.set(ANIMAL_STATES.IDLE, [
-  ANIMAL_STATES.WALK,
-  ANIMAL_STATES.SIT,
-]);
-cowAnimationStates.set(ANIMAL_STATES.WALK, [
-  ANIMAL_STATES.IDLE,
-  ANIMAL_STATES.SIT,
-]);
-cowAnimationStates.set(ANIMAL_STATES.SIT, [
-  ANIMAL_STATES.SIT_UP,
-  ANIMAL_STATES.SIT_IDLE,
-  ANIMAL_STATES.SIT_SLEEP,
-]);
-cowAnimationStates.set(ANIMAL_STATES.SIT_IDLE, [
-  ANIMAL_STATES.SIT_UP,
-  ANIMAL_STATES.SIT_SLEEP,
-]);
-cowAnimationStates.set(ANIMAL_STATES.SIT_UP, [
-  ANIMAL_STATES.IDLE,
-  ANIMAL_STATES.WALK,
-  ANIMAL_STATES.SIT,
-]);
-cowAnimationStates.set(ANIMAL_STATES.SIT_SLEEP, [
-  ANIMAL_STATES.SIT_UP,
-  ANIMAL_STATES.SIT_IDLE,
-]);
-
-const cow = new Animal({
-  animalType: ANIMAL_TYPES.COW,
-  animations: cowAnimations,
-  animationStates: cowAnimationStates,
-  height: 32,
-  width: 32,
-  id: 'cow',
-  maxSpeed: 1,
-  x: 150,
-  y: 100,
-  direction: ENTITY_DIRECTION.RIGHT,
-  src: 'cow.png',
-  state: ANIMAL_STATES.IDLE,
-});
-
 const CANVAS_ID = 'game';
 
 const map = new GameMap({
@@ -334,7 +222,36 @@ const scene = new Scene({
   gameInterface,
 });
 
+const cow = new Cow({
+  x: 100,
+  y: 200,
+});
+
+const cow2 = new Cow({
+  x: 200,
+  y: 200,
+});
+
+const cow3 = new Cow({
+  x: 100,
+  y: 300,
+});
+
+const cow4 = new Cow({
+  x: 0,
+  y: 20,
+});
+
+const cow5 = new Cow({
+  x: 20,
+  y: 200,
+});
+
 scene.addGameObject(cow);
+scene.addGameObject(cow2);
+scene.addGameObject(cow3);
+scene.addGameObject(cow4);
+scene.addGameObject(cow5);
 
 const control = new Control();
 

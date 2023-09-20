@@ -1,4 +1,7 @@
-import { EntityArgs } from '../../Engine/_types/object/Entity';
+import {
+  ENTITY_DIRECTION,
+  EntityArgs,
+} from '../../Engine/_types/object/Entity';
 import { AnimiationStates } from '../../Engine/_types/object/StateMachine';
 import Entity from '../../Engine/objects/Entity';
 
@@ -9,9 +12,12 @@ export enum ANIMAL_STATES {
   SIT_IDLE = 'SIT_IDLE',
   SIT_UP = 'SIT_UP',
   SIT_SLEEP = 'SIT_SLEEP',
+  EAT = 'EAT',
+  CHEW = 'CHEW',
+  LOVE = 'LOVE',
 }
 
-type AnimalArgs = {
+export type AnimalArgs = {
   animalType: ANIMAL_TYPES;
   animationStates: AnimiationStates<ANIMAL_STATES>;
 } & EntityArgs<ANIMAL_STATES>;
@@ -31,7 +37,7 @@ export default class Animal extends Entity<ANIMAL_STATES> {
   constructor(args: AnimalArgs) {
     super({
       ...args,
-      type: 'COW',
+      type: 'ANIMAL',
     });
     this.animalType = args.animalType;
     this.lastAnimationStamp = Date.now();
@@ -50,7 +56,33 @@ export default class Animal extends Entity<ANIMAL_STATES> {
 
     if (this.until <= now) {
       const state = this.getRandomEnumValue();
-      this.changeStateOrDir(state, this.getDirection());
+      let direction = this.getRandomDirection();
+      direction =
+        direction == ENTITY_DIRECTION.DOWN
+          ? ENTITY_DIRECTION.LEFT
+          : direction == ENTITY_DIRECTION.UP
+          ? ENTITY_DIRECTION.RIGHT
+          : direction;
+      console.log('NEW DIRECTION:', direction);
+
+      console.log(
+        `From: ${this.getState()}_${this.getDirection()} -> To: ${state}_${this.getDirection()}`,
+      );
+      this.changeStateOrDir(state, direction);
+      if (this.getState() == ANIMAL_STATES.WALK) {
+        this.currentSpeed = {
+          x:
+            this.getDirection() == ENTITY_DIRECTION.RIGHT
+              ? this.maxSpeed
+              : -this.maxSpeed,
+          y: 0,
+        };
+      } else {
+        this.currentSpeed = {
+          x: 0,
+          y: 0,
+        };
+      }
 
       if (!this.currentAnimation.loopeable) {
         this.until = now + this.currentAnimation.duration;
@@ -73,5 +105,11 @@ export default class Animal extends Entity<ANIMAL_STATES> {
     const random = possibles[Math.floor(Math.random() * possibles.length)];
 
     return random;
+  }
+
+  private getRandomDirection(): ENTITY_DIRECTION {
+    const directionsArray = Object.values(ENTITY_DIRECTION);
+    const random = Math.floor(Math.random() * directionsArray.length);
+    return ENTITY_DIRECTION[directionsArray[random]];
   }
 }

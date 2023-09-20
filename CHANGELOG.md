@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.1.0](https://github.com/servo98/servo98.github.io/compare/v7.0.1...v7.1.0) (2023-09-20)
+
+
+### Features
+
+* new entity cows ([bd0b21a](https://github.com/servo98/servo98.github.io/commit/bd0b21a7dd76dacca39161910d99259074d79ca5))
+
 ### [7.0.1](https://github.com/servo98/servo98.github.io/compare/v7.0.0...v7.0.1) (2023-09-20)
 
 ## [7.0.0](https://github.com/servo98/servo98.github.io/compare/v6.6.0...v7.0.0) (2023-09-20)
